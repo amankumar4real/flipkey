@@ -1,68 +1,112 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# React Project Template
 
-## Available Scripts
+## Folder structure:
 
-In the project directory, you can run:
+## FrontEnd:
 
-### `yarn start`
+```
+├── /build/                                     # compiled output
+├── /docs/                                      # Documentation files
+├── /node_modules/                              # 3rd party lib
+├── /public/                                    # Static files 
+├── /src/                                       # The source code of the application
+├───── /components/                             # React components
+├──────├──────/admin                            # dashboard, admin
+├──────├──────/common                           # shared components
+├──────├──────├──────navbar.js                  # Navigation Bar
+├──────├──────├──────footer                     # Footer
+├──────├──────├──────vacationInspiration.js     # vacationInspiration
+├──────├──────├──────Search.js                  # Searching for properties
+├──────├──────├──────BreadCrumb.js              # Path to reach the property
+├──────├──────├──────FAQ.js                     # Freq Asked question page
+├──────├──────├──────resultCard.js              # Result Property to diplay
+├──────├──────/Auth                             # Authentication part  
+├──────├──────├──────Login.js                   # Login Page
+├──────├──────├──────Register.js                # Register Page
+├──────├──────/Home                             # Landing Page of the project
+├──────├──────├──────Home.js                    # Home page
+├──────├──────/Result                           # Results of the property
+├──────├──────├──────resultPage.js              # Results of the property
+├──────├──────/Property                         # Details about a particular property folder
+├──────├──────├──────propertyDetails.js         # Details about a particular property
+├──────├──────/shortList                        # Lists the properties which ever the user interested folder
+├──────├──────├──────shortList.js               # Lists the properties which ever the user interested in.
+├──────├──────/icons                            # icons
+├──────├──────/news                             # news specific components
+├──────├──────/static                           # static page
+├────── redux/                                  # redux (Seperate into sub folders based on functions as well as complexity rises)
+├──────├──────/Auth                             # Authentication part  
+├──────├──────├──────actions.js                 # action types, action creators
+├──────├──────├──────reducers.hs                # reducers
+├──────├──────├──────store.js                   # store.js
+├──────├──────/PropertyDetails                  # PropertyDetails 
+├──────├──────├──────actions.js                 # action types, action creators
+├──────├──────├──────reducers.hs                # reducers
+├──────├──────├──────store.js                   # store.js
+├──────├──────/Common                           # Common  
+├──────├──────├──────actions.js                 # action types, action creators
+├──────├──────├──────reducers.hs                # reducers
+├──────├──────├──────store.js                   # store.js
+├──────├──────/Search                           # Search
+├──────├──────├──────actions.js                 # action types, action creators
+├──────├──────├──────reducers.hs                # reducers
+├──────├──────├──────store.js                   # store.js
+├────── /utils/                                 # server schema and data models
+├────── /routes/                                # Routes/Page files
+├────── /clientScript.js                        # Client-side startup script
+├────── /config.js                              # application settings
+├──────  ...                                    
+├── /test/                                      # Unit tests
+├── package.json                
+└── yarn.lock          
+```
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Folder structure:
 
-### `yarn test`
+## Backend :
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
 
-### `yarn build`
+```
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Instructions
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+1. Install the necessary dependencies.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+npm install
+```
 
-### `yarn eject`
+2. To start the development server, execute the following command.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+npm start
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. To start the cypress test, execute the following command.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+npm test
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+4. To start the production build, execute the following command.
 
-## Learn More
+```
+npm run build
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Dependencies
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- axios
+- redux
+- react
+- react-router
+- bootstrap
+- redux-thunk     
+- react-redux
+- throttle     
 
-### Code Splitting
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
 
-### Analyzing the Bundle Size
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
