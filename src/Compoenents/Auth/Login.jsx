@@ -1,24 +1,52 @@
 import React from 'react';
-import {Redirect, Link} from 'react-router-dom';
+// import {Redirect, Link} from 'react-router-dom';
+import {connect} from 'react-redux'
 import Registraion from './registration'
 import Vacation from '../common/Vacation'
+import {postLogin} from '../../redux/Auth/action'
 
-export default class Login extends React.Component{
+class Login extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            isLogin:false
+            isLogin:false,
+            type:'user',
+            email:'',
+            password:''
         }
+    }
+    handleChange=e=>{
+        this.setState({
+            [e.target.name]: e.target.value
+        }) 
     }
     handleSubmit=e=>{
         e.preventDefault()
+        const loginData={
+            email: this.state.email,
+            password: this.state.password
+        }
+        this.props.postLogin(loginData)
+        console.log(this.props.state)
     }
+    changeForm=()=>{
+        this.setState({isLogin:!this.state.isLogin})
+    }
+    // componentDidMount(){
+    //     console.log(this.props.login_type)
+    //     const {login_type}= this.props
+    //     if(login_type ==='owner'){
+    //         this.setState({type:'owner'})
+    //     }
+    // }
+    
     render(){
+       
         return(
             <div>
                 <div className="container  my-5" id='loginForm'>
                     <div className='row justify-content-center border'>  
-                        <div className='text-center' style={{width:400}}>
+                        <div className='text-center col-12' style={{width:400}}>
                             <p className='lead'>
                                 With a single account, access both FlipKey and Tripadvisor
                             </p>
@@ -33,7 +61,10 @@ export default class Login extends React.Component{
                             </small>
                         </div>  
                          {/*login page  */}
-                        <div className=' col-6 border m-2 p-2' style={{width:350}}>
+                         {
+                             !this.state.isLogin?
+                         
+                        <div className='border m-2 p-2' style={{width:350}}>
                             <p>Sign in with Tripadvisor</p>
                             <form onSubmit={this.handleSubmit}>
                                 <div className="form-group">
@@ -43,7 +74,8 @@ export default class Login extends React.Component{
                                     aria-describedby="emailHelp"
                                     name='email'
                                     placeholder='Email address'
-                                    autoComplete='off' 
+                                    autoComplete='off'
+                                    onChange={this.handleChange} 
                                     />
                                 </div>
                                 <div className="form-group">
@@ -53,6 +85,7 @@ export default class Login extends React.Component{
                                     name='password'
                                     placeholder='Password'
                                     autoComplete='off' 
+                                    onChange={this.handleChange}
                                     />
                                 </div>
                                 <div className="text-info">
@@ -63,9 +96,9 @@ export default class Login extends React.Component{
                                 <button type="submit" className="btn btn-primary btn-block">Sign in</button>
                             </form>
                         </div> 
-                        {/*registration page  */}
+                        :
                          <Registraion />
-                        {/* Vacation inspiration Component */}
+                         }
                         <div  className="col-12" id='vacationPage'>
                             <Vacation />
                         </div>
@@ -75,3 +108,16 @@ export default class Login extends React.Component{
         )
     }
 }
+const mapStateToProps=(state)=>{
+    return{
+        // login_type: state.login_type,
+        login_type:state.reducerAuth.login_type
+    }
+}
+const mapDispatchProps=dispatch=>{
+    return{
+        // userValidation: payload=>dispatch(userValidation(payload)),
+        postLogin: payload=>dispatch(postLogin(payload)),
+    }
+}
+export default connect(mapStateToProps,mapDispatchProps) (Login)
