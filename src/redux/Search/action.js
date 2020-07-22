@@ -1,5 +1,6 @@
 import {SEARCH_TYPE} from './actionTypes'
 
-export const searchType = payload => {
-    return {type: SEARCH_TYPE,payload}
-}
+export const searchType = payload => ({
+    type: SEARCH_TYPE,
+    payload
+}); 

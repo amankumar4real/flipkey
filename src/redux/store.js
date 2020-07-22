@@ -1,13 +1,12 @@
 import {createStore, combineReducers,applyMiddleware, compose } from 'redux';
 import reducerAuth from './Auth/reducerAuth';
-// import reducerCommon from './Common/reducerCommon'
-// import reducerSearch from './Search/reducerSearch'
-// import reducerPropertyDetails from './PropertyDetails/reducerPropertyDetails'
+import reducerCommon from './Common/reducerCommon'
+import reducerSearch from './Search/reducerSearch'
+import reducerPropertyDetails from './PropertyDetails/reducerPropertyDetails'
 import thunk from "redux-thunk";
 
-
 const allReducers = combineReducers({
-    reducerAuth
+    reducerAuth,reducerCommon,reducerSearch,reducerPropertyDetails
   })
 
 let composeEnhancers = compose;
@@ -20,6 +19,6 @@ let composeEnhancers = compose;
 
 const enhancer = composeEnhancers(applyMiddleware(thunk));
 
-const store = createStore(reducerAuth,enhancer);
+const store = createStore(allReducers,enhancer);
 
 export default store

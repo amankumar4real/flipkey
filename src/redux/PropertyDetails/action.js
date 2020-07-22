@@ -1,5 +1,6 @@
 import { PROPERTY_DETAILS } from './actionTypes'
 
-export const propertyDetails = payload => {
-    return { type : PROPERTY_DETAILS, payload}
-}
+export const propertyDetails = payload =>  ({
+    type: PROPERTY_DETAILS,
+    payload
+}); 
