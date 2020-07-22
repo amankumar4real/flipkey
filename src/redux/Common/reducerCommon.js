@@ -1,8 +1,8 @@
 import { COMMON_DATA } from './actionTypes'
 
-const initialState = { primaryData : [] }
+const initialState = { primaryData : [{ data:"data1" }] }
 
-const commonData = (state = initialState, {type, payload}) => {
+const reducerCommon = (state = initialState, {type, payload}) => {
     switch(type){
         case COMMON_DATA : 
             return {
@@ -14,4 +14,4 @@ const commonData = (state = initialState, {type, payload}) => {
     }
 }
 
-export default commonData
+export default reducerCommon

@@ -1,5 +1,6 @@
 import {COMMON_DATA} from './actionTypes'
 
-export const common = payload => {
-    return { type: COMMON_DATA ,payload }
-}
+export const common = payload => ({
+ type: COMMON_DATA ,
+ payload 
+})
