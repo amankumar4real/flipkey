@@ -1,0 +1,1 @@
+export const PROPERTY_DETAILS = "PROPERTY_DETAILS"

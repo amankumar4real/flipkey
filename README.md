@@ -36,21 +36,22 @@
 ├──────├──────/static                           # static page
 ├────── redux/                                  # redux (Seperate into sub folders based on functions as well as complexity rises)
 ├──────├──────/Auth                             # Authentication part  
-├──────├──────├──────actions.js                 # action types, action creators
+├──────├──────├──────action.js                  # action types, action creators
 ├──────├──────├──────reducers.hs                # reducers
-├──────├──────├──────store.js                   # store.js
+├──────├──────├──────actionTypes.js             # store.js
 ├──────├──────/PropertyDetails                  # PropertyDetails 
-├──────├──────├──────actions.js                 # action types, action creators
+├──────├──────├──────action.js                  # action types, action creators
 ├──────├──────├──────reducers.hs                # reducers
-├──────├──────├──────store.js                   # store.js
+├──────├──────├──────actionTypes.js             # actionTypes.js 
 ├──────├──────/Common                           # Common  
-├──────├──────├──────actions.js                 # action types, action creators
+├──────├──────├──────action.js                  # action types, action creators
 ├──────├──────├──────reducers.hs                # reducers
-├──────├──────├──────store.js                   # store.js
+├──────├──────├──────actionTypes.js             # actionTypes.js 
 ├──────├──────/Search                           # Search
-├──────├──────├──────actions.js                 # action types, action creators
+├──────├──────├──────action.js                  # action types, action creators
 ├──────├──────├──────reducers.hs                # reducers
-├──────├──────├──────store.js                   # store.js
+├──────├──────├──────actionTypes.js             # actionTypes.js 
+├──────├──────store.js                          # store.js
 ├────── /utils/                                 # server schema and data models
 ├────── /routes/                                # Routes/Page files
 ├────── /clientScript.js                        # Client-side startup script
@@ -67,6 +68,28 @@
 ## Backend :
 
 ```
+├── /app/        
+├──────├─────/main/                              
+├──────├──────├──────/models/               # All the tables(multiple files) 
+├──────├──────├──────├────── __init.py__    # works like cors, blueprint creation inside
+├──────├──────├──────/routes/               # All the Flask Routes(multiple files)
+├──────├──────├──────├────── __init.py__
+├──────├──────├──────/services/             # All the alchemy queries(multiple files)
+├──────├──────├──────├────── __init.py__
+├──────├──────├──────/util/                 # reoccuring services like token(multiple files)
+├──────├──────├──────├────── __init.py__
+├──────├─────/test/                         # all the tests for the the api(multiple files)
+├──────├──────├────── __init.py__
+├──────├───── __init.py__
+├── /instance/
+├──────├─────config.py                      # Details about the mysql DB.
+├── /migrations/                            # multiple folders and file (Will generate automatically after git db migrate)
+├── /vir/                                   # virtual environment details with all the dependencies installed
+├── .gitignore                              # will ignore  /instance & /migrations
+├── config.py                               # Create DevelopementConfig(Config)
+├── requirements.txt                        # Info all the dependencies
+├── run.py
+├── test.py                                 # Import all the tests here and run individally
 
 ```
 
