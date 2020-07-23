@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import Registraion from './registration'
 import Vacation from '../common/Vacation'
 import {postLogin} from '../../redux/Auth/action'
-import Navbar from '../common/Navbar'
+import GoogleLogin from 'react-google-login'
 
 class Login extends React.Component{
     constructor(props){
@@ -36,18 +36,34 @@ class Login extends React.Component{
     changeForm=()=>{
         this.setState({isLogin:!this.state.isLogin})
     }
+
+    resposeGoogle = response => {
+        console.log(response)
+        console.log(response.profileObj)
+
+    }
     
     render(){
        
         return(
             <div>
-                <Navbar />
                 <div className="container  my-5" id='loginForm'>
-                    <div className='row justify-content-center border'>  
+                    <div className='row justify-content-center border'> 
                         <div className='text-center col-12' style={{width:400}}>
                             <p className='lead'>
                                 With a single account, access both FlipKey and Tripadvisor
                             </p>
+                            <div className='row justify-content-center border mx-auto' style={{width:400}}>
+                                <div>
+                                    <GoogleLogin
+                                    clientId = "612955599883-laa8c4lqqn9b2ki4ik7k6a4apsima2hh.apps.googleusercontent.com"
+                                    buttonText = "SignIn with Google"
+                                    onSuccess ={this.resposeGoogle}
+                                    onFailure = {this.resposeGoogle}
+                                    cookiePolicy = {'single_host_origin'}
+                                    />
+                                </div>
+                            </div>
                             <small>
                                 Don't have a Tripadvisor account? 
                                 <span 
@@ -57,7 +73,8 @@ class Login extends React.Component{
                                 Sign in
                                 </span> 
                             </small>
-                        </div>  
+                        </div>
+                        
                          {/*login page  */}
                          {
                              !this.state.isLogin?

@@ -7,9 +7,10 @@ class Search extends React.Component{
         
         if(type_search == "Home"){
             return(
-                <div key="search" className="container-fluid row">
-                    <div className="col-12 p-1 ">
-                        <div className="row mx-auto">
+                <div key="search" className="container-fluid row" style={{backgroundImage :"url('https://image.shutterstock.com/image-photo/world-environment-day-concept-sun-260nw-264026870.jpg'')", backgroundRepeat: "no-repeat",
+                backgroundSize:"cover"}}>
+                    <div className="col-12 p-1">
+                        <div className="row mx-auto" >
                             <input placeholder="Where do you want to go?" className="form-control col-6"/>
                             <input type="date" className="form-control col-2"/>
                             <input type="date" className="form-control col-2"/>
@@ -23,10 +24,11 @@ class Search extends React.Component{
         else{
             return(
                 <>
-                    <div key="search" className="container-fluid">
-                        <div className="row">
+                    <div key="search" className="container-fluid" style={{backgroundImage :"url('https://image.shutterstock.com/image-photo/world-environment-day-concept-sun-260nw-264026870.jpg')", height: "600px", backgroundRepeat: "no-repeat",
+	backgroundSize:"cover"}}>
+                        <div className="row mx-auto" >
                             <div className="col-12 p-1 ">
-                                <div className="row mx-auto">
+                                <div className="row mx-auto" >
                                     <input className="form-control col-4"/>
 
                                     <input type="date" className="form-control col-2"/>
@@ -34,7 +36,7 @@ class Search extends React.Component{
                                     <input type="date" className="form-control col-2"/>
 
                                     <div class="dropdown col-2">
-                                        <button class="btn dropdown-toggle btn-outline col-12" type="button" data-toggle="dropdown">
+                                        <button class="btn dropdown-toggle btn-info col-12" type="button" data-toggle="dropdown">
                                             2 People
                                         </button>
                                         <div class="dropdown-menu col-11">

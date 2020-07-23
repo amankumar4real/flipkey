@@ -5,7 +5,13 @@ import {
         POST_USER_DATA,
         REG_START,
         REG_SUCC,
-        REG_FAIL
+        REG_FAIL,
+        GAUTH_FAIL,
+        GAUTH_START,
+        GAUTH_SUCC,
+        FAUTH_FAIL,
+        FAUTH_START,
+        FAUTH_SUCC
      } from './actionTypes'
 
 const initialState = { 
@@ -56,6 +62,35 @@ const reducerAuth = (state = initialState, {type, payload}) => {
 
         case REG_FAIL:
             console.log(payload)
+            return{
+                ...state
+            }
+        case GAUTH_START:
+            return{
+                ...state,
+            }
+
+        case GAUTH_SUCC:
+            return{
+                ...state
+            }
+
+        case GAUTH_FAIL:
+            return{
+                ...state, 
+            }
+        
+        case FAUTH_SUCC:
+            return{
+                ...state
+            }
+
+        case FAUTH_FAIL:
+            return{
+                ...state
+            }
+
+        case FAUTH_START:
             return{
                 ...state
             }

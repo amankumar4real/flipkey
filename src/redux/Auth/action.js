@@ -5,7 +5,13 @@ import {
         POST_USER_DATA,
         LOGIN_SUCCESS, 
         LOGIN_FAIL, 
-        CHANGE_TYPE
+        CHANGE_TYPE,
+        GAUTH_FAIL,
+        GAUTH_START,
+        GAUTH_SUCC,
+        FAUTH_FAIL,
+        FAUTH_START,
+        FAUTH_SUCC
     } from './actionTypes'
 import axios from 'axios';
 
@@ -43,6 +49,32 @@ export const logFail=payload=>({
     payload
 });
 
+export const gAuthStart =payload =>({
+    type:GAUTH_START,
+    payload
+});
+export const gAuthSuccess=payload=>({
+    type: GAUTH_SUCC,
+    payload
+});
+export const gAuthFail=payload=>({
+    type: GAUTH_FAIL,
+    payload
+});
+
+export const fAuthStart =payload =>({
+    type:FAUTH_START,
+    payload
+});
+export const fAuthSuccess=payload=>({
+    type: FAUTH_SUCC,
+    payload
+});
+export const fAuthFail=payload=>({
+    type: FAUTH_FAIL,
+    payload
+});
+
 // axios for Register
 export const posReg=payload=>dispatch=>{
     console.log('regi data')
@@ -63,4 +95,16 @@ export const postLogin=payload=> dispatch =>{
     .then(res=>res.data)
     .then(res=>dispatch(logSucc(res)))
     .catch(error=>dispatch(logFail(error)))
+}
+
+// axios for auth
+
+export const afterAuth =payload=> dispatch =>{
+    console.log(payload)
+    dispatch(gAuthStart)
+
+    return axios.post("", payload)
+    .then(res=>res.data)
+    .then(res=>dispatch((gAuthSuccess)))
+    .catch(error=>dispatch(gAuthFail(error)))
 }
