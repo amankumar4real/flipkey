@@ -52,18 +52,19 @@ class Login extends React.Component{
             <div>
                 <div className="container  my-5" id='loginForm'>
                     <div className='row justify-content-center border'> 
-                        <div className='text-center col-12' style={{width:400}}>
+                        <div className='text-center col-12'>
                             <p className='lead'>
                                 With a single account, access both FlipKey and Tripadvisor
                             </p>
-                            <div className='row justify-content-center border mx-auto' style={{width:400}}>
-                                <div>
+                            <div className='border m-2 p-2 mx-auto' style={{width:350}}>
+                                <div className='border'>
                                     <GoogleLogin
                                     clientId = "612955599883-laa8c4lqqn9b2ki4ik7k6a4apsima2hh.apps.googleusercontent.com"
                                     buttonText = "SignIn with Google"
                                     onSuccess ={this.resposeGoogle}
                                     onFailure = {this.resposeGoogle}
                                     cookiePolicy = {'single_host_origin'}
+                                    className = "w-100"
                                     />
                                 </div>
                             </div>

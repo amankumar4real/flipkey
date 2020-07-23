@@ -7,8 +7,6 @@ class Search extends React.Component{
         
         if(type_search == "Home"){
             return(
-                <div key="search" className="container-fluid row" style={{backgroundImage :"url('https://image.shutterstock.com/image-photo/world-environment-day-concept-sun-260nw-264026870.jpg'')", backgroundRepeat: "no-repeat",
-                backgroundSize:"cover"}}>
                     <div className="col-12 p-1">
                         <div className="row mx-auto" >
                             <input placeholder="Where do you want to go?" className="form-control col-6"/>
@@ -18,14 +16,11 @@ class Search extends React.Component{
                             
                         </div>
                     </div>
-                </div>
             )
         }
         else{
             return(
                 <>
-                    <div key="search" className="container-fluid" style={{backgroundImage :"url('https://image.shutterstock.com/image-photo/world-environment-day-concept-sun-260nw-264026870.jpg')", height: "600px", backgroundRepeat: "no-repeat",
-	backgroundSize:"cover"}}>
                         <div className="row mx-auto" >
                             <div className="col-12 p-1 ">
                                 <div className="row mx-auto" >
@@ -164,7 +159,6 @@ class Search extends React.Component{
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </>
             )
         }

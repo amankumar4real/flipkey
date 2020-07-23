@@ -10,7 +10,7 @@ export const CHANGE_TYPE='CHANGE_TYPE'
 
 export const GAUTH_START = 'GAUTH_START'
 export const GAUTH_FAIL='GAUTH_FAIL'
-export const GAUTH_SUCC='GAUTH_SUCC'
+export const GAUTH_SUCC='GAUTH_SUCC'    
 
 
 export const FAUTH_START = 'FAUTH_START'
