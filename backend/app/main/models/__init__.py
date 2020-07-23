@@ -4,3 +4,4 @@ db = SQLAlchemy()
 
 from .UserModel import UserModel
 from .GoogleModel import GoogleModel
+from .ProductModel import ProductModel
