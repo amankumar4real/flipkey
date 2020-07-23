@@ -1,7 +1,6 @@
 from . import user
 from flask import request
-from ..services.user import register, login
-from ..services.google import google_auth
+from ..services.user import register, login, google_auth
 
 
 @user.route("/register", methods=["POST"])
