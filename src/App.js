@@ -1,12 +1,13 @@
 import React from 'react';
 import './App.css';
 import Routes from "./Routes/Route"
-import NavBar from "./Compoenents/common/NavBar"
+import Navbar from "./Compoenents/common/Navbar"
+import Search from "./Compoenents/common/Search"
 
 function App() {
   return (
     <div className="App">
-      <NavBar/>
+      <Navbar/>
       <Routes />
     </div>
   );

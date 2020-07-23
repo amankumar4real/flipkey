@@ -1,4 +1,4 @@
-from ..models import db, UserModel
+from ..models import db, UserModel, GoogleModel
 import json
 from instance.config import SECRET_KEY
 import datetime
@@ -45,6 +45,7 @@ def login(details):
     try:
         email = details["email"]
         password = details["password"]
+        typ = details["type"]
     except KeyError:
         return json.dumps({"error": True,
                            "message": "One or more fields are missing!"})
@@ -78,3 +79,6 @@ def login(details):
                                "You have entered the wrong password!"})
 
     return json.dumps({"error": True, "message": "Unknown error!"})
+
+
+
