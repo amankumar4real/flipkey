@@ -1,8 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {postReg} from '../../redux/Auth/action'
+import {postReg, afterAuth} from '../../redux/Auth/action'
 import Vacation from '../common/Vacation'
 import {Link} from 'react-router-dom'
+import GoogleLogin from 'react-google-login'
+
 class Registation extends React.Component{
     constructor(props){
         super(props)
@@ -25,17 +27,33 @@ class Registation extends React.Component{
         
         this.props.postReg({email:email, password:password,name:name, phone:Number(phone),type:this.props.type})
     }
+
+    resposeGoogle = response => {
+        const res={...response.profileObj, type:this.props.type}
+        this.props.afterAuth(res)
+    }
     render(){
         console.log(this.props.type)
         const type= this.props.type
         return(
             <div>
                 <div className="container  my-5" id='regForm'>
-                    <div className='row justify-content-center border'>  
+                    <div className='row justify-content-center border'> 
                         <div className='text-center col-12' style={{width:400}}>
                             <p className='lead'>
                                 With a single account, access both FlipKey and Tripadvisor
                             </p>
+                            <div className='row justify-content-center border mx-auto' style={{width:400}}>
+                                <div>
+                                    <GoogleLogin
+                                    clientId = "612955599883-laa8c4lqqn9b2ki4ik7k6a4apsima2hh.apps.googleusercontent.com"
+                                    buttonText = "SignIn with Google"
+                                    onSuccess ={this.resposeGoogle}
+                                    onFailure = {this.resposeGoogle}
+                                    cookiePolicy = {'single_host_origin'}
+                                    />
+                                </div>
+                            </div>
                             <small>
                                 Don't have a Tripadvisor account? 
                                 <span 
@@ -121,7 +139,8 @@ const mapStateToProps=(state)=>{
 }
 const mapDispatchProps=dispatch=>{
     return{
-        postReg: payload=>dispatch(postReg(payload))
+        postReg: payload=>dispatch(postReg(payload)),
+        afterAuth: payload => dispatch(afterAuth(payload))
     }
 }
 export default connect(mapStateToProps, mapDispatchProps) (Registation)
