@@ -30,7 +30,7 @@ class Registation extends React.Component{
         const type= this.props.type
         return(
             <div>
-                <div className="container  my-5" id='regForm'>
+                <div className="container-fluid  my-5" id='regForm'>
                     <div className='row justify-content-center border'>  
                         <div className='text-center col-12' style={{width:400}}>
                             <p className='lead'>
@@ -56,7 +56,7 @@ class Registation extends React.Component{
                                             className="form-control" 
                                             aria-describedby="emailHelp"
                                             name='name'
-                                            placeholder='user name'
+                                            placeholder='User name'
                                             autoComplete='off'
                                             onChange={this.handleChange} 
                                         />
@@ -91,7 +91,7 @@ class Registation extends React.Component{
                                         className="form-control" 
                                         aria-describedby="mobileHelp"
                                         name='phone'
-                                        placeholder='mobile number'
+                                        placeholder='Mobile number'
                                         autoComplete='off'
                                         onChange={this.handleChange} 
                                     />
