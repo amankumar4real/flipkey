@@ -2,6 +2,7 @@ import React from 'react';
 import {Redirect, Link} from 'react-router-dom';
 import Registraion from './registration'
 import Vacation from '../common/Vacation'
+import Navbar from '../common/Navbar'
 
 export default class Login extends React.Component{
     constructor(props){
@@ -16,6 +17,7 @@ export default class Login extends React.Component{
     render(){
         return(
             <div>
+                <Navbar />
                 <div className="container  my-5" id='loginForm'>
                     <div className='row justify-content-center border'>  
                         <div className='text-center' style={{width:400}}>
