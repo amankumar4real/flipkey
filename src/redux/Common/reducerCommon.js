@@ -1,6 +1,8 @@
 import { COMMON_DATA } from './actionTypes'
 
-const initialState = { primaryData : [{ data:"data1" }] }
+const initialState = {
+    type_search: "nHome"
+}
 
 const reducerCommon = (state = initialState, {type, payload}) => {
     switch(type){
