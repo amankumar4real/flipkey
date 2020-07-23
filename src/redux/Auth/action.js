@@ -76,7 +76,7 @@ export const fAuthFail=payload=>({
 });
 
 // axios for Register
-export const posReg=payload=>dispatch=>{
+export const postReg=payload=>dispatch=>{
     console.log('regi data')
     console.log(payload)
     dispatch(regStart)
@@ -103,8 +103,8 @@ export const afterAuth =payload=> dispatch =>{
     console.log(payload)
     dispatch(gAuthStart)
 
-    return axios.post("", payload)
+    return axios.post("https://66007f1f5458.ngrok.io/user/google_auth", payload)
     .then(res=>res.data)
-    .then(res=>dispatch((gAuthSuccess)))
+    .then(res=>dispatch((gAuthSuccess(res))))
     .catch(error=>dispatch(gAuthFail(error)))
 }

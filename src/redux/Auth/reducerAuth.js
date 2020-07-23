@@ -30,7 +30,7 @@ const reducerAuth = (state = initialState, {type, payload}) => {
             }
 
         case LOGIN_SUCCESS:
-            console.log(payload.token)
+            console.log(payload)
             return{
                 ...state,
                 token: payload.token
@@ -43,6 +43,8 @@ const reducerAuth = (state = initialState, {type, payload}) => {
         }
 
         case CHANGE_TYPE:
+            console.log('navBar type')
+            console.log(payload)
             return{
                 ...state, 
                 login_type:payload,
@@ -71,16 +73,20 @@ const reducerAuth = (state = initialState, {type, payload}) => {
             }
 
         case GAUTH_SUCC:
+            console.log(payload)
             return{
-                ...state
+                ...state,
+                token:payload.token
             }
 
         case GAUTH_FAIL:
+            console.log(payload)
             return{
                 ...state, 
             }
         
         case FAUTH_SUCC:
+
             return{
                 ...state
             }

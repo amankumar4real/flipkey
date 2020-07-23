@@ -1,13 +1,21 @@
 import React from 'react';
-import {Login} from '../Auth/Login'
+import {Link} from 'react-router-dom';
+import {connect} from 'react-redux'
+import {changeType} from '../../redux/Auth/action'
 
-
-export default class Navbar extends React.Component {
+class Navbar extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {}
+        this.state = {
+            type:''
+        }
     }
-
+    handleOwner=()=>{
+        this.props.changeType("owner")
+    }
+    handleUser=()=>{
+        this.props.changeType('user')
+    }
 
     render() {
         return (
@@ -80,8 +88,12 @@ export default class Navbar extends React.Component {
                                         Sign in
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <div class="dropdown-item"> Travellers</div>
-                                        <div class="dropdown-item"> Owners/Managers</div>
+                                        <div class="dropdown-item"> 
+                                        <Link to='/user/login' onClick={this.handleUser}>Travellers </Link>
+                                        </div>
+                                        <div class="dropdown-item"> 
+                                        <Link to='/owner/login' onClick={this.handleOwner}>Owners/Managers</Link>
+                                        </div>
                                     </div>
                                 </li>
                                 <li class="nav-item">
@@ -105,3 +117,9 @@ export default class Navbar extends React.Component {
     }
         
 }
+const mapDispatchToProps=(dispatch)=>{
+    return{
+        changeType: payload=>dispatch(changeType(payload))
+    }
+}
+export default connect(null, mapDispatchToProps)(Navbar)

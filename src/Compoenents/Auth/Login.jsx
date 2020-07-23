@@ -1,10 +1,9 @@
 import React from 'react';
-// import {Redirect, Link} from 'react-router-dom';
 import {connect} from 'react-redux'
-import Registraion from './registration'
 import Vacation from '../common/Vacation'
-import {postLogin} from '../../redux/Auth/action'
+import {postLogin, afterAuth} from '../../redux/Auth/action'
 import GoogleLogin from 'react-google-login'
+import {Link} from 'react-router-dom'
 
 class Login extends React.Component{
     constructor(props){
@@ -28,7 +27,7 @@ class Login extends React.Component{
         const loginData={
             email: this.state.email,
             password: this.state.password,
-            type: this.state.type
+            type: this.props.type
         }
         this.props.postLogin(loginData)
     }
@@ -38,13 +37,17 @@ class Login extends React.Component{
     }
 
     resposeGoogle = response => {
-        console.log(response)
-        console.log(response.profileObj)
+        const res={...response.profileObj, type:this.props.type}
+        this.props.afterAuth(res)
+        // console.log(res)
+        // console.log(response.profileObj)
 
     }
     
     render(){
-       
+        console.log("props- type")
+        console.log(this.props.type)
+        const type= this.props.type
         return(
             <div>
                 <div className="container  my-5" id='loginForm'>
@@ -70,15 +73,13 @@ class Login extends React.Component{
                                     className='text-info' 
                                     onClick={this.changeForm}
                                 > 
-                                Sign in
+                                {/*  */}
+                                <Link to={`/${type}/register`}>Sign Up</Link>
                                 </span> 
                             </small>
                         </div>
                         
                          {/*login page  */}
-                         {
-                             !this.state.isLogin?
-                         
                         <div className='border m-2 p-2' style={{width:350}}>
                             <p>Sign up with Tripadvisor</p>
                             <form onSubmit={this.handleSubmit}>
@@ -111,9 +112,6 @@ class Login extends React.Component{
                                 <button type="submit" className="btn btn-primary btn-block">Sign in</button>
                             </form>
                         </div> 
-                        :
-                         <Registraion />
-                         }
                         <div  className="col-12" id='vacationPage'>
                             <Vacation />
                         </div>
@@ -126,12 +124,13 @@ class Login extends React.Component{
 
 const mapStateToProps=(state)=>{
     return{
-        login_type:state.reducerAuth.login_type
+        type:state.reducerAuth.login_type
     }
 }
 const mapDispatchProps=dispatch=>{
     return{
         postLogin: payload=>dispatch(postLogin(payload)),
+        afterAuth: payload=>dispatch(afterAuth(payload))
     }
 }
 
