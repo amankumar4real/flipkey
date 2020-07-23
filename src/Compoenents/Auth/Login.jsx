@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import Registraion from './registration'
 import Vacation from '../common/Vacation'
 import {postLogin} from '../../redux/Auth/action'
+import Navbar from '../common/Navbar'
 
 class Login extends React.Component{
     constructor(props){
@@ -40,6 +41,7 @@ class Login extends React.Component{
        
         return(
             <div>
+                <Navbar />
                 <div className="container  my-5" id='loginForm'>
                     <div className='row justify-content-center border'>  
                         <div className='text-center col-12' style={{width:400}}>
