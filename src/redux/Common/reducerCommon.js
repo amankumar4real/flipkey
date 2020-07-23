@@ -1,7 +1,7 @@
 import { COMMON_DATA } from './actionTypes'
 
 const initialState = {
-    type_search: "nHome"
+    type_search: "Home"
 }
 
 const reducerCommon = (state = initialState, {type, payload}) => {
