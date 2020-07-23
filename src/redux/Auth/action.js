@@ -44,7 +44,7 @@ export const logFail=payload=>({
 });
 
 // axios for Register
-export const posReg=payload=>dispatch=>{
+export const postReg=payload=>dispatch=>{
     console.log('regi data')
     console.log(payload)
     dispatch(regStart)

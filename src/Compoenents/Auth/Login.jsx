@@ -38,7 +38,7 @@ class Login extends React.Component{
     render(){
         console.log("props- type")
         console.log(this.props.type)
-        const type= this.props
+        const type= this.props.type
         return(
             <div>
                 <div className="container  my-5" id='loginForm'>
