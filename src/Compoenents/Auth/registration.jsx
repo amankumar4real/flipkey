@@ -1,6 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {userValidation, posReg} from '../../redux/Auth/action'
+import {posReg} from '../../redux/Auth/action'
+
+
 class Registation extends React.Component{
     constructor(props){
         super(props)
@@ -93,7 +95,6 @@ const mapStateToProps=(state)=>{
 }
 const mapDispatchProps=dispatch=>{
     return{
-        userValidation: payload=>dispatch(userValidation(payload)),
         posReg: payload=>dispatch(posReg(payload))
     }
 }

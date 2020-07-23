@@ -110,13 +110,11 @@ class Login extends React.Component{
 }
 const mapStateToProps=(state)=>{
     return{
-        // login_type: state.login_type,
         login_type:state.reducerAuth.login_type
     }
 }
 const mapDispatchProps=dispatch=>{
     return{
-        // userValidation: payload=>dispatch(userValidation(payload)),
         postLogin: payload=>dispatch(postLogin(payload)),
     }
 }

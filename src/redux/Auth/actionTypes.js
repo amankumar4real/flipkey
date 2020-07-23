@@ -1,4 +1,3 @@
-export const USER_VALIDATION = "USER_VALIDATION"
 export const POST_USER_DATA='POST_DATA'
 export const LOGIN_SUCCESS="LOGIN_SUCCESS"
 export const LOGIN_FAIL='LOGIN_FAIL'
