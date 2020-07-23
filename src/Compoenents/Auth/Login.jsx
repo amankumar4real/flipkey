@@ -1,10 +1,8 @@
 import React from 'react';
-// import {Redirect, Link} from 'react-router-dom';
 import {connect} from 'react-redux'
-import Registraion from './registration'
 import Vacation from '../common/Vacation'
 import {postLogin} from '../../redux/Auth/action'
-import Navbar from '../common/Navbar'
+import {Link} from 'react-router-dom'
 
 class Login extends React.Component{
     constructor(props){
@@ -38,10 +36,11 @@ class Login extends React.Component{
     }
     
     render(){
-       
+        console.log("props- type")
+        console.log(this.props.type)
+        const type= this.props
         return(
             <div>
-                <Navbar />
                 <div className="container  my-5" id='loginForm'>
                     <div className='row justify-content-center border'>  
                         <div className='text-center col-12' style={{width:400}}>
@@ -54,14 +53,12 @@ class Login extends React.Component{
                                     className='text-info' 
                                     onClick={this.changeForm}
                                 > 
-                                Sign in
+                                {/*  */}
+                                <Link to={`/${type}/register`}>Sign Up</Link>
                                 </span> 
                             </small>
                         </div>  
                          {/*login page  */}
-                         {
-                             !this.state.isLogin?
-                         
                         <div className='border m-2 p-2' style={{width:350}}>
                             <p>Sign up with Tripadvisor</p>
                             <form onSubmit={this.handleSubmit}>
@@ -94,9 +91,6 @@ class Login extends React.Component{
                                 <button type="submit" className="btn btn-primary btn-block">Sign in</button>
                             </form>
                         </div> 
-                        :
-                         <Registraion />
-                         }
                         <div  className="col-12" id='vacationPage'>
                             <Vacation />
                         </div>
@@ -109,7 +103,7 @@ class Login extends React.Component{
 
 const mapStateToProps=(state)=>{
     return{
-        login_type:state.reducerAuth.login_type
+        type:state.reducerAuth.login_type
     }
 }
 const mapDispatchProps=dispatch=>{

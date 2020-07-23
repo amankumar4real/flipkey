@@ -1,10 +1,29 @@
 import React from 'react'
+import {connect} from 'react-redux'
+import Vacation from '../common/Vacation'
+import {posReg} from '../../redux/Auth/action'
+import {Link} from 'react-router-dom'
 class Registation extends React.Component{
     constructor(props){
         super(props)
         this.state={
             user:''
         }
+    }
+    handleChange=e=>{
+        this.setState({
+            [e.target.name]: e.target.value
+        }) 
+    }
+
+    handleSubmit=e=>{
+        e.preventDefault()
+        const loginData={
+            email: this.state.email,
+            password: this.state.password,
+            type: this.state.type
+        }
+        this.props.postLogin(loginData)
     }
     render(){
         return(
@@ -19,7 +38,8 @@ class Registation extends React.Component{
                                 aria-describedby="emailHelp"
                                 name='name'
                                 placeholder='user name'
-                                autoComplete='off' 
+                                autoComplete='off'
+                                onChange={this.handleChange} 
                             />
                         </div>
                         <div className="form-group">
@@ -30,6 +50,7 @@ class Registation extends React.Component{
                                 name='mobile'
                                 placeholder='mobile number'
                                 autoComplete='off' 
+                                onChange={this.handleChange}
                             />
                         </div>
                         <div className="form-group">
@@ -39,6 +60,7 @@ class Registation extends React.Component{
                                 name='password'
                                 placeholder='Password'
                                 autoComplete='off' 
+                                onChange={this.handleChange}
                             />
                         </div>
                         <div className="text-info">
@@ -46,7 +68,7 @@ class Registation extends React.Component{
                                 <p> Forget password? </p>
                             {/* </Link> */}
                         </div>
-                        <button type="submit" className="btn btn-primary btn-block">Sign in</button>
+                        <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
                     </form>
                 </div> 
             </div>

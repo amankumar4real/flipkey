@@ -37,6 +37,8 @@ const reducerAuth = (state = initialState, {type, payload}) => {
         }
 
         case CHANGE_TYPE:
+            console.log('navBar type')
+            console.log(payload)
             return{
                 ...state, 
                 login_type:payload,
