@@ -15,30 +15,26 @@ class Login extends React.Component{
             password:''
         }
     }
+
     handleChange=e=>{
         this.setState({
             [e.target.name]: e.target.value
         }) 
     }
+
     handleSubmit=e=>{
         e.preventDefault()
         const loginData={
             email: this.state.email,
-            password: this.state.password
+            password: this.state.password,
+            type: this.state.type
         }
         this.props.postLogin(loginData)
-        console.log(this.props.state)
     }
+
     changeForm=()=>{
         this.setState({isLogin:!this.state.isLogin})
     }
-    // componentDidMount(){
-    //     console.log(this.props.login_type)
-    //     const {login_type}= this.props
-    //     if(login_type ==='owner'){
-    //         this.setState({type:'owner'})
-    //     }
-    // }
     
     render(){
        
@@ -65,7 +61,7 @@ class Login extends React.Component{
                              !this.state.isLogin?
                          
                         <div className='border m-2 p-2' style={{width:350}}>
-                            <p>Sign in with Tripadvisor</p>
+                            <p>Sign up with Tripadvisor</p>
                             <form onSubmit={this.handleSubmit}>
                                 <div className="form-group">
                                 <input 
@@ -108,6 +104,7 @@ class Login extends React.Component{
         )
     }
 }
+
 const mapStateToProps=(state)=>{
     return{
         login_type:state.reducerAuth.login_type
@@ -118,4 +115,5 @@ const mapDispatchProps=dispatch=>{
         postLogin: payload=>dispatch(postLogin(payload)),
     }
 }
-export default connect(mapStateToProps,mapDispatchProps) (Login)
+
+export default connect(mapStateToProps, mapDispatchProps)(Login)

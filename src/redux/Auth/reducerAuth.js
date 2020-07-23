@@ -38,9 +38,9 @@ const reducerAuth = (state = initialState, {type, payload}) => {
 
         case CHANGE_TYPE:
             return{
-                    ...state, 
-                    login_type:payload,
-                    reg_type:payload
+                ...state, 
+                login_type:payload,
+                reg_type:payload
             }
         
         case REG_START:

@@ -1,6 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux'
 import {changeType} from '../../redux/Auth/action'
+import {Link} from "react-router-dom"
+
 class NavBar extends React.Component{
     constructor(props){
         super(props)
@@ -9,27 +11,22 @@ class NavBar extends React.Component{
         }
     }
     handleOwner=()=>{
-        // this.setState({
-        //     type:'owner'
-        // })
-        // console.log(this.state.type)
         this.props.changeType("owner")
+
     }
+
     handleUser=()=>{
-        // this.setState({
-        //     type:'user'
-        // })
         this.props.changeType('user')
-        // console.log(this.state.type)
     }
+
     render(){
         return(
             <div className='m-5'>
                 <div>
-                    <button className='btn-success' onClick={this.handleOwner}> Owner </button>
+                    <button className='btn' onClick={this.handleOwner}><Link to="/owner/login">Owner</Link></button>
                 </div>
                 <div>
-                    <button className='btn-danger' onClick={this.handleUser}> User </button>
+                    <button className='btn' onClick={this.handleUser}><Link to="/user/login">User</Link></button>
                 </div>
             </div>
         )
