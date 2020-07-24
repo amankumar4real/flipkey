@@ -1,12 +1,38 @@
 import React from "react";
+// import { getFilteredData } from '../../redux/Common/action'
 import {connect} from "react-redux";
+import { getPropertyData } from '../../redux/Common/action'
+
+// import {useParams} from 'react-router-dom'
 
 
 class Search extends React.Component{
     constructor(props){
         super(props)
         this.state = {
+            people:5,
+            price:500,
+            beds: 5
         }
+    }
+    componentDidMount() {
+        this.props.getPropertyData()
+    }
+
+
+    handleClick = () => {
+
+        const newUrl = new URL(window.location.href)
+        newUrl.searchParams.set("people",this.state.people)
+        newUrl.searchParams.set("price",this.state.price)
+        newUrl.searchParams.set("beds",this.state.beds)
+
+        // const newUrl = new URLSearchParams()
+        console.log(newUrl.toString())
+        window.location.href = newUrl.toString()
+        // this.props.getPropertyData()
+
+        this.props.getPropertyData()
     }
 
     render(){
@@ -19,7 +45,7 @@ class Search extends React.Component{
                             <input placeholder="Where do you want to go?" className="form-control col-6"/>
                             <input type="date" className="form-control col-2"/>
                             <input type="date" className="form-control col-2"/>
-                            <button className="form-control col-2 btn btn-warning text-light">Search</button>
+                            <button className="form-control col-2 btn btn-warning text-light" onClick={this.handleClick}>Search</button>
                             
                         </div>
                     </div>
@@ -75,7 +101,7 @@ class Search extends React.Component{
                                         </div>
                                     </div>
 
-                                    <button className="form-control col-2 btn btn-warning text-light">Search</button>
+                                    <button className="form-control col-2 btn btn-warning text-light" onClick={this.handleClick}>Search</button>
                                 </div>
                             </div>
                         </div>
@@ -175,15 +201,23 @@ class Search extends React.Component{
 
 const mapStateToProps = state => {
     return{
-        type_search: state.reducerCommon.type_search,
-        url: state.reducerCommon.url
+        data: state.reducerCommon.primaryData
 
     }
 }
+
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         getFilteredData: payload => dispatch(getFilteredData(payload))
+//     }
+// }
 
 const mapDispatchToProps = dispatch => {
-    return{
+    return {
+        getPropertyData: payload => dispatch(getPropertyData(payload))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Search)
+export default connect(mapStateToProps,mapDispatchToProps)(Search)
+
+// export default Search

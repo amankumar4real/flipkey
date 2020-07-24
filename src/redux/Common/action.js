@@ -12,11 +12,25 @@ export const propertyData=payload=>({
 })
 
 
+
+
 export const getPropertyData = payload => dispatch =>{
     console.log(payload)
     dispatch(propertyData)
-
-    return axios.get("https://0e0c54c7cca6.ngrok.io/product/fetchProducts")
+    const newUrl = new URL(window.location.href)
+    console.log(newUrl.search)
+    var x = "https://29be48647e3d.ngrok.io/product/filteredProduct"
+    return axios.get(x+newUrl.search)
     .then(res=>res.data)
     .then(res=>dispatch((propertyData(res))))
 }
+
+// export const getFilteredData = payload => dispatch =>{
+//     console.log(payload)
+//     dispatch(propertyData)
+//     const newUrl = new URL(window.location.href)
+
+//     return axios.post(newUrl)
+//     .then(res=>res.data)
+//     .then(res=>dispatch((propertyData(res))))
+// }

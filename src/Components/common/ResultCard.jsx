@@ -15,7 +15,7 @@ class ResultCard extends React.Component {
 
     }
     componentDidMount() {
-        this.props.getPropertyData()
+        // this.props.getPropertyData()
     }
 
     shortList = (key) => {

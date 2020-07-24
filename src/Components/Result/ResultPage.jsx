@@ -10,6 +10,7 @@ export default class ResultPage extends React.Component {
     }
 
     render() {
+        console.log(this.props)
         return (
             <div className="card card-fluid p-3">
                 <div className="row">
