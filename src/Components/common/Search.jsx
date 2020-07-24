@@ -20,7 +20,7 @@ class Search extends React.Component{
         }
         else{
             return(
-                <>
+                <div>
                         <div className="row mx-auto" >
                             <div className="col-12 p-1 ">
                                 <div className="row mx-auto" >
@@ -159,7 +159,7 @@ class Search extends React.Component{
                                 </div>
                             </div>
                         </div>
-                </>
+                </div>
             )
         }
         
