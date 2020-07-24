@@ -50,7 +50,7 @@ class Login extends React.Component{
         const type= this.props.type
         return(
             <div>
-                <div className="container  my-5" id='loginForm'>
+                <div className="container-fluid  my-5" id='loginForm'>
                     <div className='row justify-content-center border'> 
                         <div className='text-center col-12'>
                             <p className='lead'>
@@ -81,9 +81,19 @@ class Login extends React.Component{
                         </div>
                         
                          {/*login page  */}
-                        <div className='border m-2 p-2' style={{width:350}}>
-                            <p>Sign up with Tripadvisor</p>
-                            <form onSubmit={this.handleSubmit}>
+                        <div className='border m-2 p-3' style={{width:350}}>
+                            <div className='border'>
+                                <GoogleLogin
+                                    clientId = "612955599883-laa8c4lqqn9b2ki4ik7k6a4apsima2hh.apps.googleusercontent.com"
+                                    buttonText = "SignIn with Google"
+                                    onSuccess ={this.resposeGoogle}
+                                    onFailure = {this.resposeGoogle}
+                                    cookiePolicy = {'single_host_origin'}
+                                    className='w-100'
+                                />                   
+                            </div>
+                            <p className='my-2'>Sign In with FlipKey</p>
+                            <form  onSubmit={this.handleSubmit}>
                                 <div className="form-group">
                                 <input 
                                     type="email" 

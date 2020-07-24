@@ -1,7 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {connect} from 'react-redux'
-import {changeType} from '../../redux/Auth/action'
+import {connect} from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import '../fontAwesome/fontAwesome'
+import {changeType} from '../../redux/Auth/action';
 
 class Navbar extends React.Component {
     constructor(props) {
@@ -20,36 +22,24 @@ class Navbar extends React.Component {
     render() {
         return (
             <div>
-                <div className="ml-1 mb-0 pb-0">
-                    <p className="text-danger mb-0"><small>COVID-19 Update</small></p>
-                    <p><small>The impact of COVID-19 on travel is unprecedented. Like you, we’re monitoring the situation. Rest assured, we’re here to help with questions about your plans. Learn more here: <a className="bg-warning" href="https://helpcenter.flipkey.com/faq/view/About-the-coronavirus-outbreak-COVID-19">About the coronavirus outbreak (COVID-19)</a></small></p>
-                </div>
-                <hr className="mt-0"></hr>
-                <div className="mt-0 mb-0 pt-0">
-
-
-
-                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                        <a class="navbar-brand" href="#">
-                            flipkey
-                        </a>
-                        <button 
-                            class="navbar-toggler" 
-                            type="button" data-toggle="collapse" 
-                            data-target="#navbarSupportedContent" 
-                            aria-controls="navbarSupportedContent" 
-                            aria-expanded="false" 
-                            aria-label="Toggle navigation"
-                        >
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-
-                        <div class="collapse navbar-collapse">
-                            <ul class="navbar-nav ml-auto">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">My Shortlist <span class="sr-only">(current)</span></a>
-                                </li>
-                                <li class="nav-item dropdown">
+                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                    < span className="navbar-toggler-icon" />
+                    </button>
+                    <a class="navbar-brand" href="#">
+                        <img src="/images/fk-logo.svg" width="100" height="30" alt="logo"/>
+                    </a>
+                    <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
+                    <div class="navbar-nav ml-auto d-flex">
+                                <div class="nav-item">
+                                <a class="nav-link" href="#">
+                                <FontAwesomeIcon 
+                                    icon={["fas", 'heart']} 
+                                    style={{color:'#f7acbc'}}
+                                />
+                                    My Shortlist <span class="sr-only">(current)</span></a>
+                                </div>
+                                <div class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" >
                                         $USD
                                     </a>
@@ -64,11 +54,11 @@ class Navbar extends React.Component {
                                         <a class="dropdown-item" href="#">THB</a>
                                         <a class="dropdown-item" href="#">R ZAR</a>
                                     </div>
-                                </li>
-                                <li class="nav-item">
+                                </div>
+                                <div class="nav-item">
                                     <a class="nav-link" href="#">Manage your booking</a>
-                                </li>
-                                <li class="nav-item dropdown">
+                                </div>
+                                <div class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" >
                                         Help
                                     </a>
@@ -82,8 +72,8 @@ class Navbar extends React.Component {
                                         <a class="dropdown-item mt-0" href="#">Find a rental</a>
                                         <a class="dropdown-item mt-0" href="#">Travel Inspiration</a>
                                     </div>
-                                </li>
-                                <li class="nav-item dropdown">
+                                </div>
+                                <div class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" >
                                         Sign in
                                     </a>
@@ -95,23 +85,13 @@ class Navbar extends React.Component {
                                         <Link to='/owner/login' onClick={this.handleOwner}>Owners/Managers</Link>
                                         </div>
                                     </div>
-                                </li>
-                                <li class="nav-item">
+                                </div>
+                                <div class="nav-item">
                                     <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">List your property</a>
-                                </li>
-                            </ul>
-                            {/* <form class="form-inline my-2 my-lg-0">
-                                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                            </form> */}
-                        </div>
-                    </nav>
-
-
-
-
-
-                </div>
+                                </div>
+                            </div>
+                    </div>
+                </nav>
             </div>
         )
     }

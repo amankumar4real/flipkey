@@ -1,8 +1,9 @@
 import React from 'react';
-import { FaBeer } from 'react-icons/fa';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import '../fontAwesome/fontAwesome'
 class Vacation extends React.Component{
     render(){
+        const vacationBg={background:'#ececec'}
         return(
             <div className='text-center mx-0'>
                {/* 
@@ -13,17 +14,23 @@ class Vacation extends React.Component{
                  5. hr 
                 */}
                 <hr/>
+                {/* envelop-open text LOGO */}
                 <div className='col-12'>
-                     <FaBeer  size='40px' className='bg-info'style={{borderRadius:"50%"}}/>                
+                    <FontAwesomeIcon 
+                        icon={["fas", 'envelope-open-text']} 
+                        className='p-3 text-warning'
+                        size='4x'
+                        style={{borderRadius:"50%", background:"#0075dd"}}
+                    />
                 </div>
 
                 <div className='col-12'>
-                    <h2>Looking for vacation inspiration?</h2>
+                    <h4>Looking for vacation inspiration?</h4>
                     <p className='text-black-50'>Get the best deals and personalised recommendations, straight to your inbox (you can unsubscribe at any time).</p>
                 </div>
 
-                <div className='col-12'>
-                    <div className="input-group mb-3">
+                <div className='col-lg-6 col-md-8 offset-md-2 offset-lg-3'>
+                    <div className="input-group mb-3 ">
                         <input 
                             type="text" 
                             className="form-control" 
@@ -31,9 +38,9 @@ class Vacation extends React.Component{
                             aria-label="Recipient's username" 
                             aria-describedby="button-addon2" 
                         />
-                        <div className="input-group-append">
+                        <div className="input-group-append ">
                             <button 
-                                className="btn btn-info px-5" 
+                                className="btn btn-info bnt-block px-5" 
                                 type="button" 
                                 id="button-addon2"
                             >
