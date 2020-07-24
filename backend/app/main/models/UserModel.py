@@ -8,4 +8,4 @@ class UserModel(db.Model):
     email = db.Column(db.String(60),unique = True)
     phone = db.Column(db.Integer)
     password = db.Column(db.String(60))
-    type = db.Column(db.String(60) )
+    type = db.Column(db.String(60))
