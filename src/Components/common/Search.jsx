@@ -35,7 +35,8 @@ const Styles = styled.div
     }
   }`;
 
-class Search extends React.Component{
+class Search extends React.Component{ 
+    //filter props are [people, bedroom, price]
     constructor(props){
         super(props)
         this.state={
@@ -43,7 +44,7 @@ class Search extends React.Component{
             adult:1,
             bedrooms:1,
             child:0,
-            value:50
+            price:50
         }
     }
     handleOnChange = (e) => 
@@ -173,7 +174,7 @@ class Search extends React.Component{
                                 <Styles opacity={this.state.value > 10 ? (this.state.value / 255) : .1} color={this.props.color}>
                                     <label className="font-weight-bold">Price:0</label>
                                     <input type="range" min={0} max={1000} value={this.state.value} className="slider ml-1" onChange={this.handleOnChange} />
-                                    <p className="value">{this.state.value}</p>
+                                    <p className="value">{this.state.price}</p>
                                 </Styles>
                                 </div>
                             </div>
