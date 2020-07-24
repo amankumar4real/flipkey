@@ -1,11 +1,18 @@
 import React from "react";
 import {connect} from "react-redux";
 
+
 class Search extends React.Component{
+    constructor(props){
+        super(props)
+        this.state = {
+        }
+    }
+
     render(){
         const {type_search} = this.props
         
-        if(type_search == "Home"){
+        if(type_search === "nHome"){
             return(
                     <div className="col-12 p-1">
                         <div className="row mx-auto" >
@@ -168,7 +175,9 @@ class Search extends React.Component{
 
 const mapStateToProps = state => {
     return{
-        type_search: state.reducerCommon.type_search
+        type_search: state.reducerCommon.type_search,
+        url: state.reducerCommon.url
+
     }
 }
 

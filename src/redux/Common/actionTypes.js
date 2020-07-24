@@ -1,1 +1,3 @@
 export const COMMON_DATA = "COMMON_DATA"
+
+export const PROPERTY_DATA = "PROPERTY_DATA"

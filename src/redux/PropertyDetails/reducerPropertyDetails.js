@@ -1,4 +1,4 @@
-import { PROPERTY_DETAILS } from './actionTypes'
+// import { PROPERTY_DETAILS } from './actionTypes'
 
 const initialstate = {
     primaryData : [
