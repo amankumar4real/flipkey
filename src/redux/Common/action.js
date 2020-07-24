@@ -16,7 +16,7 @@ export const getPropertyData = payload => dispatch =>{
     console.log(payload)
     dispatch(propertyData)
 
-    return axios.get("https://0e0c54c7cca6.ngrok.io/product/fetchProducts")
+    return axios.get("https://29be48647e3d.ngrok.io/product/fetchProducts")
     .then(res=>res.data)
     .then(res=>dispatch((propertyData(res))))
 }

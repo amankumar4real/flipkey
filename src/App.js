@@ -11,9 +11,7 @@ function App() {
     <div className="App">
       <CovidBanner />
       <Navbar/>
-      <LangingPage />
       <Routes />
-      <ResultPage />
     </div>
   );
 }

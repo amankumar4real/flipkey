@@ -12,7 +12,7 @@ class Search extends React.Component{
     render(){
         const {type_search} = this.props
         
-        if(type_search === "nHome"){
+        if(type_search === "Home"){
             return(
                     <div className="col-12 p-1">
                         <div className="row mx-auto" >
