@@ -1,20 +1,10 @@
 from ..models import db, ProductModel
 import json
+from flask import jsonify
 
 
 def sendProduct():
     
-    # prod = db.session.execute('''SELECT * FROM product''')
-
-    prod = ProductModel.query.all()
-
-    data = []
-
-    # for item in prod:
-    #     data.append(item)
-
-    # my = {
-    #     "mess": data
-    # }
+    prod = db.session.execute('''SELECT * FROM product''')
     
-    return jsonify({'result':  prod})
+    return jsonify({'result': [dict(row) for row in prod]})
