@@ -4,6 +4,7 @@ import Register from "../Components/Auth/registration"
 import Login from "../Components/Auth/Login"
 import ResultPage from "../Components/Result/ResultPage"
 import landingPage from "../Components/landing/landingPage";
+import {PropertyPage} from "../Components/PropertyPage/PropertyPage"
 
 
 const Routers = () => {
@@ -14,6 +15,7 @@ const Routers = () => {
                 <Route path="/owner/register" component = {Register}/>
                 <Route path="/owner/login" component = {Login}/>
                 <Route path="/results" component = {ResultPage} />
+                <Route path="/results/:id" component = {PropertyPage} />
                 <Route path="/" exact component ={landingPage}/>
             
         </div>
