@@ -78,3 +78,32 @@ def finalFilteredData(details):
 
     return jsonify({"result": [dict(row) for row in final]})
 
+
+def propertyAllDetails(details):
+    try:
+        product_id = details["id"]
+        product_id = int(product_id)
+    except KeyError:
+        return json.dumps({"error": True,
+                           "message": "One or more fields are missing!"})
+
+    if product_id == "":
+        return json.dumps({"error": True, "message": "Empty Fields"})
+
+    if type(product_id) is not int:
+        return json.dumps({"error": True, "message": "Wrong data format!"})
+
+
+    property_data = db.session.execute('''SELECT * FROM product as p JOIN location as l ON
+                                       p.id = l.property_id JOIN city as c on l.city_id = c.id
+                                       WHERE p.id = %s'''%(product_id))
+
+    property_amenities = db.session.execute('''SELECT * FROM amenities WHERE property_id = %s'''%(product_id))
+
+    property_suitability = db.session.execute('''SELECT * FROM suitability WHERE property_id = %s'''%(product_id))
+
+
+    return jsonify({"property_data": [dict(row) for row in property_data],
+                    "property_amenities": [dict(row) for row in property_amenities],
+                    "property_suitability": [dict(row) for row in property_suitability]})
+    # return "hi"

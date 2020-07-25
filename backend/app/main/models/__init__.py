@@ -8,3 +8,5 @@ from .ProductModel import ProductModel
 # from .KeyFieldModel import KeyFieldModel
 from .AmenitiesModel import AmenitiesModel
 from .SuitabilityModel import SuitabilityModel
+from .CityModel import CityModel
+from .LocationModel import LocationModel
