@@ -4,6 +4,7 @@ import { getPropertyData } from '../../redux/Common/action'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from 'styled-components';
 import axios from 'axios'
+import { Dropdown, Button,ButtonGroup, Form, FormCheck } from 'react-bootstrap';
 
 
 const sliderThumbStyles = (props) => (`
@@ -51,7 +52,12 @@ class ResultCard extends React.Component {
             adult: 1,
             beds: 1,
             child: 0,
-            price: 50
+            price: 50,
+            type: [],
+            bath: 1,
+            amenities: [],
+            suitability: [],
+            isCheck:false
         }
     }
     handleOnChange = (e) => {
@@ -141,8 +147,24 @@ class ResultCard extends React.Component {
         this.props.getPropertyData()
 
     }
+    handleChange=(e)=>{
+        console.log('rental type')
+        console.log(e.target)
+        this.setState(prevState=>({
+            isCheck:!prevState.isCheck
+        }))
+        console.log(this.state.isCheck) 
+    }
     render() {
-
+        {/* type of property- apartment, hotel_apartment, 
+                        house, villa, bungalow, castle, farmhouse, studio, 
+                        houseboat, fort, private_room, hospital_apartment, 
+                        B&B, guest_house, caravan */}
+                    
+        const rentalType=['apartment', 'hotel_apartment', 
+            'house', 'villa', 'bungalow', 'castle', 'farmhouse', 'studio', 
+            'houseboat', 'fort', 'private_room', 'hospital_apartment', 
+            'B&B', 'guest_house', 'caravan']
         const { result } = this.props.data
 
         console.log(result)
@@ -217,6 +239,30 @@ class ResultCard extends React.Component {
                             </div>
                         </div>
                     </div>
+                    {/* Rental type */}
+                    <Dropdown varient='light'>
+                        <Dropdown.Toggle>
+                            <p>Rental Type</p>
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu >
+                            <div className='filter px-2 ' style={{width:'200px'}}>
+                                {/* adding rental types as a checkbox form */}
+                                {
+                                    rentalType.map(type=>(
+                                        <div key={type}>
+                                            <Form.Check
+                                                type='checkbox'
+                                                label={type}
+                                                onChange={this.handleChange}
+                                                value={type}
+                                                checked={this.state.isCheck}
+                                            />
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        </Dropdown.Menu>
+                    </Dropdown>
                     <div class="dropdown col-3">
                         <button class="btn dropdown-toggle btn-outline col-12" type="button" data-toggle="dropdown">
                             Rental types
@@ -238,6 +284,7 @@ class ResultCard extends React.Component {
                             </div>
                         </div>
                     </div>
+                    
                     <div class="dropdown col-3">
                         <button class="btn dropdown-toggle btn-outline col-12" type="button" data-toggle="dropdown">
                             More filters
