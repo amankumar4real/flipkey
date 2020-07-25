@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from 'styled-components';
 import axios from 'axios'
 import { Dropdown, Button,ButtonGroup, Form, FormCheck } from 'react-bootstrap';
+import DropdownToggle from 'react-bootstrap/esm/DropdownToggle';
+import DropdownMenu from 'react-bootstrap/esm/DropdownMenu';
 
 
 const sliderThumbStyles = (props) => (`
@@ -57,7 +59,6 @@ class ResultCard extends React.Component {
             bath: 1,
             amenities: [],
             suitability: [],
-            isCheck:false
         }
     }
     handleOnChange = (e) => {
@@ -72,8 +73,12 @@ class ResultCard extends React.Component {
     }
 
     componentDidUpdate = () => {
-        console.log('slider')
-        console.log(this.state.value)
+        console.log('selected rental type')
+        console.log(this.state.type)
+        console.log('selected amenity type')
+        console.log(this.state.amenities)
+        console.log('selected suitability type')
+        console.log(this.state.suitability)
     }
 
     adultInc = () => {
@@ -147,24 +152,83 @@ class ResultCard extends React.Component {
         this.props.getPropertyData()
 
     }
+    // handle More filter's events and Rental Type handle events
     handleChange=(e)=>{
+        const rentalTypeArr=this.state.type
         console.log('rental type')
         console.log(e.target)
-        this.setState(prevState=>({
-            isCheck:!prevState.isCheck
-        }))
-        console.log(this.state.isCheck) 
+        let check=e.target.checked
+        // append value to type array
+        if(check){
+            this.setState({
+                type:[...rentalTypeArr, e.target.value]
+            })
+        } 
+        // if rental type is unselect i.e unchecked remove that value from type arr
+        else{
+            const result= rentalTypeArr.filter((type)=>type!=e.target.value)
+            this.setState({
+                type:[...result]
+            })
+        }
+    }
+    amenitiesHandleChange=e=>{
+        const amenitiesArr=this.state.amenities;
+        let check=e.target.checked
+        // append value to amenities array
+        if(check){
+            this.setState({
+                amenities:[...amenitiesArr, e.target.value]
+            })
+        } 
+        // if amenity is unselected i.e unchecked remove that value from amenities arr
+        else{
+            const result= amenitiesArr.filter((amenity)=>amenity!=e.target.value)
+            this.setState({
+                amenities:[...result]
+            })
+        }
+    }
+    suitabilityHandleChange=e=>{
+        const suitabilityArr=this.state.suitability;
+        let check=e.target.checked
+        // append value to amenities array
+        if(check){
+            this.setState({
+                suitability:[...suitabilityArr, e.target.value]
+            })
+        } 
+        // if amenity is unselected i.e unchecked remove that value from amenities arr
+        else{
+            const result= suitabilityArr.filter((type)=>type!=e.target.value)
+            this.setState({
+                suitability:[...result]
+            })
+        }
     }
     render() {
         {/* type of property- apartment, hotel_apartment, 
                         house, villa, bungalow, castle, farmhouse, studio, 
                         houseboat, fort, private_room, hospital_apartment, 
-                        B&B, guest_house, caravan */}
+                        B&B, guest_house, caravan 
+        -----------------------------------------------------------
+            values for amenities:
+            balcony, staffed, tv, fans, linen, towels,
+            housekeeper, wifi, swimming_pool, heated_pool, washing_machine, garden,
+            dvd, grill, fireplace, cot, dishwash, microwave, freezer, game, sea_view
+        ------------------------------------------------------------
+            values for Suitability:
+            pets, parking, children, smoke, elevator, wheelchair, cars_req
+        */}
                     
         const rentalType=['apartment', 'hotel_apartment', 
             'house', 'villa', 'bungalow', 'castle', 'farmhouse', 'studio', 
             'houseboat', 'fort', 'private_room', 'hospital_apartment', 
             'B&B', 'guest_house', 'caravan']
+        const amenities=['balcony', 'staffed', 'tv', 'fans', 'linen', 'towels',
+            'housekeeper', 'wifi', 'swimming_pool', 'heated_pool', 'washing_machine', 'garden',
+            'dvd', 'grill', 'fireplace', 'cot', 'dishwash', 'microwave', 'freezer', 'game', 'sea_view']
+        const suitability=['pets', 'parking', 'children', 'smoke', 'elevator', 'wheelchair', 'cars_req']
         const { result } = this.props.data
 
         console.log(result)
@@ -240,11 +304,15 @@ class ResultCard extends React.Component {
                         </div>
                     </div>
                     {/* Rental type */}
-                    <Dropdown varient='light'>
-                        <Dropdown.Toggle>
-                            <p>Rental Type</p>
+                    <Dropdown>
+                        <Dropdown.Toggle variant='white'>
+                            <p className='w-100'>Rental Type</p>
                         </Dropdown.Toggle>
-                        <Dropdown.Menu >
+                        <Dropdown.Menu 
+                            alignRight
+                        >
+                            <Dropdown.Header><p className='lead text-body m-0 p-0'>Rental Type</p></Dropdown.Header>
+                            <Dropdown.Divider />
                             <div className='filter px-2 ' style={{width:'200px'}}>
                                 {/* adding rental types as a checkbox form */}
                                 {
@@ -255,35 +323,69 @@ class ResultCard extends React.Component {
                                                 label={type}
                                                 onChange={this.handleChange}
                                                 value={type}
-                                                checked={this.state.isCheck}
+                                                // checked={this.state.isCheck}
                                             />
                                         </div>
                                     ))
                                 }
                             </div>
                         </Dropdown.Menu>
+                    </Dropdown >
+                    {/*More Filters */}
+                    <Dropdown>
+                        <DropdownToggle variant='white'>
+                            <p>More filters</p>
+                        </DropdownToggle>
+                        <DropdownMenu
+                            alignRight
+                        >
+                           <Dropdown.Divider/>
+                           {/* window size */}
+                            <div className='px-3' style={{width:'500px'}}>
+                                <div className='row'>
+                                    {/* Amenities */}
+                                    <div className='col-3'>
+                                        <p className='lead'>Amenities</p>
+                                    </div>
+                                    <div className='col-9'>
+                                        <div className='row'>
+                                            {amenities.map(amenity=>(
+                                                <div className='col-6' key={amenity}>
+                                                    <Form.Check
+                                                        type='checkbox'
+                                                        label={amenity}
+                                                        onChange={this.amenitiesHandleChange}
+                                                        value={amenity}
+                                                    />
+                                                </div>
+
+                                            ))}
+                                        </div>      
+                                    </div>
+                                    <div className='col-12'><Dropdown.Divider/></div>
+                                    {/* suitability */}
+                                    <div className='col-3'>
+                                        <p className='lead'>Suitability</p>
+                                    </div>
+                                    <div className='col-9'>
+                                        <div className='row'>
+                                            {suitability.map(type=>(
+                                                <div className='col-6' key={type}>
+                                                    <Form.Check
+                                                        type='checkbox'
+                                                        label={type}
+                                                        onChange={this.suitabilityHandleChange}
+                                                        value={type}
+                                                    />
+                                                </div>
+
+                                            ))}
+                                        </div>      
+                                    </div>
+                                </div>
+                            </div> 
+                        </DropdownMenu>
                     </Dropdown>
-                    <div class="dropdown col-3">
-                        <button class="btn dropdown-toggle btn-outline col-12" type="button" data-toggle="dropdown">
-                            Rental types
-                                </button>
-                        <div class="dropdown-menu col-11">
-                            <div className="col-12">
-                                <div className="row mx-auto">
-                                    Adults
-                                            <button className="btn btn-light">-</button>
-                                    2
-                                            <button className="btn btn-light">+</button>
-                                </div>
-                                <div className="row mx-auto mt-2">
-                                    Child
-                                            <button className="btn btn-light">-</button>
-                                    2
-                                            <button className="btn btn-light">+</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     
                     <div class="dropdown col-3">
                         <button class="btn dropdown-toggle btn-outline col-12" type="button" data-toggle="dropdown">
