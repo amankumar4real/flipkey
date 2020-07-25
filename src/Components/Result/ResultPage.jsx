@@ -1,5 +1,4 @@
 import React from 'react'
-import Search from '../common/Search'
 import ResultCard from '../common/ResultCard'
 
 export default class ResultPage extends React.Component {

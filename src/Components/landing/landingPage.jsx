@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Vocation from '../common/Vacation';
-import FrontSearch  from '../FrontSearch/FrontSearch';
 
 class LandingPage extends React.Component{
     constructor(props){
@@ -10,13 +9,41 @@ class LandingPage extends React.Component{
             page:''
         }
     }
+
+    handleClick = () => {
+        this.props.history.push("/results?people=1&price=50&beds=1")
+    }
     render(){
         const {rentalData}=this.props
         console.log(rentalData)
         return(
             <div style={{background:'#ececec'}}>
                 {/* 1.Front Search */}
-                <FrontSearch />
+                <div key="search">
+                <div className="container-fluid" style={{
+                    backgroundImage: "url('https://image.shutterstock.com/image-photo/world-environment-day-concept-sun-260nw-264026870.jpg')", backgroundRepeat: "no-repeat",
+                    backgroundSize: "cover", height: "400px"
+                }}>
+                    <div className='container py-5'>
+                        <div className='container my-5 py-5'>
+                            <div className='h1 text-white text-center'>
+                                Find the perfect vacation rental
+                                    </div>
+                            <div className="col-12 p-1">
+                                <div className="row mx-auto" >
+                                    <input placeholder="Where do you want to go?" className="form-control col-6" />
+                                    <input type="date" className="form-control col-2" />
+                                    <input type="date" className="form-control col-2" />
+                                    <button className="form-control col-2 btn btn-warning text-light" onClick={this.handleClick}>Search</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
                 {/* 2.Vocation Component */}
                 <Vocation />
                 {/* 3. Rental Data Rendering part */}
