@@ -134,7 +134,7 @@ class ResultCard extends React.Component {
 
     handlePropertyClick = (id) => {
         console.log(id)
-        return <Redirect to = {`/results/${id}`} />
+        // return <Redirect to = {`/results/${id}`} />
         
     }
     // `/user/transaction/${elem.transaction_id}`
@@ -438,7 +438,7 @@ class ResultCard extends React.Component {
                             {
                                 result ? result.map(item => (
                                     <div key={item.id} class="card mb-3 card-fluid overflow-auto" onClick={() => this.handlePropertyClick(item.id)}>
-                                        <Link to = {`/results/${item.id}`}>
+                                        
                                         <div class="row">
                                             {typeof item.image == "string" ?
                                                 <div class="col-md-5 fill">
@@ -484,7 +484,7 @@ class ResultCard extends React.Component {
                                                 <div class="container container-fluid">
                                                     <div class="row">
                                                         <div class="col-8">
-                                                            <h5 class="col-12  mt-2"><strong>{item.name}</strong></h5>
+                                                        <Link to = {`/results/${item.id}`}><h5 class="col-12  mt-2"><strong>{item.name}</strong></h5></Link>
                                                             <p class=" col-12  mt-2">People: {item.no_people}</p>
                                                             <p class=" col-12  mt-2">No. of Bedrooms:{item.bed}</p>
                                                             <p class=" col-12  mt-2">Property Type:{item.type}</p>
@@ -504,7 +504,7 @@ class ResultCard extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        </Link>
+                                
                                     </div>
                                 )) :
                                     <div className="card card-fluid">
