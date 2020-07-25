@@ -1,61 +1,31 @@
-// import { PROPERTY_DETAILS } from './actionTypes'
+import { PROP_DETAILS_FAIL,PROP_DETAILS_START,PROP_DETAILS_SUCCESS} from './actionTypes'
+
 
 const initialstate = {
-    primaryData : [
-        {
-            images : [],
-            name : "Available AnyTime",
-            propertyType: "Villa",
-            capcity:"2 bedrooms/ 2 bathrooms/ sleeps 6",
-            ratings:6,
-            pricePerNight: "$593"
-        },
-        {
-            images : [],
-            name : "Available AnyTime",
-            propertyType: "Villa",
-            capcity:"2 bedrooms/ 2 bathrooms/ sleeps 6",
-            ratings:6,
-            pricePerNight: "$593"
-        },
-        {
-            images : [],
-            name : "Available AnyTime",
-            propertyType: "Villa",
-            capcity:"2 bedrooms/ 2 bathrooms/ sleeps 6",
-            ratings:6,
-            pricePerNight: "$593"
-        },
-        {
-            images : [],
-            name : "Available AnyTime",
-            propertyType: "Villa",
-            capcity:"2 bedrooms/ 2 bathrooms/ sleeps 6",
-            ratings:6,
-            pricePerNight: "$593"
-        },
-        {
-            images : [],
-            name : "Available AnyTime",
-            propertyType: "Villa",
-            capcity:"2 bedrooms/ 2 bathrooms/ sleeps 6",
-            ratings:6,
-            pricePerNight: "$593"
-        },
-        {
-            images : [],
-            name : "Available AnyTime",
-            propertyType: "Villa",
-            capcity:"2 bedrooms/ 2 bathrooms/ sleeps 6",
-            ratings:6,
-            pricePerNight: "$593"
-        }
-    ]
+    primaryData : [{ data:"data" }]
 }
 
 const reducerPropertyDetails = (state = initialstate, {type,payload}) => {
-    return{
-        ...state
+    switch(type){
+        case PROP_DETAILS_START:
+            console.log(payload)
+            return{
+                ...state
+            }
+
+        case PROP_DETAILS_SUCCESS:
+            console.log(payload)
+            return{
+                ...state
+            }
+        case PROP_DETAILS_FAIL:
+            return{
+                ...state
+            }
+        default : 
+            return {
+                ...state
+            }
     }
 }
 
