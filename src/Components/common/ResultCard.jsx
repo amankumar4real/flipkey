@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { getPropertyData } from '../../redux/Common/action'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from 'styled-components';
+import {Redirect, Link} from 'react-router-dom'
 import axios from 'axios'
 
 
@@ -120,6 +121,12 @@ class ResultCard extends React.Component {
         }
     }
 
+    handlePropertyClick = (id) => {
+        console.log(id)
+        return <Redirect to = {`/results/${id}`} />
+        
+    }
+    // `/user/transaction/${elem.transaction_id}`
     componentDidMount() {
         this.props.getPropertyData()
     }
@@ -281,7 +288,8 @@ class ResultCard extends React.Component {
                         <div>
                             {
                                 result ? result.map(item => (
-                                    <div key={item.property_id} class="card mb-3 card-fluid overflow-auto">
+                                    <div key={item.id} class="card mb-3 card-fluid overflow-auto" onClick={() => this.handlePropertyClick(item.id)}>
+                                        <Link to = {`/results/${item.id}`}>
                                         <div class="row">
                                             {typeof item.image == "string" ?
                                                 <div class="col-md-5 fill">
@@ -341,6 +349,7 @@ class ResultCard extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
+                                        </Link>
                                     </div>
                                 )) :
                                     <div className="card card-fluid">

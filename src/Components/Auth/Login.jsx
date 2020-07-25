@@ -82,7 +82,7 @@ class Login extends React.Component{
                         
                          {/*login page  */}
                         <div className='border m-2 p-3' style={{width:350}}>
-                            <div className='border'>
+                            {/* <div className='border'>
                                 <GoogleLogin
                                     clientId = "612955599883-laa8c4lqqn9b2ki4ik7k6a4apsima2hh.apps.googleusercontent.com"
                                     buttonText = "SignIn with Google"
@@ -91,7 +91,7 @@ class Login extends React.Component{
                                     cookiePolicy = {'single_host_origin'}
                                     className='w-100'
                                 />                   
-                            </div>
+                            </div> */}
                             <p className='my-2'>Sign In with FlipKey</p>
                             <form  onSubmit={this.handleSubmit}>
                                 <div className="form-group">
