@@ -11,10 +11,11 @@ class ProductModel(db.Model):
     no_people = db.Column(db.Integer)
     type = db.Column(db.String(50))
     price = db.Column(db.Integer)
-    access = db.Column(db.String(10))
-    smoking = db.Column(db.String(10))
     minimum_stay = db.Column(db.Integer)
-    image = db.Column(db.String(200))
+    image_a = db.Column(db.String(200))
+    image_b = db.Column(db.String(200))
+    image_c = db.Column(db.String(200))
+    image_d = db.Column(db.String(200))
 
 
 
