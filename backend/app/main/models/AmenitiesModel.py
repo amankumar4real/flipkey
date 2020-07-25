@@ -25,4 +25,4 @@ class AmenitiesModel(db.Model):
     microwave = db.Column(db.String(10))
     freezer = db.Column(db.String(10))
     game = db.Column(db.String(10))
-    sea_view = db.Column(db.String(10))
+    sea_view  = db.Column(db.String(10))

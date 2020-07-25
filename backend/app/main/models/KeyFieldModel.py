@@ -1,4 +1,4 @@
-from . import db
+# from . import db
 
 # child_friendly, car, ac, pets, near_beach
 class KeyFieldModel(db.Model):
