@@ -293,14 +293,20 @@ class ResultCard extends React.Component {
                                                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                                                         <div class="carousel-inner">
                                                             <div class="carousel-item active">
-                                                                <img class="d-block w-100" src={item.images[0]} alt="First slide" />
+                                                                <img class="d-block w-100" src={item.image_a} alt="First slide" />
                                                             </div>
                                                             {
-                                                                item.images.map(image => (
+                                                                <div key = "myin">
                                                                     <div class="carousel-item">
-                                                                        <img class="d-block w-100" src={image} alt="Second slide" />
+                                                                        <img class="d-block w-100" src={item.image_b} alt="Third slide" />
                                                                     </div>
-                                                                ))
+                                                                    <div class="carousel-item">
+                                                                        <img class="d-block w-100" src={item.image_c} alt="Forth slide" />
+                                                                    </div>
+                                                                    <div class="carousel-item">
+                                                                        <img class="d-block w-100" src={item.image_d} alt="Fifth slide" />
+                                                                    </div>
+                                                                </div>
                                                             }
                                                         </div>
                                                         <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">

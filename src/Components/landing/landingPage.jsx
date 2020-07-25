@@ -21,7 +21,7 @@ class LandingPage extends React.Component{
                 {/* 1.Front Search */}
                 <div key="search">
                 <div className="container-fluid" style={{
-                    backgroundImage: "url('https://image.shutterstock.com/image-photo/world-environment-day-concept-sun-260nw-264026870.jpg')", backgroundRepeat: "no-repeat",
+                    backgroundImage: "url('https://images.hdqwalls.com/download/trees-fall-reflection-autumn-4k-hb-2880x1800.jpg')", backgroundRepeat: "no-repeat",
                     backgroundSize: "cover", height: "400px"
                 }}>
                     <div className='container py-5'>
