@@ -58,7 +58,7 @@ class ResultCard extends React.Component {
             price: 50,
             type: [],
             bath: 1,
-            amenities: [],
+            amenities: ["fans"],
             suitability: [],
         }
     }
@@ -147,9 +147,26 @@ class ResultCard extends React.Component {
 
         // this.props.history.push("/results")
         const newUrl = new URL(window.location.href)
+
         newUrl.searchParams.set("people", this.state.people)
         newUrl.searchParams.set("price", this.state.price)
         newUrl.searchParams.set("beds", this.state.beds)
+        const {amenities,suitability,type} = this.state
+
+            // newUrl.searchParams.set("amenities",amenities)
+
+            for(let i=0;i<amenities.length;i++){
+                newUrl.searchParams.append("amenities",amenities[i])
+            }
+
+
+        for(let i=0;i<suitability.length;i++){
+            newUrl.searchParams.append("suitability",suitability[i])
+        }
+
+        for(let i=0;i<type.length;i++){
+            newUrl.searchParams.append("type",type[i])
+        }
 
         // const newUrl = new URLSearchParams()
         console.log(newUrl.toString())
@@ -394,7 +411,7 @@ class ResultCard extends React.Component {
                         </DropdownMenu>
                     </Dropdown>
                     
-                    <div class="dropdown col-3">
+                    {/* <div class="dropdown col-3">
                         <button class="btn dropdown-toggle btn-outline col-12" type="button" data-toggle="dropdown">
                             More filters
                                 </button>
@@ -414,7 +431,7 @@ class ResultCard extends React.Component {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div>
                     <div className="card">
