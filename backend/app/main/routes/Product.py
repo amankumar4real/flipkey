@@ -1,6 +1,6 @@
 from . import product
 from flask import request
-from ..services.product import sendProduct, filteredData, finalFilteredData, propertyAllDetails
+from ..services.product import sendProduct, filteredData, finalFilteredData, propertyAllDetails, recommendationProperty
 
 
 @product.route("/")
@@ -41,7 +41,9 @@ def postFinalData():
         "bath": request.args.get("bath", default=1, type=int),
         "beds": request.args.get("beds", default=1, type=int),
         "amenities": request.args.getlist("amenities"),
-        "suitability": request.args.getlist("suitability")
+        "suitability": request.args.getlist("suitability"),
+        "sortby": request.args.get("sortby", default="relevence", type=str),
+        "place": request.args.get("place", default="delhi", type=str)
     }
     
     response = finalFilteredData(data)
@@ -53,5 +55,13 @@ def postFinalData():
 def propertycomplete():
 
     response = propertyAllDetails(request.json)
+
+    return response
+
+
+@product.route("/recommendation", methods=["POST"])
+def recomm():
+
+    response = recommendationProperty(request.json)
 
     return response

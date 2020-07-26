@@ -1,18 +1,28 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Vocation from '../common/Vacation';
+import {changeText} from "../../redux/LandingPage/action"
 
 class LandingPage extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            page:''
+            page:'',
+            inp:""
         }
     }
 
     handleClick = () => {
-        this.props.history.push("/results?people=1&price=50&beds=1")
+        this.props.changeText(this.state.inp)
+        this.props.history.push(`/results?people=1&price=50&beds=1&place=${this.state.inp}`)
     }
+
+    handleChange = (event) => {
+        this.setState({
+            inp: event.target.value
+        })
+    }
+
     render(){
         const {rentalData}=this.props
         console.log(rentalData)
@@ -31,7 +41,7 @@ class LandingPage extends React.Component{
                                     </div>
                             <div className="col-12 p-1">
                                 <div className="row mx-auto" >
-                                    <input placeholder="Where do you want to go?" className="form-control col-6" />
+                                    <input onChange={this.handleChange} placeholder="Where do you want to go?" className="form-control col-6" />
                                     <input type="date" className="form-control col-2" />
                                     <input type="date" className="form-control col-2" />
                                     <button className="form-control col-2 btn btn-warning text-light" onClick={this.handleClick}>Search</button>
@@ -99,4 +109,11 @@ const mapStateToProps=state=>{
         rentalData: state.reducreLanding.rentalData
     }
 }
-export default connect(mapStateToProps, null) (LandingPage)
+
+const mapDispatchToProps = dispatch => {
+    return {
+        changeText: payload => dispatch(changeText(payload))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (LandingPage)

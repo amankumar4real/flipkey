@@ -8,6 +8,8 @@ import DropdownToggle from 'react-bootstrap/esm/DropdownToggle';
 import DropdownMenu from 'react-bootstrap/esm/DropdownMenu';
 import axios from 'axios';
 import FilterResults from 'react-filter-search';
+
+
 const sliderThumbStyles = (props) => (`
   width: 10px;
   height: 10px;
@@ -58,9 +60,10 @@ class ResultCard extends React.Component {
             bath: 1,
             amenities: [],
             suitability: [],
-            sortby:'',
+            sortby:"relevence",
             dummydata:[],
-            searchVal:''
+            searchVal: "bangalore",
+            // place: this.props.
         }
     }
     handleOnChange = (e) => {
@@ -140,6 +143,7 @@ class ResultCard extends React.Component {
 
     componentDidMount() {
         this.props.getPropertyData()
+        console.log(this.props.landingText)
     }
 
     handleClick = () => {
@@ -148,6 +152,20 @@ class ResultCard extends React.Component {
         newUrl.searchParams.set("people", this.state.people)
         newUrl.searchParams.set("price", this.state.price)
         newUrl.searchParams.set("beds", this.state.beds)
+        newUrl.searchParams.set("sortby", this.state.sortby)
+        newUrl.searchParams.set("place", this.state.searchVal)
+
+        for(var i = 0; i < this.state.amenities.length; i++){
+            newUrl.searchParams.append("amenities", this.state.amenities[i])
+        }
+
+        for(var i = 0; i < this.state.type.length; i++){
+            newUrl.searchParams.append("type", this.state.type[i])
+        }
+
+        for(var i = 0; i < this.state.suitability.length; i++){
+            newUrl.searchParams.append("suitability", this.state.suitability[i])
+        }
 
         // const newUrl = new URLSearchParams()
         console.log(newUrl.toString())
@@ -616,7 +634,8 @@ class ResultCard extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        data: state.reducerCommon.primaryData
+        data: state.reducerCommon.primaryData,
+        landingText: state.reducreLanding.landingText
     }
 }
 

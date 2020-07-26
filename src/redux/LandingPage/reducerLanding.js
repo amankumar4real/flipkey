@@ -1,4 +1,5 @@
 import { RENTAL_DATA } from './actionTypes'
+import {change_text} from "./actionTypes"
 
 const initialState = {
     rentalData:[
@@ -8,7 +9,8 @@ const initialState = {
         {name:'MyrtleBeach', img:'https://s4.fkimg.com/res/1380077913/assets/fk/images/home/MyrtleBeach.jpg',rentalCount:4200},
         {name:'PanamaCityBeach', img:'https://s4.fkimg.com/res/1380077913/assets/fk/images/home/PanamaCityBeach.jpg',rentalCount:1990},
         {name:'BigBearRegion', img:'https://s4.fkimg.com/res/1380077913/assets/fk/images/home/BigBearRegion.jpg',rentalCount:1580}
-    ]
+    ],
+    landingText: ''
 }
 
 const reducreLanding = (state = initialState, {type, payload}) => {
@@ -16,6 +18,11 @@ const reducreLanding = (state = initialState, {type, payload}) => {
         case RENTAL_DATA : 
             return {
                 ...state,
+            }
+        case change_text :
+            return{
+                ...state,
+                landingText: payload
             }
         default :
           	return state;
