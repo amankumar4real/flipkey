@@ -1,9 +1,10 @@
-from ..models import db, UserModel, GoogleModel
+from ..models import db, UserModel, GoogleModel, OwnerModel
 import json
 from instance.config import SECRET_KEY
 import datetime
 import jwt
 from ..util.auth_token import check_auth_token
+from flask import jsonify
 
 
 def register(details):
@@ -12,6 +13,7 @@ def register(details):
         email = details["email"]
         phone = details["phone"]
         password = details["password"]
+        typ = details["type"]
     except KeyError:
         return json.dumps({"error": True,
                            "message": "One or more fields are missing!"})
@@ -22,24 +24,42 @@ def register(details):
     if type(email) is not str or type(password) is not str or type(name) is not str or type(phone) is not int:
         return json.dumps({"error": True, "message": "Wrong data format!"})
 
-    available_or_not = UserModel.query.filter(UserModel.email == email).first()
+    #for normal user
+    if typ == "user":
 
-    if available_or_not is None:
-        user_type = "user"
+        available_or_not = UserModel.query.filter(UserModel.email == email).first()
 
-        user = UserModel(name=name, email=email, phone=phone, password=password, type=user_type)
+        if available_or_not is None:
 
-        db.session.add(user)
-        db.session.commit()
+            user = UserModel(name=name, email=email, phone=phone, password=password)
 
-        return json.dumps({
-            "error": False, "message": "Data added to the user table!"
-        })
+            db.session.add(user)
+            db.session.commit()
+
+            return json.dumps({
+                "error": False, "message": "Data added to the user table!"
+            })
+
+    else:
+
+        available_or_not = OwnerModel.query.filter(OwnerModel.email == email).first()
+
+        if available_or_not is None:
+
+            owner = OwnerModel(name=name, email=email, phone=phone, password=password)
+
+            db.session.add(owner)
+            db.session.commit()
+
+            return json.dumps({
+                "error": False, "message": "Data added to the owner table!"
+            })
 
 
     return json.dumps({
-            "error": True, "message": "Data not added to the user table!"
+            "error": True, "message": "Data not added to the table!"
         })
+        
 
 def login(details):
     try:
@@ -56,29 +76,59 @@ def login(details):
     if type(email) is not str or type(password) is not str:
         return json.dumps({"error": True, "message": "Wrong data format!"})
 
-    data = UserModel.query.filter(UserModel.email == email, UserModel.type == typ).first()
+    def jwt_obj():
+        return {
+                    "email": data.email,
+                    "created_at": str(datetime.datetime.utcnow()),
+                    "expire_at": str(datetime.datetime.utcnow()
+                                    + datetime.timedelta(days=1))
+                }
 
-    if data is not None:
-        if data.password == password:
-            obj = {
-                "email": data.email,
-                "type": data.type,
-                "created_at": str(datetime.datetime.utcnow()),
-                "expire_at": str(datetime.datetime.utcnow()
-                                 + datetime.timedelta(days=1))
-            }
+    if typ == "user":
 
-            encode_jwt = jwt.encode(obj, SECRET_KEY)
+        data = UserModel.query.filter(UserModel.email == email).first()
 
-            return json.dumps({"error": False, "token": encode_jwt.decode(),
-                               "message": "Logged in successfully!"})
+        if data is not None:
+            if data.password == password:
+                obj = jwt_obj()
 
-        else:
-            return json.dumps({"error": True,
-                               "message":
-                               "You have entered the wrong password!"})
+                encode_jwt = jwt.encode(obj, SECRET_KEY)
 
-    return json.dumps({"error": True, "message": "Unknown error!"})
+                person_name = db.session.execute('''SELECT name from user WHERE email = "%s" AND password = "%s"'''%(email, password))
+                person = [dict(row) for row in person_name]
+
+                return jsonify({"error": False, "name": person[0]["name"], "token": encode_jwt.decode(),
+                                "message": "Logged in successfully!"})
+
+            else:
+                return json.dumps({"error": True,
+                                "message":
+                                "You have entered the wrong password!"})
+
+        return json.dumps({"error": True, "message": "Unknown error!"})
+    else:
+
+        data = OwnerModel.query.filter(OwnerModel.email == email).first()
+
+        if data is not None:
+            if data.password == password:
+                obj = jwt_obj()
+
+                encode_jwt = jwt.encode(obj, SECRET_KEY)
+
+                person_name = db.session.execute('''SELECT name from owner WHERE email = "%s" AND password = "%s"'''%(email, password))
+                person = [dict(row) for row in person_name]
+
+                return jsonify({"error": False, "name": person[0]["name"], "token": encode_jwt.decode(),
+                                "message": "Logged in successfully!"})
+
+            else:
+                return json.dumps({"error": True,
+                                "message":
+                                "You have entered the wrong password!"})
+
+        return json.dumps({"error": True, "message": "Unknown error!"})
+
 
 
 def google_auth(details):
@@ -97,7 +147,7 @@ def google_auth(details):
     if type(email) is not str or type(name) is not str or type(google_id) is not str:
         return json.dumps({"error": True, "message": "Wrong data format!"})
 
-    available_or_not = GoogleModel.query.filter(GoogleModel.email == email, GoogleModel.type == typ).first()
+    available_or_not = GoogleModel.query.filter(GoogleModel.email == email).first()
 
     if available_or_not is None:
         user_type = typ
@@ -106,6 +156,17 @@ def google_auth(details):
 
         db.session.add(user)
         db.session.commit()
+
+        if typ == "owner":
+            owner = OwnerModel(name=name, email=email, phone=123, password="google")
+
+            db.session.add(owner)
+            db.session.commit()
+        else:
+            user = UserModel(name=name, email=email, phone=123, password="google")
+
+            db.session.add(user)
+            db.session.commit()
     
     obj = {
             "email": email,
@@ -115,9 +176,8 @@ def google_auth(details):
                                 + datetime.timedelta(days=1))
         }
     
-    # print(obj)
 
     encode_jwt = jwt.encode(obj, SECRET_KEY)
 
-    return json.dumps({"error": False, "token": encode_jwt.decode(),
+    return json.dumps({"error": False, "name": name, "token": encode_jwt.decode(),
                         "message": "Logged in successfully!"})

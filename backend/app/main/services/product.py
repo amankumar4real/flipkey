@@ -102,8 +102,13 @@ def propertyAllDetails(details):
 
     property_suitability = db.session.execute('''SELECT * FROM suitability WHERE property_id = %s'''%(product_id))
 
+    property_owner = db.session.execute('''SELECT o.name, op.english, o.phone, op.response_rate, op.year_listed FROM
+                                        owner as o JOIN ownerProperty as op ON o.id = op.owner_id
+                                        WHERE op.property_id = "%s" '''%(product_id))
+
 
     return jsonify({"property_data": [dict(row) for row in property_data],
                     "property_amenities": [dict(row) for row in property_amenities],
-                    "property_suitability": [dict(row) for row in property_suitability]})
+                    "property_suitability": [dict(row) for row in property_suitability],
+                    "property_owner": [dict(row) for row in property_owner]})
     # return "hi"

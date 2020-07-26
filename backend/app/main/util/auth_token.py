@@ -12,5 +12,6 @@ def check_auth_token(token):
     < datetime.datetime.utcnow():
         return False, {}
     else:
-        return True, {"email": decoded_data["email"],
-                      "type": decoded_data["type"]}
+        # return True, {"email": decoded_data["email"],
+        #               "type": decoded_data["type"]}
+        return True, {"email": decoded_data["email"]}
