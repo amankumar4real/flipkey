@@ -142,9 +142,7 @@ class ResultCard extends React.Component {
         this.props.getPropertyData()
     }
 
-
     handleClick = () => {
-
         // this.props.history.push("/results")
         const newUrl = new URL(window.location.href)
         newUrl.searchParams.set("people", this.state.people)
