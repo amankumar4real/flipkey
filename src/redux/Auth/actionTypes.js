@@ -1,7 +1,7 @@
 export const POST_USER_DATA='POST_DATA'
 export const LOGIN_SUCCESS="LOGIN_SUCCESS"
 export const LOGIN_FAIL='LOGIN_FAIL'
-
+export const SIGN_OUT='SIGN_OUT'
 export const REG_START='REG_START'
 export const REG_FAIL='REG_FAIL'
 export const REG_SUCC='REG_SUCC'

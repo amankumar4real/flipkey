@@ -8,6 +8,7 @@ import DropdownToggle from 'react-bootstrap/esm/DropdownToggle';
 import DropdownMenu from 'react-bootstrap/esm/DropdownMenu';
 import axios from 'axios';
 import FilterResults from 'react-filter-search';
+
 const sliderThumbStyles = (props) => (`
   width: 10px;
   height: 10px;
@@ -222,6 +223,7 @@ class ResultCard extends React.Component {
         })
         console.log(e.target.value)
     }
+    
     render() {
         const {dummydata,searchVal}= this.state;
         {/* type of property- apartment, hotel_apartment, 
@@ -249,15 +251,14 @@ class ResultCard extends React.Component {
         const { result } = this.props.data
 
         console.log(`primary Data:\n${result}`)
-
         return (
-            <div>
+            <div >
                 {/* ******************************Search Box with date picker****************************** */}
                 <div className="row my-2 border">
                     {/* searchBar, from date */}
                     <div className='col-6'>
                         <div className='row'>
-                           <input type='text'  value={searchVal} onChange={this.handleSearch} className='col-8 border-left-0 border-top-0 border-bottom-0 rounded-0 p-2'/>
+                           <input type='search'  value={searchVal} onChange={this.handleSearch} className='col-8 border-left-0 border-top-0 border-bottom-0 rounded-0 p-2'/>
                            <FilterResults 
                             value={searchVal}
                             data={dummydata}
@@ -529,7 +530,7 @@ class ResultCard extends React.Component {
                             <div className="col-12 clearfix" >
                                 {
                                     result ? result.map(item => (
-                                        <div key={item.property_id} class="card mb-3 card-fluid overflow-auto">
+                                        <div key={item.property_id} class="card mb-3 card-fluid" style={{overscrollBehaviorY:1}}>
                                             <div class="row">
                                                 {typeof item.image == "string" ?
                                                     <div class="col-md-5 fill">

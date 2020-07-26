@@ -3,14 +3,16 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../fontAwesome/fontAwesome'
-import {changeType} from '../../redux/Auth/action';
+import {changeType, signOut} from '../../redux/Auth/action';
 
 class Navbar extends React.Component {
     constructor(props) {
-        super(props)
-        this.state = {
-            type:''
-        }
+    super(props)
+    this.state = {
+                    type:'',
+                    username:'',
+                    isAuth:false
+                 }
     }
     handleOwner=()=>{
         this.props.changeType("owner")
@@ -18,88 +20,140 @@ class Navbar extends React.Component {
     handleUser=()=>{
         this.props.changeType('user')
     }
+    handleSignOut=()=>{
+        this.props.signOut()
+    }
+    componentDidUpdate(){
+        console.log(this.props.loginData)
+    }
 
-    render() {
-        return (
-            <div>
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+render() {
+    const {username, token}= this.props.loginData
+    return (
+        <div>
+            
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+                    aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                     < span className="navbar-toggler-icon" />
-                    </button>
-                    <div class="navbar-brand" href="#">
-                        <img src="/images/fk-logo.svg" width="100" height="30" alt="logo"/>
-                    </div>
-                    <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-                    <div class="navbar-nav ml-auto d-flex">
-                                <div class="nav-item">
-                                <div class="nav-link" href="#">
-                                <FontAwesomeIcon 
-                                    icon={["fas", 'heart']} 
-                                    style={{color:'#f7acbc'}}
-                                />
-                                    My Shortlist <span class="sr-only">(current)</span></div>
+                </button>
+                {/* Flipkey logo */}
+                <div className="navbar-brand">
+                    <Link to='/'>
+                        <img src="/images/fk-logo.svg" width="100" height="30" alt="logo" />
+                    </Link>
+                </div>
+                <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
+                    <div className="navbar-nav ml-auto d-flex">
+                        {/* ShortList */}
+                        <div className="nav-item">
+                            <div className="nav-link">
+                                <FontAwesomeIcon icon={["fas", 'heart' ]} style={{color:'#f7acbc'}} />
+                                <Link to='/short_list' className='text-muted text-decoration-none'>
+                                    My Shortlist 
+                                </Link>
+                            </div>
+                        </div>
+                        {/* currency converter */}
+                        <div className="nav-item dropdown">
+                            <div className="nav-link dropdown-toggle" role="button"
+                                data-toggle="dropdown">
+                                $USD
+                            </div>
+                            <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <div className="dropdown-item" > GBP</div>
+                                <div className="dropdown-item" >$ USD</div>
+                            </div>
+                        </div>
+                        {/* Manage your booking */}
+                        <div className="nav-item">
+                            <div className="nav-link" >Manage your booking</div>
+                        </div>
+                        {/* help */}
+                        <div className="nav-item dropdown">
+                            <div className="nav-link dropdown-toggle" role="button"
+                                data-toggle="dropdown">
+                                Help
+                            </div>
+                            <div className="dropdown-menu">
+                                <p>Travelers</p>
+                                <div className="dropdown-item mt-0" >Manage existing bookings</div>
+                                <div className="dropdown-item mt-0" >Common questions</div>
+                                <p>Owners</p>
+                                <div className="dropdown-item mt-0" >Common questions</div>
+                                <p>Search</p>
+                                <div className="dropdown-item mt-0" >Find div rental</div>
+                                <div className="dropdown-item mt-0" >Travel Inspiration</div>
+                            </div>
+                        </div>
+                        {/* 
+                            isAuth is T-- signOut
+                            else --- signIn
+                         */}
+                        {
+                        token?
+                            <div className="nav-item dropdown">
+                                <div className="nav-link dropdown-toggle"  id="navbarDropdown" role="button"
+                                    data-toggle="dropdown">
+                                    {username.split(' ')[0]}
                                 </div>
-                                <div class="nav-item dropdown">
-                                    <div class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" >
-                                        $USD
+                                <div className="dropdown-menu" >
+                                    <div className="dropdown-item">
+                                        <Link to='/inbox' style={{color:'black'}}>Traveler inbox</Link>
                                     </div>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <div class="dropdown-item" href="#"> GBP</div>
-                                        <div class="dropdown-item" href="#">$ USD</div>
-                                        <div class="dropdown-item" href="#">fr. CHF</div>
-                                        <div class="dropdown-item" href="#">EUR</div>
-                                        <div class="dropdown-item" href="#">$ AUD</div>
-                                        <div class="dropdown-item" href="#">$ CAD</div>
-                                        <div class="dropdown-item" href="#">Skr SEK</div>
-                                        <div class="dropdown-item" href="#">THB</div>
-                                        <div class="dropdown-item" href="#">R ZAR</div>
+                                    <div className="dropdown-item">
+                                        <Link to='/account_info'style={{color:'black'}}>Account info</Link>
                                     </div>
-                                </div>
-                                <div class="nav-item">
-                                    <div class="nav-link" href="#">Manage your booking</div>
-                                </div>
-                                <div class="nav-item dropdown">
-                                    <div class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" >
-                                        Help
+                                    <div className="dropdown-item">
+                                        <Link style={{color:'black'}} to='/subscription'>Manage subscriptions</Link>
                                     </div>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <p>Travelers</p>
-                                        <div class="dropdown-item mt-0" href="#">Manage existing bookings</div>
-                                        <div class="dropdown-item mt-0" href="#">Common questions</div>
-                                        <p>Owners</p>
-                                        <div class="dropdown-item mt-0" href="#">Common questions</div>
-                                        <p>Search</p>
-                                        <div class="dropdown-item mt-0" href="#">Find div rental</div>
-                                        <div class="dropdown-item mt-0" href="#">Travel Inspiration</div>
-                                    </div>
-                                </div>
-                                <div class="nav-item dropdown">
-                                    <div class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" >
-                                        Sign in
-                                    </div>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <div class="dropdown-item"> 
-                                        <Link to='/user/login' onClick={this.handleUser}>Travellers </Link>
-                                        </div>
-                                        <div class="dropdown-item"> 
-                                        <Link to='/owner/login' onClick={this.handleOwner}>Owners/Managers</Link>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="nav-item">
-                                    <div class="nav-link" href="#" tabindex="-1" aria-disabled="true">List your property</div>
+                                    <div className="dropdown-item">
+                                        <Link style={{color:'black'}} to='/'onClick={this.handleSignOut}>Sign out</Link>
+                                    </div>  
                                 </div>
                             </div>
+                        :
+                            <div className="nav-item dropdown">
+                                <div className="nav-link dropdown-toggle"  id="navbarDropdown" role="button"
+                                    data-toggle="dropdown">
+                                    Sign in
+                                </div>
+                                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <div className="dropdown-item">
+                                        <Link style={{color:'black'}} to='/user/login' onClick={this.handleUser}>Travellers </Link>
+                                    </div>
+                                    <div className="dropdown-item">
+                                        <Link to='/owner/login'style={{color:'black'}} onClick={this.handleOwner}>Owners/Managers</Link>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        {/* List your property */}
+                        <div className="nav-item">
+                            <div className="nav-link"  tabindex="-1" aria-disabled="true">
+                                <Link to='/property_list' className='text-muted text-decoration-none'>
+                                    List your property
+                                </Link>
+                            </div>
+                        </div>
                     </div>
-                </nav>
-            </div>
-        )
+                </div>
+            </nav>
+        </div>
+    )
+}
+
+}
+
+const mapStateToProps=state=>{
+    return{
+        loginData: state.reducerAuth
     }
-        
 }
 const mapDispatchToProps=(dispatch)=>{
     return{
-        changeType: payload=>dispatch(changeType(payload))
-    }
+            changeType: payload=>dispatch(changeType(payload)),
+            signOut: payload=>dispatch(signOut(payload))
+        }
 }
-export default connect(null, mapDispatchToProps)(Navbar)
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

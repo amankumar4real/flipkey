@@ -11,13 +11,18 @@ import {
         GAUTH_SUCC,
         FAUTH_FAIL,
         FAUTH_START,
-        FAUTH_SUCC
+        FAUTH_SUCC,
+        SIGN_OUT
     } from './actionTypes'
 import axios from 'axios';
 
 
 export const changeType=payload=>({
     type:CHANGE_TYPE,
+    payload
+})
+export const signOut=payload=>({
+    type:SIGN_OUT,
     payload
 })
 
@@ -97,7 +102,7 @@ export const postLogin=payload=> dispatch =>{
     .catch(error=>dispatch(logFail(error)))
 }
 
-// axios for auth
+// axios for google Auth
 
 export const afterAuth =payload=> dispatch =>{
     console.log(payload)
