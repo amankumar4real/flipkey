@@ -5,6 +5,7 @@ import Navbar from "./Components/common/Navbar";
 import ResultPage from './Components/Result/ResultPage';
 import LangingPage from './Components/landing/landingPage';
 import CovidBanner from './Components/common/CovidBanner'
+// import PropertyPageDummy from './Components/PropertyPage/PropertyPageDummy.jsx'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <CovidBanner />
       <Navbar/>
       <Routes />
+      {/* <PropertyPageDummy /> */}
     </div>
   );
 }

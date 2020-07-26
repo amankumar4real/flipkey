@@ -18,12 +18,35 @@ export const propDataFail = payload => ({
     payload
 })
 
-export const afterPropData =payload=>dispatch=>{
-    dispatch(propDataStart)
-    const newUrl = new URL(window.location.href)
-    var x = ""
-    return axios.post(x+newUrl.search)
+export const afterPropData =(payload) =>dispatch=>{
+    console.log(payload)
+    var x = "https://f0c8e4890266.ngrok.io/product/myData"
+    return (
+        axios.post(x,payload)
     .then(res=>res.data)
     .then(res=>dispatch(propDataSuccess(res)))
     .catch(error=>dispatch(propDataFail(error)))
+)
 }
+
+// async function getData() {
+//     try {
+//         var ip = location.host;
+//         await axios({
+//             url: http() + ip + '/getData',
+//             method: 'POST',
+//             timeout: 8000,
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             }
+//         }).then(function (res) {
+//             console.dir(res); // we are good here, the res has the JSON data
+//             return res; 
+//         }).catch(function (err) {
+//             console.error(err);
+//         })
+//     }
+//     catch (err) {
+//         console.error(err);
+//     }
+// }
