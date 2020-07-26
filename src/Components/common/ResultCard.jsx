@@ -6,8 +6,8 @@ import styled from 'styled-components';
 import { Dropdown, Button,ButtonGroup, Form, FormCheck } from 'react-bootstrap';
 import DropdownToggle from 'react-bootstrap/esm/DropdownToggle';
 import DropdownMenu from 'react-bootstrap/esm/DropdownMenu';
-
-
+import axios from 'axios';
+import FilterResults from 'react-filter-search';
 const sliderThumbStyles = (props) => (`
   width: 10px;
   height: 10px;
@@ -58,6 +58,9 @@ class ResultCard extends React.Component {
             bath: 1,
             amenities: [],
             suitability: [],
+            sortby:'',
+            dummydata:[],
+            searchVal:''
         }
     }
     handleOnChange = (e) => {
@@ -78,6 +81,11 @@ class ResultCard extends React.Component {
         console.log(this.state.amenities)
         console.log('selected suitability type')
         console.log(this.state.suitability)
+        console.log(`sortby: ${this.state.sortby}`)
+    }
+    componentWillMount(){
+        axios.get('https://jsonplaceholder.typicode.com/users')
+        .then(response=> this.setState({dummydata:response.data}))
     }
 
     adultInc = () => {
@@ -205,7 +213,19 @@ class ResultCard extends React.Component {
             })
         }
     }
+    handleSort=(e)=>{
+        this.setState({
+            sortby: e.target.value
+        })
+    }
+    handleSearch=e=>{
+        this.setState({
+            searchVal:e.target.value
+        })
+        console.log(e.target.value)
+    }
     render() {
+        const {dummydata,searchVal}= this.state;
         {/* type of property- apartment, hotel_apartment, 
                         house, villa, bungalow, castle, farmhouse, studio, 
                         houseboat, fort, private_room, hospital_apartment, 
@@ -230,100 +250,117 @@ class ResultCard extends React.Component {
         const suitability=['pets', 'parking', 'children', 'smoke', 'elevator', 'wheelchair', 'cars_req']
         const { result } = this.props.data
 
-        console.log(result)
+        console.log(`primary Data:\n${result}`)
 
         return (
             <div>
-                <div className="row mx-auto" >
-                    <div className="col-12 p-1 ">
-                        <div className="row mx-auto" >
-                            <input className="form-control col-4" />
+                {/* ******************************Search Box with date picker****************************** */}
+                <div className="row my-2 border">
+                    {/* searchBar, from date */}
+                    <div className='col-6'>
+                        <div className='row'>
+                           <input type='text'  value={searchVal} onChange={this.handleSearch} className='col-8 border-left-0 border-top-0 border-bottom-0 rounded-0 p-2'/>
+                           <FilterResults 
+                            value={searchVal}
+                            data={dummydata}
+                            renderResults={
+                                results=>(
+                                    results.map(ele=>console.log(ele.name, ele.email))
+                                )
+                            }
+                           />
+                           <input className='col-4 rounded-0 p-2 border-right-0 border-top-0 border-bottom-0' type='date'/>
+                        </div>
+                    </div>
+                    {/* to date, people and search button */}
+                    <div className='col-6'>
+                        <div className='row'>
+                            <input className='col-4 rounded-0 p-2 border-right-0 border-top-0 border-bottom-0' type='date'/>
+                            <div className='col-4 btn-block border-left mx-0'>
+                                    <Dropdown variant='white'className='rounded-0'>
+                                        <DropdownToggle variant='white'className='rounded-0 w-100 m-0'>
+                                            <Button variant='white' className='p-0 m-0 w-100'>
+                                                {this.state.people} people
+                                            </Button>
+                                        </DropdownToggle> 
 
-                            <input type="date" className="form-control col-2 rounded-0" />
-
-                            <input type="date" className="form-control col-2 rounded-0" />
-                            {/* ***************** people ********************** */}
-                            <Dropdown >
-                                <DropdownToggle variant='white'className='border rounded-0'>
-                                    <Button variant='white' className='p-0 m-0'>
-                                        {this.state.people} people
-                                    </Button>
-                                </DropdownToggle> 
-
-                                <DropdownMenu
-                                    alignRight
-                                >
-                                    {/* adult */}
-                                    <div style={{width:"210px"}} className='mx-3'>
-                                        <div className='row m-2 p-1'>
-                                            <div className=' col-6 text-right px-2 lead'>
-                                                Adults 
-                                            </div>
-                                            <div className='col-6'>
-                                                <div className='row  border border-muted'>
-                                                    <div className='col-4  m-0 p-0'>
-                                                        <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0' onClick={this.adultDec}>
-                                                            -
-                                                        </Button>
+                                        <DropdownMenu
+                                            alignRight
+                                        >
+                                            {/* adult */}
+                                            <div style={{width:"210px"}} className='mx-3'>
+                                                <div className='row m-2 p-1'>
+                                                    <div className=' col-6 text-right px-2 lead'>
+                                                        Adults 
                                                     </div>
-                                                    <div className='col-4 m-0 p-1'>
-                                                        <div className='text-center'> {this.state.adult} </div>
-                                                    </div>
-                                                    <div className='col-4  m-0 p-0 text-center'>
-                                                        <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0'onClick={this.adultInc}>
-                                                            +
-                                                        </Button>
+                                                    <div className='col-6'>
+                                                        <div className='row  border border-muted'>
+                                                            <div className='col-4  m-0 p-0'>
+                                                                <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0' onClick={this.adultDec}>
+                                                                    -
+                                                                </Button>
+                                                            </div>
+                                                            <div className='col-4 m-0 p-1'>
+                                                                <div className='text-center'> {this.state.adult} </div>
+                                                            </div>
+                                                            <div className='col-4  m-0 p-0 text-center'>
+                                                                <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0'onClick={this.adultInc}>
+                                                                    +
+                                                                </Button>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
 
-                                        {/* children */}
-                                        <div className='row m-2 p-1'>
-                                            <div className=' col-6 text-right px-2'>
-                                                 <div className='row'>
-                                                    <div className='col-12 lead my-0 py-0'>
-                                                        Children
+                                                {/* children */}
+                                                <div className='row m-2 p-1'>
+                                                    <div className=' col-6 text-right px-2'>
+                                                        <div className='row'>
+                                                            <div className='col-12 lead my-0 py-0'>
+                                                                Children
+                                                            </div>
+                                                            <div className='col-12 my-0 py-0'>
+                                                                <small className='m-0 p-0'>age 0-16</small>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div className='col-12 my-0 py-0'>
-                                                        <small className='m-0 p-0'>age 0-16</small>
+                                                    <div className='col-6'>
+                                                        <div className='row  border border-muted'>
+                                                            <div className='col-4  m-0 p-0'>
+                                                                <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0' onClick={this.childDec}>
+                                                                    -
+                                                                </Button>
+                                                            </div>
+                                                            <div className='col-4 m-0 p-1'>
+                                                                <div className='text-center'> {this.state.child} </div>
+                                                            </div>
+                                                            <div className='col-4  m-0 p-0 text-center'>
+                                                                <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0'onClick={this.childInc}>
+                                                                    +
+                                                                </Button>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                 </div>
+                                                </div>                                        
                                             </div>
-                                            <div className='col-6'>
-                                                <div className='row  border border-muted'>
-                                                    <div className='col-4  m-0 p-0'>
-                                                        <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0' onClick={this.childDec}>
-                                                            -
-                                                        </Button>
-                                                    </div>
-                                                    <div className='col-4 m-0 p-1'>
-                                                        <div className='text-center'> {this.state.child} </div>
-                                                    </div>
-                                                    <div className='col-4  m-0 p-0 text-center'>
-                                                        <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0'onClick={this.childInc}>
-                                                            +
-                                                        </Button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>                                        
-                                    </div>
-                                </DropdownMenu>                               
-                            </Dropdown>
+                                        </DropdownMenu>                               
+                                    </Dropdown>
+                                </div>
                             {/* ***************** Search Button ********************** */}
-                            <button className="form-control col-2 btn btn-warning text-light" onClick={this.handleClick}>Search</button>
+                            <button className="col-4 w-100 m-0 btn btn-block text-light rounded-0" style={{background:'#e67618'}} onClick={this.handleClick}>Search</button>
                         </div>
                     </div>
                 </div>
-                <div className="row mx-2">
-                    
+                {/* ************* Filters Row ************* */}
+                <div className="row border">
                     {/* ******************************* per Night ************************** */}
-                    <Dropdown variant='white'className='rounded-0'>
-                        <DropdownToggle variant='white'className='border rounded-0'>
-                            <Button variant='white' className='p-0 m-0'>
-                                Per night
-                            </Button>
+                    <div className='btn-block col-3 border-right mx-0'>
+                        <Dropdown variant='white'className='rounded-0'>
+                            <DropdownToggle variant='white'className='rounded-0 w-100 m-0'>
+                                <Button variant='white' className='p-0 m-0 w-100'>
+                                    Per night
+                                </Button>
+                            </DropdownToggle>
                             <DropdownMenu>
                                 <div style={{width:"250px"}} className='mx-3'>
                                     <Dropdown.Header>
@@ -331,6 +368,7 @@ class ResultCard extends React.Component {
                                         Per night
                                     </p>
                                     </Dropdown.Header>
+                                    {/* range slider */}
                                     <Styles opacity={this.state.price > 10 ? (this.state.price / 255) : .1} color={this.props.color}>
                                         <label className="font-weight-bold">Price:0</label>
                                         <input type="range" min={0} max={1000} value={this.state.price} className="slider ml-1" onChange={this.handleOnChange} />
@@ -341,235 +379,234 @@ class ResultCard extends React.Component {
                                     </div>
                                 </div>
                             </DropdownMenu>
-                        </DropdownToggle>
-                    </Dropdown>
-                    
+                        </Dropdown>
+                    </div>
                     {/* ******************************* BedRooms *************************** */}
-                    <Dropdown variant='white'className='rounded-0'>
-                        <DropdownToggle variant='white'className='border rounded-0'>
-                            <Button variant='white' className='p-0 m-0'>
-                                Bedrooms
-                            </Button>
-                        </DropdownToggle>
-                        <DropdownMenu>
-                            <div style={{width:"250px"}} className='mx-3'>
-                                <div className='row m-2 p-1'>
-                                    <div className=' col-6 text-left px-2 lead'>
-                                        Bedrooms
-                                    </div>
-                                    <div className='col-6'>
-                                        <div className='row  border border-muted'>
-                                            <div className='col-4  m-0 p-0'>
-                                                <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0' onClick={this.bedroomsDec}>
-                                                    -
-                                                </Button>
-                                            </div>
-                                            <div className='col-4 m-0 p-1'>
-                                                <div className='text-center'> {this.state.beds} </div>
-                                            </div>
-                                            <div className='col-4  m-0 p-0 text-center'>
-                                                <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0'onClick={this.bedroomsInc}>
-                                                    +
-                                                </Button>
+                    <div className='btn-block col-3 border-right m-0'>
+                        <Dropdown >
+                            <DropdownToggle variant='white'className='rounded-0 w-100 m-0'>
+                                <Button variant='white' className='p-0 m-0 w-100'>
+                                    Bedrooms
+                                </Button>
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                <div style={{width:"250px"}} className='mx-3'>
+                                    <div className='row m-2 p-1'>
+                                        <div className=' col-6 text-left px-2 lead'>
+                                            Bedrooms
+                                        </div>
+                                        <div className='col-6'>
+                                            <div className='row  border border-muted'>
+                                                <div className='col-4  m-0 p-0'>
+                                                    <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0' onClick={this.bedroomsDec}>
+                                                        -
+                                                    </Button>
+                                                </div>
+                                                <div className='col-4 m-0 p-1'>
+                                                    <div className='text-center'> {this.state.beds} </div>
+                                                </div>
+                                                <div className='col-4  m-0 p-0 text-center'>
+                                                    <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0'onClick={this.bedroomsInc}>
+                                                        +
+                                                    </Button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    {/* Apply button */}
+                                    <div className='text-right mx-3'>
+                                        <Button className='rounded-0 p-2'> Apply</Button>
+                                    </div>
                                 </div>
-                                {/* Apply button */}
-                                <div className='text-right mx-3'>
-                                    <Button className='rounded-0 p-2'> Apply</Button>
-                                </div>
-                            </div>
-                        </DropdownMenu>
-                    </Dropdown>
-                    
+                            </DropdownMenu>
+                        </Dropdown>    
+                    </div>
                     {/* ******************************* Rental type ************************ */}
-                    <Dropdown>
-                        <Dropdown.Toggle variant='white' className='border rounded-0'>
-                            <Button className='w-100 m-0 p-0'variant='white'>
-                                Rental Type
-                            </Button>
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu 
-                            alignRight
-                        >
-                            <Dropdown.Header><p className='lead text-body m-0 p-0'>Rental Type</p></Dropdown.Header>
-                            <Dropdown.Divider />
-                            <div className='px-2 ' style={{width:'200px'}}>
-                                {/* adding rental types as a checkbox form */}
-                                {
-                                    rentalType.map(type=>(
-                                        <div key={type}>
-                                            <Form.Check
-                                                type='checkbox'
-                                                label={type}
-                                                onChange={this.handleChange}
-                                                value={type}
-                                                // checked={this.state.isCheck}
-                                            />
-                                        </div>
-                                    ))
-                                }
-                            </div>
-                        </Dropdown.Menu>
-                    </Dropdown >
-                    
-                    {/* ******************************* More Filters *********************** */}
-                    <Dropdown>
-                        <DropdownToggle variant='white' className='border rounded-0'>
-                        <Button className='w-100 m-0 p-0'variant='white'>
-                            More filters
-                        </Button>
-                        </DropdownToggle>
-                        <DropdownMenu
-                            alignRight
-                        >
-                           <Dropdown.Divider/>
-                           {/* window size */}
-                            <div className='px-3' style={{width:'500px'}}>
-                                <div className='row'>
-                                    {/* Amenities */}
-                                    <div className='col-3'>
-                                        <p className='lead'>Amenities</p>
-                                    </div>
-                                    <div className='col-9'>
-                                        <div className='row'>
-                                            {amenities.map(amenity=>(
-                                                <div className='col-6' key={amenity}>
-                                                    <Form.Check
-                                                        type='checkbox'
-                                                        label={amenity}
-                                                        onChange={this.amenitiesHandleChange}
-                                                        value={amenity}
-                                                    />
-                                                </div>
-
-                                            ))}
-                                        </div>      
-                                    </div>
-                                    <div className='col-12'><Dropdown.Divider/></div>
-                                    {/* suitability */}
-                                    <div className='col-3'>
-                                        <p className='lead'>Suitability</p>
-                                    </div>
-                                    <div className='col-9'>
-                                        <div className='row'>
-                                            {suitability.map(type=>(
-                                                <div className='col-6' key={type}>
-                                                    <Form.Check
-                                                        type='checkbox'
-                                                        label={type}
-                                                        onChange={this.suitabilityHandleChange}
-                                                        value={type}
-                                                    />
-                                                </div>
-
-                                            ))}
-                                        </div>      
-                                    </div>
+                    <div className='btn-block col-3 border-right m-0'>
+                        <Dropdown>
+                            <Dropdown.Toggle variant='white' className='rounded-0 w-100 m-0'>
+                                <Button className='w-100 m-0 p-0'variant='white'>
+                                    Rental Type
+                                </Button>
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu 
+                                alignRight
+                            >
+                                <Dropdown.Header><p className='lead text-body m-0 p-0'>Rental Type</p></Dropdown.Header>
+                                <Dropdown.Divider />
+                                <div className='px-2 ' style={{width:'200px'}}>
+                                    {/* adding rental types as a checkbox form */}
+                                    {
+                                        rentalType.map(type=>(
+                                            <div key={type}>
+                                                <Form.Check
+                                                    type='checkbox'
+                                                    label={type}
+                                                    onChange={this.handleChange}
+                                                    value={type}
+                                                    // checked={this.state.isCheck}
+                                                />
+                                            </div>
+                                        ))
+                                    }
                                 </div>
-                            </div> 
-                        </DropdownMenu>
-                    </Dropdown>
+                            </Dropdown.Menu>
+                        </Dropdown >                      
+                    </div>
+                    {/* ******************************* More Filters *********************** */}
+                    <div className='btn-block col-3  m-0'>                       
+                        <Dropdown>
+                            <DropdownToggle variant='white' className='rounded-0 w-100'>
+                            <Button className='w-100 m-0 p-0'variant='white'>
+                                More filters
+                            </Button>
+                            </DropdownToggle>
+                            <DropdownMenu
+                                alignRight
+                            >
+                            <Dropdown.Divider/>
+                            {/* window size */}
+                                <div className='px-3' style={{width:'500px'}}>
+                                    <div className='row'>
+                                        {/* Amenities */}
+                                        <div className='col-3'>
+                                            <p className='lead'>Amenities</p>
+                                        </div>
+                                        <div className='col-9'>
+                                            <div className='row'>
+                                                {amenities.map(amenity=>(
+                                                    <div className='col-6' key={amenity}>
+                                                        <Form.Check
+                                                            type='checkbox'
+                                                            label={amenity}
+                                                            onChange={this.amenitiesHandleChange}
+                                                            value={amenity}
+                                                        />
+                                                    </div>
+
+                                                ))}
+                                            </div>      
+                                        </div>
+                                        <div className='col-12'><Dropdown.Divider/></div>
+                                        {/* suitability */}
+                                        <div className='col-3'>
+                                            <p className='lead'>Suitability</p>
+                                        </div>
+                                        <div className='col-9'>
+                                            <div className='row'>
+                                                {suitability.map(type=>(
+                                                    <div className='col-6' key={type}>
+                                                        <Form.Check
+                                                            type='checkbox'
+                                                            label={type}
+                                                            onChange={this.suitabilityHandleChange}
+                                                            value={type}
+                                                        />
+                                                    </div>
+
+                                                ))}
+                                            </div>      
+                                        </div>
+                                    </div>
+                                </div> 
+                            </DropdownMenu>
+                        </Dropdown>     
+                    </div>
                 </div>
-                <div>
-                    <div className="card">
-                        <div className="row mb-3">
-                            <div className="col-12">
+                <div className='my-2 mx-'>
+                    <div className="card p-0 border border-success w-100">
+                        <div className="row">
+                            <div className="col-12" style={{background:"#f5f8f9"}}>
                                 <div className="float-left">Cabins</div>
                                 <div className="float-right">
-                                    <div class="dropdown show">Sortby : Relevance
-                                                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <div class="dropdown-item" href="#">Action</div>
-                                            <div class="dropdown-item" href="#">Another action</div>
-                                            <div class="dropdown-item" href="#">Something else here</div>
-                                        </div>
-                                    </div>
+                                    Sort by:
+                                    <select name='sortby' onChange={this.handleSort}>
+                                        <option value='relevence'>Relevence</option>
+                                        <option value='low'>Price: low to high</option>
+                                        <option value='high'>Price: high to low</option>
+                                        <option value='reviews'>Number of Reviews</option>
+                                    </select>
                                 </div>
                             </div>
-                        </div>
-                        <div>
-                            {
-                                result ? result.map(item => (
-                                    <div key={item.property_id} class="card mb-3 card-fluid overflow-auto">
-                                        <div class="row">
-                                            {typeof item.image == "string" ?
-                                                <div class="col-md-5 fill">
-                                                    <img className="img-card img-fluid" src={item.image} />
-                                                </div>
-                                                :
+                            <div className="col-12 clearfix" >
+                                {
+                                    result ? result.map(item => (
+                                        <div key={item.property_id} class="card mb-3 card-fluid overflow-auto">
+                                            <div class="row">
+                                                {typeof item.image == "string" ?
+                                                    <div class="col-md-5 fill">
+                                                        <img className="img-card img-fluid" src={item.image} />
+                                                    </div>
+                                                    :
 
-                                                <div class="col-md-5 fill">
-                                                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                                                        <div class="carousel-inner">
-                                                            <div class="carousel-item active">
-                                                                <img class="d-block w-100" src={item.image_a} alt="First slide" />
-                                                            </div>
-                                                            {
-                                                                <div key = "myin">
-                                                                    <div class="carousel-item">
-                                                                        <img class="d-block w-100" src={item.image_b} alt="Third slide" />
-                                                                    </div>
-                                                                    <div class="carousel-item">
-                                                                        <img class="d-block w-100" src={item.image_c} alt="Forth slide" />
-                                                                    </div>
-                                                                    <div class="carousel-item">
-                                                                        <img class="d-block w-100" src={item.image_d} alt="Fifth slide" />
-                                                                    </div>
+                                                    <div class="col-md-5 fill">
+                                                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                                            <div class="carousel-inner">
+                                                                <div class="carousel-item active">
+                                                                    <img class="d-block w-100" src={item.image_a} alt="First slide" />
                                                                 </div>
-                                                            }
+                                                                {
+                                                                    <div key = "myin">
+                                                                        <div class="carousel-item">
+                                                                            <img class="d-block w-100" src={item.image_b} alt="Third slide" />
+                                                                        </div>
+                                                                        <div class="carousel-item">
+                                                                            <img class="d-block w-100" src={item.image_c} alt="Forth slide" />
+                                                                        </div>
+                                                                        <div class="carousel-item">
+                                                                            <img class="d-block w-100" src={item.image_d} alt="Fifth slide" />
+                                                                        </div>
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                                <span class="sr-only">Previous</span>
+                                                            </a>
+                                                            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                                <span class="sr-only">Next</span>
+                                                            </a>
                                                         </div>
-                                                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                            <span class="sr-only">Previous</span>
-                                                        </a>
-                                                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                            <span class="sr-only">Next</span>
-                                                        </a>
                                                     </div>
-                                                </div>
+                                                }
 
+                                                <div class="col-md-7">
+                                                    <div class="container container-fluid">
+                                                        <div class="row">
+                                                            <div class="col-8">
+                                                                <h5 class="col-12  mt-2"><strong>{item.name}</strong></h5>
+                                                                <p class=" col-12  mt-2">People: {item.no_people}</p>
+                                                                <p class=" col-12  mt-2">No. of Bedrooms:{item.bed}</p>
+                                                                <p class=" col-12  mt-2">Property Type:{item.type}</p>
+                                                                <button className="btn btn-light" onClick={this.shortList}>
+                                                                    <FontAwesomeIcon
+                                                                        icon={["fas", 'heart']}
+                                                                        style={{ color: '#f7acbc' }}
+                                                                    /></button>
+                                                            </div>
 
-                                            }
-
-                                            <div class="col-md-7">
-                                                <div class="container container-fluid">
-                                                    <div class="row">
-                                                        <div class="col-8">
-                                                            <h5 class="col-12  mt-2"><strong>{item.name}</strong></h5>
-                                                            <p class=" col-12  mt-2">People: {item.no_people}</p>
-                                                            <p class=" col-12  mt-2">No. of Bedrooms:{item.bed}</p>
-                                                            <p class=" col-12  mt-2">Property Type:{item.type}</p>
-                                                            <button className="btn btn-light" onClick={this.shortList}>
-                                                                <FontAwesomeIcon
-                                                                    icon={["fas", 'heart']}
-                                                                    style={{ color: '#f7acbc' }}
-                                                                /></button>
-                                                        </div>
-
-                                                        <div className="col-4">
-                                                            <p className="mb-0 " ><small>Price per ight</small></p>
-                                                            <p class="mt-0 mb-5"><strong>${item.price}</strong></p>
-                                                            <button className="btn btn-primary btn-fluid mt-5 mr-1" onClick={this.booking}>Book</button>
+                                                            <div className="col-4">
+                                                                <p className="mb-0 " ><small>Price per ight</small></p>
+                                                                <p class="mt-0 mb-5"><strong>${item.price}</strong></p>
+                                                                <button className="btn btn-primary btn-fluid mt-5 mr-1" onClick={this.booking}>Book</button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                )) :
-                                    <div className="card card-fluid">
-                                        <div className="row">
-                                            <div className="col-12 text-center py-5 my-5">
-                                                <img src="https://miro.medium.com/max/880/0*H3jZONKqRuAAeHnG.jpg"  width='250px'alt="loading" />
+                                    )) :
+                                        <div className="card card-fluid">
+                                            <div className="row">
+                                                <div className="col-12 text-center py-5 my-5">
+                                                    <img src="https://miro.medium.com/max/880/0*H3jZONKqRuAAeHnG.jpg"  width='250px'alt="loading" />
+                                                </div>
                                             </div>
-                                        </div>
 
-                                    </div>
-                            }
+                                        </div>
+                                }
+                            </div> 
                         </div>
                     </div>
                 </div>
