@@ -2,7 +2,7 @@ import { PROP_DETAILS_FAIL,PROP_DETAILS_START,PROP_DETAILS_SUCCESS} from './acti
 
 
 const initialstate = {
-    primaryData : [{ data:"data" }]
+    primaryData : {}
 }
 
 const reducerPropertyDetails = (state = initialstate, {type,payload}) => {
@@ -16,7 +16,8 @@ const reducerPropertyDetails = (state = initialstate, {type,payload}) => {
         case PROP_DETAILS_SUCCESS:
             console.log(payload)
             return{
-                ...state
+                ...state,
+                primaryData : payload
             }
         case PROP_DETAILS_FAIL:
             return{

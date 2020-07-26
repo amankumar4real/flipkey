@@ -146,7 +146,9 @@ class ResultCard extends React.Component {
     handleClick = () => {
 
         // this.props.history.push("/results")
-        const newUrl = new URL(window.location.href)
+        var newUrl = new URL(window.location.href)
+        // newUrl = newUrl.origin
+        // console.log(newUrl)
 
         newUrl.searchParams.set("people", this.state.people)
         newUrl.searchParams.set("price", this.state.price)
@@ -463,7 +465,7 @@ class ResultCard extends React.Component {
                                                 </div>
                                                 :
 
-                                                <div class="col-md-5 fill">
+                                                <div class="col-md-5 fill card-fluid overflow-auto">
                                                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                                                         <div class="carousel-inner">
                                                             <div class="carousel-item active">
