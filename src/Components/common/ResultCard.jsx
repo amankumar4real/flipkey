@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import { getPropertyData } from '../../redux/Common/action'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from 'styled-components';
-import {Redirect, Link} from 'react-router-dom'
-import axios from 'axios'
 import { Dropdown, Button,ButtonGroup, Form, FormCheck } from 'react-bootstrap';
 import DropdownToggle from 'react-bootstrap/esm/DropdownToggle';
 import DropdownMenu from 'react-bootstrap/esm/DropdownMenu';
@@ -58,7 +56,7 @@ class ResultCard extends React.Component {
             price: 50,
             type: [],
             bath: 1,
-            amenities: ["fans"],
+            amenities: [],
             suitability: [],
         }
     }
@@ -132,12 +130,6 @@ class ResultCard extends React.Component {
         }
     }
 
-    handlePropertyClick = (id) => {
-        console.log(id)
-        // return <Redirect to = {`/results/${id}`} />
-        
-    }
-    // `/user/transaction/${elem.transaction_id}`
     componentDidMount() {
         this.props.getPropertyData()
     }
@@ -147,26 +139,9 @@ class ResultCard extends React.Component {
 
         // this.props.history.push("/results")
         const newUrl = new URL(window.location.href)
-
         newUrl.searchParams.set("people", this.state.people)
         newUrl.searchParams.set("price", this.state.price)
         newUrl.searchParams.set("beds", this.state.beds)
-        const {amenities,suitability,type} = this.state
-
-            // newUrl.searchParams.set("amenities",amenities)
-
-            for(let i=0;i<amenities.length;i++){
-                newUrl.searchParams.append("amenities",amenities[i])
-            }
-
-
-        for(let i=0;i<suitability.length;i++){
-            newUrl.searchParams.append("suitability",suitability[i])
-        }
-
-        for(let i=0;i<type.length;i++){
-            newUrl.searchParams.append("type",type[i])
-        }
 
         // const newUrl = new URLSearchParams()
         console.log(newUrl.toString())
@@ -264,80 +239,163 @@ class ResultCard extends React.Component {
                         <div className="row mx-auto" >
                             <input className="form-control col-4" />
 
-                            <input type="date" className="form-control col-2" />
+                            <input type="date" className="form-control col-2 rounded-0" />
 
-                            <input type="date" className="form-control col-2" />
-                            {/* people inc dec */}
-                            <div class="dropdown col-2">
-                                <button class="btn dropdown-toggle btn-info col-12" type="button" data-toggle="dropdown">
-                                    ({this.state.people}) People
-                                        </button>
-                                <div class="dropdown-menu col-11">
-                                    <div className="col-12">
-                                        <div className="row mx-auto">
-                                            Adults
-                                                    <button className="btn btn-light" onClick={this.adultDec}>-</button>
-                                            <div>
-                                                {this.state.adult}
+                            <input type="date" className="form-control col-2 rounded-0" />
+                            {/* ***************** people ********************** */}
+                            <Dropdown >
+                                <DropdownToggle variant='white'className='border rounded-0'>
+                                    <Button variant='white' className='p-0 m-0'>
+                                        {this.state.people} people
+                                    </Button>
+                                </DropdownToggle> 
+
+                                <DropdownMenu
+                                    alignRight
+                                >
+                                    {/* adult */}
+                                    <div style={{width:"210px"}} className='mx-3'>
+                                        <div className='row m-2 p-1'>
+                                            <div className=' col-6 text-right px-2 lead'>
+                                                Adults 
                                             </div>
-                                            <button className="btn btn-light" onClick={this.adultInc}>+</button>
-                                        </div>
-                                        <div className="row mx-auto mt-2">
-                                            Child
-                                                    <button className="btn btn-light" onClick={this.childDec}>-</button>
-                                            <div>
-                                                {this.state.child}
+                                            <div className='col-6'>
+                                                <div className='row  border border-muted'>
+                                                    <div className='col-4  m-0 p-0'>
+                                                        <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0' onClick={this.adultDec}>
+                                                            -
+                                                        </Button>
+                                                    </div>
+                                                    <div className='col-4 m-0 p-1'>
+                                                        <div className='text-center'> {this.state.adult} </div>
+                                                    </div>
+                                                    <div className='col-4  m-0 p-0 text-center'>
+                                                        <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0'onClick={this.adultInc}>
+                                                            +
+                                                        </Button>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <button className="btn btn-light" onClick={this.childInc}>+</button>
                                         </div>
+
+                                        {/* children */}
+                                        <div className='row m-2 p-1'>
+                                            <div className=' col-6 text-right px-2'>
+                                                 <div className='row'>
+                                                    <div className='col-12 lead my-0 py-0'>
+                                                        Children
+                                                    </div>
+                                                    <div className='col-12 my-0 py-0'>
+                                                        <small className='m-0 p-0'>age 0-16</small>
+                                                    </div>
+                                                 </div>
+                                            </div>
+                                            <div className='col-6'>
+                                                <div className='row  border border-muted'>
+                                                    <div className='col-4  m-0 p-0'>
+                                                        <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0' onClick={this.childDec}>
+                                                            -
+                                                        </Button>
+                                                    </div>
+                                                    <div className='col-4 m-0 p-1'>
+                                                        <div className='text-center'> {this.state.child} </div>
+                                                    </div>
+                                                    <div className='col-4  m-0 p-0 text-center'>
+                                                        <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0'onClick={this.childInc}>
+                                                            +
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                                        
                                     </div>
-                                </div>
-                            </div>
-
+                                </DropdownMenu>                               
+                            </Dropdown>
+                            {/* ***************** Search Button ********************** */}
                             <button className="form-control col-2 btn btn-warning text-light" onClick={this.handleClick}>Search</button>
                         </div>
                     </div>
                 </div>
-                {/* per Night */}
-                <div className="row">
-                    <div class="dropdown col-3">
-                        <button class="btn dropdown-toggle btn-outline col-12" type="button" data-toggle="dropdown">
-                            Per night
-                                </button>
-                        <div class="dropdown-menu col-11">
-                            <Styles opacity={this.state.price > 10 ? (this.state.price / 255) : .1} color={this.props.color}>
-                                <label className="font-weight-bold">Price:0</label>
-                                <input type="range" min={0} max={1000} value={this.state.price} className="slider ml-1" onChange={this.handleOnChange} />
-                                <p className="value">{this.state.price}</p>
-                            </Styles>
-                        </div>
-                    </div>
-                    {/* BedRooms */}
-                    <div class="dropdown col-3">
-                        <button class="btn dropdown-toggle btn-outline col-12" type="button" data-toggle="dropdown">
-                            Bedrooms
-                                </button>
-                        <div class="dropdown-menu col-11">
-                            <div className="col-12">
-                                <div className="row mx-auto">
-                                    <button className="btn btn-light" onClick={this.bedroomsDec}>-</button>
-                                    <div>{this.state.beds}</div>
-                                    <button className="btn btn-light" onClick={this.bedroomsInc}>+</button>
+                <div className="row mx-2">
+                    
+                    {/* ******************************* per Night ************************** */}
+                    <Dropdown variant='white'className='rounded-0'>
+                        <DropdownToggle variant='white'className='border rounded-0'>
+                            <Button variant='white' className='p-0 m-0'>
+                                Per night
+                            </Button>
+                            <DropdownMenu>
+                                <div style={{width:"250px"}} className='mx-3'>
+                                    <Dropdown.Header>
+                                    <p className='lead text-body m-0 p-0'>
+                                        Per night
+                                    </p>
+                                    </Dropdown.Header>
+                                    <Styles opacity={this.state.price > 10 ? (this.state.price / 255) : .1} color={this.props.color}>
+                                        <label className="font-weight-bold">Price:0</label>
+                                        <input type="range" min={0} max={1000} value={this.state.price} className="slider ml-1" onChange={this.handleOnChange} />
+                                        <p className="value">{this.state.price}</p>
+                                    </Styles>
+                                    <div className='text-right mx-5'>
+                                        <Button className='rounded-0'> Apply</Button>
+                                    </div>
+                                </div>
+                            </DropdownMenu>
+                        </DropdownToggle>
+                    </Dropdown>
+                    
+                    {/* ******************************* BedRooms *************************** */}
+                    <Dropdown variant='white'className='rounded-0'>
+                        <DropdownToggle variant='white'className='border rounded-0'>
+                            <Button variant='white' className='p-0 m-0'>
+                                Bedrooms
+                            </Button>
+                        </DropdownToggle>
+                        <DropdownMenu>
+                            <div style={{width:"250px"}} className='mx-3'>
+                                <div className='row m-2 p-1'>
+                                    <div className=' col-6 text-left px-2 lead'>
+                                        Bedrooms
+                                    </div>
+                                    <div className='col-6'>
+                                        <div className='row  border border-muted'>
+                                            <div className='col-4  m-0 p-0'>
+                                                <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0' onClick={this.bedroomsDec}>
+                                                    -
+                                                </Button>
+                                            </div>
+                                            <div className='col-4 m-0 p-1'>
+                                                <div className='text-center'> {this.state.beds} </div>
+                                            </div>
+                                            <div className='col-4  m-0 p-0 text-center'>
+                                                <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0'onClick={this.bedroomsInc}>
+                                                    +
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* Apply button */}
+                                <div className='text-right mx-3'>
+                                    <Button className='rounded-0 p-2'> Apply</Button>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    {/* Rental type */}
+                        </DropdownMenu>
+                    </Dropdown>
+                    
+                    {/* ******************************* Rental type ************************ */}
                     <Dropdown>
-                        <Dropdown.Toggle variant='white'>
-                            <p className='w-100'>Rental Type</p>
+                        <Dropdown.Toggle variant='white' className='border rounded-0'>
+                            <Button className='w-100 m-0 p-0'variant='white'>
+                                Rental Type
+                            </Button>
                         </Dropdown.Toggle>
                         <Dropdown.Menu 
                             alignRight
                         >
                             <Dropdown.Header><p className='lead text-body m-0 p-0'>Rental Type</p></Dropdown.Header>
                             <Dropdown.Divider />
-                            <div className='filter px-2 ' style={{width:'200px'}}>
+                            <div className='px-2 ' style={{width:'200px'}}>
                                 {/* adding rental types as a checkbox form */}
                                 {
                                     rentalType.map(type=>(
@@ -355,10 +413,13 @@ class ResultCard extends React.Component {
                             </div>
                         </Dropdown.Menu>
                     </Dropdown >
-                    {/*More Filters */}
+                    
+                    {/* ******************************* More Filters *********************** */}
                     <Dropdown>
-                        <DropdownToggle variant='white'>
-                            <p>More filters</p>
+                        <DropdownToggle variant='white' className='border rounded-0'>
+                        <Button className='w-100 m-0 p-0'variant='white'>
+                            More filters
+                        </Button>
                         </DropdownToggle>
                         <DropdownMenu
                             alignRight
@@ -410,28 +471,6 @@ class ResultCard extends React.Component {
                             </div> 
                         </DropdownMenu>
                     </Dropdown>
-                    
-                    {/* <div class="dropdown col-3">
-                        <button class="btn dropdown-toggle btn-outline col-12" type="button" data-toggle="dropdown">
-                            More filters
-                                </button>
-                        <div class="dropdown-menu col-11">
-                            <div className="col-12">
-                                <div className="row mx-auto">
-                                    Adults
-                                            <button className="btn btn-light">-</button>
-                                    2
-                                            <button className="btn btn-light">+</button>
-                                </div>
-                                <div className="row mx-auto mt-2">
-                                    Child
-                                            <button className="btn btn-light">-</button>
-                                    2
-                                            <button className="btn btn-light">+</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div> */}
                 </div>
                 <div>
                     <div className="card">
@@ -454,8 +493,7 @@ class ResultCard extends React.Component {
                         <div>
                             {
                                 result ? result.map(item => (
-                                    <div key={item.id} class="card mb-3 card-fluid overflow-auto" onClick={() => this.handlePropertyClick(item.id)}>
-                                        
+                                    <div key={item.property_id} class="card mb-3 card-fluid overflow-auto">
                                         <div class="row">
                                             {typeof item.image == "string" ?
                                                 <div class="col-md-5 fill">
@@ -501,7 +539,7 @@ class ResultCard extends React.Component {
                                                 <div class="container container-fluid">
                                                     <div class="row">
                                                         <div class="col-8">
-                                                        <Link to = {`/results/${item.id}`}><h5 class="col-12  mt-2"><strong>{item.name}</strong></h5></Link>
+                                                            <h5 class="col-12  mt-2"><strong>{item.name}</strong></h5>
                                                             <p class=" col-12  mt-2">People: {item.no_people}</p>
                                                             <p class=" col-12  mt-2">No. of Bedrooms:{item.bed}</p>
                                                             <p class=" col-12  mt-2">Property Type:{item.type}</p>
@@ -521,13 +559,12 @@ class ResultCard extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
-                                
                                     </div>
                                 )) :
                                     <div className="card card-fluid">
                                         <div className="row">
-                                            <div className="col-12">
-                                                <img src="https://miro.medium.com/max/880/0*H3jZONKqRuAAeHnG.jpg" alt="" />
+                                            <div className="col-12 text-center py-5 my-5">
+                                                <img src="https://miro.medium.com/max/880/0*H3jZONKqRuAAeHnG.jpg"  width='250px'alt="loading" />
                                             </div>
                                         </div>
 
@@ -538,7 +575,6 @@ class ResultCard extends React.Component {
                 </div>
             </div>
         )
-
 
     }
 }
