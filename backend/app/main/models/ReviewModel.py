@@ -1,4 +1,5 @@
 from . import db
+import datetime
 
 class ReviewModel(db.Model):
     __tablename__="review"
@@ -7,5 +8,5 @@ class ReviewModel(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     title = db.Column(db.String(70))
     rating = db.Column(db.Integer)
-    date = db.Column(db.DateTime)
+    rev_date = db.Column(db.DateTime(timezone=True),default=datetime.date.today())
     review = db.Column(db.String(500))

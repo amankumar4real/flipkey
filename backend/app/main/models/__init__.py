@@ -11,3 +11,4 @@ from .CityModel import CityModel
 from .LocationModel import LocationModel
 from .OwnerModel import OwnerModel
 from .OwnerPropertyModel import OwnerPropertyModel
+from .ReviewModel import ReviewModel
