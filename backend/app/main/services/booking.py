@@ -46,7 +46,7 @@ def AddBookingService(details, token):
     # return jsonify({"token": user_id})
 
 
-def AddBookingService(details):
+def availableService(details):
     try:
         property_id = details["property_id"]
     except KeyError:
@@ -59,9 +59,14 @@ def AddBookingService(details):
     if type(property_id) is not int:
         return json.dumps({"error": True, "message": "Wrong data format!"})
 
-    check_dates = db.session.execute('''SELECT * FROM product as p JOIN booking as b ON p.id = b.property_id
+    check_dates = db.session.execute('''SELECT b.to_date FROM product as p JOIN booking as b ON p.id = b.property_id
                                      where p.id = "%s"'''%(property_id))
 
-    
+    # datas = []
 
-    return "still working on this service!"
+    # for i in check_dates:
+    #     datas.append(i)
+
+    # print(datas[0])
+    
+    return ({"data": [dict(row) for row in check_dates]})

@@ -19,7 +19,7 @@ export const getPropertyData = payload => dispatch =>{
     dispatch(propertyData)
     const newUrl = new URL(window.location.href)
     console.log(newUrl.search)
-    var x = "https://cf059a80cd74.ngrok.io/product/filterMyProduct"
+    var x = "https://ed1cd2945993.ngrok.io/product/filterMyProduct"
     return axios.get(x+newUrl.search)
     .then(res=>res.data)
     .then(res=>dispatch((propertyData(res))))

@@ -156,7 +156,7 @@ def recommendationProperty(details):
 
     # print(randomlist)
 
-    meta_data_v2 = db.session.execute('''SELECT a.*, p.image_a, p.price, ci.city, p.description, p.bed, p.no_people FROM product as p JOIN amenities as a ON p.id = a.property_id
+    meta_data_v2 = db.session.execute('''SELECT a.*, p.name, p.image_a, p.price, ci.city, p.description, p.bed, p.no_people FROM product as p JOIN amenities as a ON p.id = a.property_id
                                       JOIN location as lo ON p.id = lo.property_id JOIN city as ci on lo.city_id = ci.id WHERE p.id != %s
                                       AND lo.city_id IN(SELECT c.id FROM city as c JOIN location as l ON l.city_id = c.id
                                       WHERE l.property_id = %s)'''%(prop_id, prop_id))

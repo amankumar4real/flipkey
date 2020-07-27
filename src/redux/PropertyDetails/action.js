@@ -27,7 +27,7 @@ export const recomData = payload => ({
 //axios call fro entity page
 export const afterPropData =(payload) =>dispatch=>{
     console.log(payload)
-    var x = "https://cf059a80cd74.ngrok.io/product/myData"
+    var x = "https://ed1cd2945993.ngrok.io/product/myData"
     return (
         axios.post(x,payload)
     .then(res=>res.data)
@@ -38,7 +38,7 @@ export const afterPropData =(payload) =>dispatch=>{
 
 //axios call for recommendations in entity page
 export const getRecommendations = payload => dispatch =>{
-    var x = "https://cf059a80cd74.ngrok.io/product/recommendation"
+    var x = "https://ed1cd2945993.ngrok.io/product/recommendation"
     return axios.post(x,payload)
     .then(res=>res.data)
     .then(res=>dispatch((recomData(res))))
