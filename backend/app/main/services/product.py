@@ -1,7 +1,7 @@
 from ..models import db, ProductModel
 import json
 from flask import jsonify
-
+import random
 
 def sendProduct():
     
@@ -21,10 +21,30 @@ def filteredData(details):
 
 def finalFilteredData(details):
 
-    data = db.session.execute('''SELECT * FROM product as p JOIN amenities as a ON p.id = a.property_id
-                              JOIN suitability as s on p.id = s.property_id WHERE p.no_people >= %s AND
-                              p.price >= %s AND p.bed >= %s AND p.bath > %s'''%(details["people"],
-                              details["price"], details["beds"], details["bath"]))
+    sortby = details["sortby"]
+    data = ""
+
+    if sortby == "relevence":
+        data = db.session.execute('''SELECT * FROM product as p JOIN amenities as a ON p.id = a.property_id
+                                  JOIN suitability as s on p.id = s.property_id JOIN location as lo ON lo.property_id = p.id
+                                  JOIN city as ci on ci.id = lo.city_id WHERE p.no_people >= %s AND
+                                  p.price >= %s AND p.bed >= %s AND p.bath > %s AND ci.city = "%s"'''%(details["people"],
+                                  details["price"], details["beds"], details["bath"], details["place"]))
+    else:
+        so = ""
+
+        if sortby == "low":
+            so = "ASC"
+        else:
+            so = "DESC"
+
+        data = db.session.execute('''SELECT * FROM product as p JOIN amenities as a ON p.id = a.property_id
+                                  JOIN suitability as s on p.id = s.property_id JOIN location as lo ON lo.property_id = p.id
+                                  JOIN city as ci on ci.id = lo.city_id WHERE p.no_people >= %s AND
+                                  p.price >= %s AND p.bed >= %s AND p.bath > %s AND ci.city = "%s" 
+                                  ORDER BY p.price %s'''%(details["people"],
+                                  details["price"], details["beds"], details["bath"], details["place"], so))
+
     
     init_data = [dict(row) for row in data]
 
@@ -115,3 +135,40 @@ def propertyAllDetails(details):
                     "property_owner": [dict(row) for row in property_owner],
                     "property_review": [dict(row) for row in property_review]})
     # return "hi"
+
+
+def recommendationProperty(details):
+
+    prop_id = details["id"]
+
+    data = db.session.execute('''SELECT * FROM amenities WHERE property_id = %s'''%(prop_id))
+
+    meta_data = [dict(row) for row in data]
+
+    amenities = []
+
+    for i in meta_data:
+        for j in i:
+            if i[j] == "true":
+                amenities.append(j)
+
+    # randomlist = random.sample(range(0, len(amenities)), (0 + len(amenities)//2))
+
+    # print(randomlist)
+
+    meta_data_v2 = db.session.execute('''SELECT * FROM product as p JOIN amenities as a ON p.id = a.property_id
+                                      WHERE p.id != %s'''%(prop_id))
+    meta_data_v2 = [dict(row) for row in meta_data_v2]
+
+    final_data = []
+
+    for k in meta_data_v2:
+        coun = 0
+        for l in amenities:
+            if k[l] == "true":             
+                coun+=1
+        if coun >= len(amenities)//2:
+            final_data.append(k)
+    print(len(final_data), len(amenities))
+
+    return jsonify({"data": final_data})
