@@ -8,7 +8,8 @@ import DropdownToggle from 'react-bootstrap/esm/DropdownToggle';
 import DropdownMenu from 'react-bootstrap/esm/DropdownMenu';            
 import {Link} from 'react-router-dom'
 import axios from 'axios';
-// import FilterResults from 'react-filter-search';
+import FilterResults from 'react-filter-search';
+
 const sliderThumbStyles = (props) => (`
   width: 10px;
   height: 10px;
@@ -223,6 +224,7 @@ class ResultCard extends React.Component {
         })
         console.log(e.target.value)
     }
+    
     render() {
         const {dummydata,searchVal}= this.state;
         {/* type of property- apartment, hotel_apartment, 
@@ -250,9 +252,8 @@ class ResultCard extends React.Component {
         const { result } = this.props.data
 
         console.log(`primary Data:\n${result}`)
-
         return (
-            <div>
+            <div >
                 {/* ******************************Search Box with date picker****************************** */}
                 <div className="row my-2 border">
                     {/* searchBar, from date */}
@@ -530,7 +531,7 @@ class ResultCard extends React.Component {
                             <div className="col-12 clearfix" >
                                 {
                                     result ? result.map(item => (
-                                        <div key={item.property_id} class="card mb-3 card-fluid ">
+                                        <div key={item.property_id} class="card mb-3 card-fluid" style={{overscrollBehaviorY:1}}>
                                             <div class="row">
                                                 {typeof item.image == "string" ?
                                                     <div class="col-md-5 fill">

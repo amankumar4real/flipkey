@@ -18,7 +18,7 @@ export default class ResultPage extends React.Component {
                     </div>
                     <div className="col-md-6 d-md-none">
                     
-                        {/* <img className="img img-fluid"  src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/SS2.max-1000x1000.png" alt=""/> */}
+                        <img className="img img-fluid"  src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/SS2.max-1000x1000.png" alt=""/>
 
                     
                     </div>

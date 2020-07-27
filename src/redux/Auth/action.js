@@ -11,13 +11,18 @@ import {
         GAUTH_SUCC,
         FAUTH_FAIL,
         FAUTH_START,
-        FAUTH_SUCC
+        FAUTH_SUCC,
+        SIGN_OUT
     } from './actionTypes'
 import axios from 'axios';
 
 
 export const changeType=payload=>({
     type:CHANGE_TYPE,
+    payload
+})
+export const signOut=payload=>({
+    type:SIGN_OUT,
     payload
 })
 
@@ -97,13 +102,13 @@ export const postLogin=payload=> dispatch =>{
     .catch(error=>dispatch(logFail(error)))
 }
 
-// axios for auth
+// axios for google Auth
 
 export const afterAuth =payload=> dispatch =>{
     console.log(payload)
     dispatch(gAuthStart)
 
-    return axios.post("https://f0c8e4890266.ngrok.io/user/google_auth", payload)
+    return axios.post("https://949831952d63.ngrok.io/user/google_auth", payload)
     .then(res=>res.data)
     .then(res=>dispatch((gAuthSuccess(res))))
     .catch(error=>dispatch(gAuthFail(error)))
