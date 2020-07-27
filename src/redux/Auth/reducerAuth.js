@@ -11,14 +11,15 @@ import {
         GAUTH_SUCC,
         FAUTH_FAIL,
         FAUTH_START,
-        FAUTH_SUCC
+        FAUTH_SUCC,SIGN_OUT
      } from './actionTypes'
 
 const initialState = { 
     primaryData : [{ data:"data" }],
     reg_type: 'owner',
     login_type: 'owner',
-    token:''
+    token:'',
+    username:''
 }
 
 const reducerAuth = (state = initialState, {type, payload}) => {
@@ -33,7 +34,8 @@ const reducerAuth = (state = initialState, {type, payload}) => {
             console.log(payload)
             return{
                 ...state,
-                token: payload.token
+                token: payload.token,
+                username: payload.name
             }
 
         case LOGIN_FAIL:
@@ -41,6 +43,13 @@ const reducerAuth = (state = initialState, {type, payload}) => {
             return{
                 ...state
         }
+
+        case SIGN_OUT:
+            return{
+                ...state,
+                token:'',
+                username:''
+            }
 
         case CHANGE_TYPE:
             console.log('navBar type')
@@ -76,7 +85,8 @@ const reducerAuth = (state = initialState, {type, payload}) => {
             console.log(payload)
             return{
                 ...state,
-                token:payload.token
+                token:payload.token,
+                username:payload.name
             }
 
         case GAUTH_FAIL:
