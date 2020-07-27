@@ -615,7 +615,7 @@ class ResultCard extends React.Component {
                                                     <div class="container container-fluid">
                                                         <div class="row">
                                                             <div class="col-8">
-                                                            <Link to = {`/results/${item.id}`} style={{textDecoration:"none", color:"black"}}><h5 class="mt-2"><strong>{item.name}</strong></h5></Link>
+                                                            <Link to = {`/results/${item.property_id}`} style={{textDecoration:"none", color:"black"}}><h5 class="mt-2"><strong>{item.name}</strong></h5></Link>
                                                                 <p class=" mt-2">People: {item.no_people}</p>
                                                                 <p class=" mt-2">No. of Bedrooms:{item.bed}</p>
                                                                 <p class=" mt-2">Property Type:{item.type}</p>
