@@ -3,11 +3,12 @@ import { connect } from 'react-redux'
 import { getPropertyData } from '../../redux/Common/action'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from 'styled-components';
-import { Dropdown, Button,ButtonGroup, Form, FormCheck } from 'react-bootstrap';
-import DropdownToggle from 'react-bootstrap/esm/DropdownToggle';
-import DropdownMenu from 'react-bootstrap/esm/DropdownMenu';
+import { Dropdown, Button,ButtonGroup, Form, FormCheck } from 'react-bootstrap';            
+import DropdownToggle from 'react-bootstrap/esm/DropdownToggle';            
+import DropdownMenu from 'react-bootstrap/esm/DropdownMenu';            
+import {Link} from 'react-router-dom'
 import axios from 'axios';
-import FilterResults from 'react-filter-search';
+// import FilterResults from 'react-filter-search';
 const sliderThumbStyles = (props) => (`
   width: 10px;
   height: 10px;
@@ -258,7 +259,7 @@ class ResultCard extends React.Component {
                     <div className='col-6'>
                         <div className='row'>
                            <input type='text'  value={searchVal} onChange={this.handleSearch} className='col-8 border-left-0 border-top-0 border-bottom-0 rounded-0 p-2'/>
-                           <FilterResults 
+                           {/* <FilterResults 
                             value={searchVal}
                             data={dummydata}
                             renderResults={
@@ -266,7 +267,7 @@ class ResultCard extends React.Component {
                                     results.map(ele=>console.log(ele.name, ele.email))
                                 )
                             }
-                           />
+                           /> */}
                            <input className='col-4 rounded-0 p-2 border-right-0 border-top-0 border-bottom-0' type='date'/>
                         </div>
                     </div>
@@ -511,7 +512,7 @@ class ResultCard extends React.Component {
                         </Dropdown>     
                     </div>
                 </div>
-                <div className='my-2 mx-'>
+                <div className='my-2 mx-auto row'>
                     <div className="card p-0 border border-success w-100">
                         <div className="row">
                             <div className="col-12" style={{background:"#f5f8f9"}}>
@@ -529,7 +530,7 @@ class ResultCard extends React.Component {
                             <div className="col-12 clearfix" >
                                 {
                                     result ? result.map(item => (
-                                        <div key={item.property_id} class="card mb-3 card-fluid overflow-auto">
+                                        <div key={item.property_id} class="card mb-3 card-fluid ">
                                             <div class="row">
                                                 {typeof item.image == "string" ?
                                                     <div class="col-md-5 fill">
@@ -568,15 +569,15 @@ class ResultCard extends React.Component {
                                                         </div>
                                                     </div>
                                                 }
-
+                                                
                                                 <div class="col-md-7">
                                                     <div class="container container-fluid">
                                                         <div class="row">
                                                             <div class="col-8">
-                                                                <h5 class="col-12  mt-2"><strong>{item.name}</strong></h5>
-                                                                <p class=" col-12  mt-2">People: {item.no_people}</p>
-                                                                <p class=" col-12  mt-2">No. of Bedrooms:{item.bed}</p>
-                                                                <p class=" col-12  mt-2">Property Type:{item.type}</p>
+                                                            <Link to = {`/results/${item.id}`} style={{textDecoration:"none", color:"black"}}><h5 class="mt-2"><strong>{item.name}</strong></h5></Link>
+                                                                <p class=" mt-2">People: {item.no_people}</p>
+                                                                <p class=" mt-2">No. of Bedrooms:{item.bed}</p>
+                                                                <p class=" mt-2">Property Type:{item.type}</p>
                                                                 <button className="btn btn-light" onClick={this.shortList}>
                                                                     <FontAwesomeIcon
                                                                         icon={["fas", 'heart']}
@@ -592,6 +593,7 @@ class ResultCard extends React.Component {
                                                         </div>
                                                     </div>
                                                 </div>
+                                                
                                             </div>
                                         </div>
                                     )) :
