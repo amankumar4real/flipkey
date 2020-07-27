@@ -12,3 +12,4 @@ from .LocationModel import LocationModel
 from .OwnerModel import OwnerModel
 from .OwnerPropertyModel import OwnerPropertyModel
 from .ReviewModel import ReviewModel
+from .BookingModel import BookingModel

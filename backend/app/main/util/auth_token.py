@@ -1,5 +1,5 @@
 import jwt
-from instance.config import JWT_KEY as key
+from instance.config import SECRET_KEY as key
 import datetime
 
 
@@ -12,6 +12,4 @@ def check_auth_token(token):
     < datetime.datetime.utcnow():
         return False, {}
     else:
-        # return True, {"email": decoded_data["email"],
-        #               "type": decoded_data["type"]}
         return True, {"email": decoded_data["email"]}
