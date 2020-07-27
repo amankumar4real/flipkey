@@ -1,8 +1,10 @@
-import { PROP_DETAILS_FAIL,PROP_DETAILS_START,PROP_DETAILS_SUCCESS} from './actionTypes'
+import { PROP_DETAILS_FAIL,PROP_DETAILS_START,PROP_DETAILS_SUCCESS,PROP_RECO} from './actionTypes'
+import { recomData } from './action'
 
 
 const initialstate = {
-    primaryData : {}
+    primaryData : {},
+    recomDetails : {}
 }
 
 const reducerPropertyDetails = (state = initialstate, {type,payload}) => {
@@ -22,6 +24,12 @@ const reducerPropertyDetails = (state = initialstate, {type,payload}) => {
         case PROP_DETAILS_FAIL:
             return{
                 ...state
+            }
+        case PROP_RECO:
+            console.log(payload)
+            return{
+                ...state,
+                recomDetails : payload
             }
         default : 
             return {

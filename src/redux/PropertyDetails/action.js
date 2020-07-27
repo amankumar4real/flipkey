@@ -1,4 +1,4 @@
-import { PROP_DETAILS_FAIL,PROP_DETAILS_START,PROP_DETAILS_SUCCESS} from './actionTypes'
+import { PROP_DETAILS_FAIL,PROP_DETAILS_START,PROP_DETAILS_SUCCESS, PROP_RECO} from './actionTypes'
 import { PROPERTY_DATA } from '../Common/actionTypes'
 import axios from 'axios'
 
@@ -18,9 +18,16 @@ export const propDataFail = payload => ({
     payload
 })
 
+
+export const recomData = payload => ({
+    type : PROP_RECO,
+    payload
+})
+
+//axios call fro entity page
 export const afterPropData =(payload) =>dispatch=>{
     console.log(payload)
-    var x = "https://949831952d63.ngrok.io/product/myData"
+    var x = "https://cf059a80cd74.ngrok.io/product/myData"
     return (
         axios.post(x,payload)
     .then(res=>res.data)
@@ -29,24 +36,12 @@ export const afterPropData =(payload) =>dispatch=>{
 )
 }
 
-// async function getData() {
-//     try {
-//         var ip = location.host;
-//         await axios({
-//             url: http() + ip + '/getData',
-//             method: 'POST',
-//             timeout: 8000,
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             }
-//         }).then(function (res) {
-//             console.dir(res); // we are good here, the res has the JSON data
-//             return res; 
-//         }).catch(function (err) {
-//             console.error(err);
-//         })
-//     }
-//     catch (err) {
-//         console.error(err);
-//     }
-// }
+//axios call for recommendations in entity page
+export const getRecommendations = payload => dispatch =>{
+    var x = "https://cf059a80cd74.ngrok.io/product/recommendation"
+    return axios.post(x,payload)
+    .then(res=>res.data)
+    .then(res=>dispatch((recomData(res))))
+}
+
+
