@@ -11,15 +11,20 @@ import { faDivide } from '@fortawesome/free-solid-svg-icons'
 import GoogleLogin from 'react-google-login';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-
-
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
 
 class PropertyPage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             data: [],
-            isLoading: 0
+            isLoading: 0,
+            people: 1,
+            adult: 1,
+            child: 0,
+            startDate:new Date(),
+            endDate:''
         }
         
     }
@@ -216,328 +221,434 @@ class PropertyPage extends React.Component {
                                             <p>
                                                 This one-bedroom deluxe King Bed Villa is adjacent to the Great Smoky Mountain National Park.It exquisitely decorated and accommodates 4 guest comfortably (780 square feet) . This villa is in the heart of the Smoky Mountains. The resort has so much to offer. Some of the most popular attractions at the resort include Wild Bear Falls (the indoor waterpark), award winning restaurants, Serenity Spa and horse back riding! Your stay at the resort is sure to be an unforgettable vacation!
                                     </p>
-                                        </div>
-                                        <div>
-                                            <h4 class="mb-2">Families</h4>
-                                            <div class="m-3">
-                                                <span class="m-5">{suitability[0].children ? "Great place for children" : "Not suitable for children"}</span>
-                                                <span class="m-5">{suitability[0].pets ? "Pets are allowed" : "No pets allowed"}</span>
-                                            </div>
-                                        </div>
+                                    <p className="text-success">Pay on FlipKey to get Payment Protection for this rental. Never
+                                        pay by bank or wire transfer.
+                                    </p>
+                                </div>
+                                <div class="mb-4 border">
+                                    <p style={{fontWeight:600, left:0}} >
+                                        KEY INFO
+                                    </p>
+                                    <div>
+                                        <span class="m-5">{dispAmenitites[0]}</span>
+                                        <span class="m-5">{dispAmenitites[5]}</span>
+                                    </div>
+                                    {suitability[0].parking && suitability[0].elevator ? <div>
+                                        <span class="m-5">Parking Available</span>
+                                        <span class="m-5">Elevator Available</span>
+                                    </div> : suitability[0].parking && suitability[0].wheelchair ? <div>
+                                        <span class="m-5">Parking Available</span>
+                                        <span class="m-5"> wheelchair</span>
+                                    </div> : suitability[0].parking ? <div>
+                                        <span class="m-5">Parking Available</span>
+                                        <span class=" m-5"> No wheel chair</span>
+                                    </div> : <div>
+                                        <span class="m-5">Parking Not Available</span>
+                                        <span class="m-5"> No wheel chair</span>
+                                    </div>}
+                                </div>
+                            </li>
+                            <li id="Description" class="list-group-item">
+                                <div>
+                                    <h4 class="mb-2">Description of the owner</h4>
+                                    <p>
+                                        This one-bedroom deluxe King Bed Villa is adjacent to the Great Smoky Mountain National
+                                        Park.It exquisitely decorated and accommodates 4 guest comfortably (780 square feet) .
+                                        This villa is in the heart of the Smoky Mountains. The resort has so much to offer. Some
+                                        of the most popular attractions at the resort include Wild Bear Falls (the indoor
+                                        waterpark), award winning restaurants, Serenity Spa and horse back riding! Your stay at
+                                        the resort is sure to be an unforgettable vacation!
+                                    </p>
+                                </div>
+                                <div>
+                                    <h4 class="mb-2">Families</h4>
+                                    <div class="m-3">
+                                        <span class="m-5">{suitability[0].children ? "Great place for children" 
+                                        : "Not suitablefor children"}</span>
+                                        <span class="m-5">{suitability[0].pets ? "Pets are allowed" : "No pets allowed"}</span>
+                                    </div>
+                                </div>
 
-                                    </li>
-                                    <li id="Description" class="list-group-item">
-                                        <div>
-                                            <h4 class="mb-2">Bed & Bathroom</h4>
+                            </li>
+                            <li id="Description" class="list-group-item">
+                                <div>
+                                    <h4 class="mb-2">Bed & Bathroom</h4>
 
 
-                                            <div class="m-3">
-                                                <span class="m-5">{property[0].bed} Beds Available</span>
-                                                <span class="m-5">{property[0].bath} Beds Available</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li id="Description" class="list-group-item">
-                                        <div>
-                                            <h4 class="mb-2">Amenities</h4>
-                                            <div className="flex" style={{ columns: "2 auto" }}>
+                                    <div class="m-3">
+                                        <span class="m-5">{property[0].bed} Beds Available</span>
+                                        <span class="m-5">{property[0].bath} Beds Available</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li id="Description" class="list-group-item">
+                                <div>
+                                    <h4 class="mb-2">Amenities</h4>
+                                    <div className="flex" style={{ columns: "2 auto" }}>
 
-                                                {
-
-                                                    dispAmenitites.map(item => (
-                                                        <div class="m-3">
-                                                            <span class="p-5 m-5">{item}</span>
-                                                        </div>
-                                                    ))
-                                                }
-                                            </div>
-
-                                            <p>Should add more or less button</p>
-                                        </div>
-                                    </li>
-                                    <li id="Description" class="list-group-item">
-                                        <div>
-                                            <h4 class="mb-2">Access</h4>
-
-                                            <div class="m-3">
-                                                {
-                                                    suitability[0].parking && suitability[0].elevator ? <div>
-                                                        <span class="m-5">Parking Available</span>
-                                                        <span class="m-5">Elevator Available</span>
-                                                    </div> : suitability[0].parking && suitability[0].wheelchair ? <div>
-                                                        <span class="m-5">Parking Available</span>
-                                                        <span class="m-5"> wheelchair</span>
-                                                    </div> : suitability[0].parking ? <div>
-                                                        <span class="m-5">Parking Available</span>
-                                                        <span class=" m-5"> No wheel chair</span>
-                                                    </div> : <div>
-                                                                    <span class="m-5">Parking Not Available</span>
-                                                                    <span class="m-5"> No wheel chair</span>
-                                                                </div>
-                                                }
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li id="Description" class="list-group-item">
-                                        <h5>
-                                            Check in time: Anytime
-                                </h5>
-                                        <div>
-                                            <h4>Payment</h4>
-                                            <p className="ml-5">
-                                                This rental can only be paid for online through FlipKey using your credit/debit card or PayPal (never by bank or wire transfer).
-                                        </p>
-                                            <p className="ml-5">Damage deposit: $200.00</p>
-                                        </div>
-                                        <div>
-                                            <h4>Smoking</h4>
-                                            {
-                                                suitability[0].smoke ? <p className="ml-5" >Accesss to smoke</p> : <p className="ml-5">No smoking at this property</p>
-                                            }
-                                        </div>
-                                    </li>
-                                    <li id="Description" class="list-group-item">
-                                        <p>Need to create the cancellation component</p>
-                                    </li>
-                                    <li id="Description" class="list-group-item">
-                                        <h4 class="mb-2">About the owner</h4>
-
-                                        <p><strong>{owner[0].name}</strong></p>
-                                        <p>Response Rate:{owner[0].response_rate}</p>
-                                        <p>Years listed : {owner[0].year_listed}</p>
-                                        <p>Contact Info: {owner[0].phone}</p>
-                                        {owner[0].english ? <p>Languages Spoken: English</p> : <p>Languages Spoken: Native</p>}
-
-                                    </li>
-                                    <li id="Map" class="list-group-item">
-                                        <h4 class="mb-2">Map Integration</h4>
-
-                                    </li>
-                                    <li id="AvailRecommended for youablitiy" class="list-group-item">
-                                        <p>One year calender integration</p>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <h4 class="mb-2">Reviews </h4>
                                         {
-                                            avg >= 4 ? <p>Very Good based on {review.length} reviews</p> :
-                                                avg >= 3 ? <p>Good based on {review.length} reviews</p> :
-                                                    avg >= 2 ? <p>Average based on {review.length} reviews</p> :
-                                                        <p>Worst based on {review.length} reviews</p>
+
+                                        dispAmenitites.map((item, ind) => (
+                                        <div class="m-3" key={ind}>
+                                            <span class="p-5 m-5">{item}</span>
+                                        </div>
+                                        ))
+
                                         }
 
-
-                                    </li>
-                                    <li id="Reviews" class="list-group-item">
-                                        <div>
-                                            <span className='p-5'>Excellent</span>
-                                            <span><div style={{ height: "20px", width: "80px", backgroundColor: "grey", border: "1px solid black", borderRadius: "5px" }}><div style={{ height: "20px", width: a[5], backgroundColor: "green" }}></div></div></span>
-                                            <span>{obj[5][5]}</span>
-                                        </div>
-                                        <div>
-                                            <span className='p-5'>Very Good</span>
-                                            <span><div style={{ height: "20px", width: "80px", backgroundColor: "grey", border: "1px solid black", borderRadius: "5px" }}><div style={{ height: "20px", width: a[4], backgroundColor: "green" }}></div></div></span>
-                                            <span>{obj[4][4]}</span>
-                                        </div>
-                                        <div>
-                                            <span className='p-5'>Average</span>
-                                            <span><div style={{ height: "20px", width: "80px", backgroundColor: "grey", border: "1px solid black", borderRadius: "5px" }}><div style={{ height: "20px", width: a[3], backgroundColor: "green" }}></div></div></span>
-                                            <span>{obj[3][3]}</span>
-                                        </div>
-                                        <div>
-                                            <span className='p-5'>Poor</span>
-                                            <span><div style={{ height: "20px", width: "80px", backgroundColor: "grey", border: "1px solid black", borderRadius: "5px" }}><div style={{ height: "20px", width: a[2], backgroundColor: "green" }}></div></div></span>
-                                            <span>{obj[2][2]}</span>
-                                        </div>
-                                        <div>
-                                            <span className='p-5'>Terrible</span>
-                                            <span><div style={{ height: "20px", width: "80px", backgroundColor: "grey", border: "1px solid black", borderRadius: "5px" }}><div style={{ height: "20px", width: a[1], backgroundColor: "green" }}></div></div></span>
-                                            <span>{obj[1][1]}</span>
-                                        </div>
-                                    </li>
-                                    {
-                                        review.map(item => (
-                                            <li class="list-group-item">
-                                                <div>
-                                                    <span style={{ height: "30px", width: "30px", borderRadius: "50%", border: "1px solid black" }}>
-
-                                                    </span>
-                                                    <span>
-                                                        <h4>{item.title}</h4>
-
-                                                    </span>
-                                                </div>
-                                                <div className="mb-3 mr-2">
-                                                    <span className="mb-3">
-                                                        Ratings: {item.rating}
-                                                    </span>
-                                                    <span className="mb-3">
-                                                        Reviewed {item.rev_date}
-                                                    </span>
-                                                </div>
-                                                <p>
-                                                    {item.review}
-                                                </p>
-                                            </li>
-                                        ))
-                                    }
-
-
-                                    <li id="FAQs" class="list-group-item">
-                                        <p>FAQ</p>
-                                    </li>
-                                    <li>
-                                            
-                                            Recommmations        
-                                    </li>
-                                    <li class="list-group-item">
-                                        <h4 class="mb-2">
-                                            Build your perfect trip, with Flipkey & TripAdvisor</h4>
-
-                                        <p className="pl-5">Build the sttaic component </p>
-                                        <p className="pl-5 text-muted">Pay Online to be covered by payment protection </p>
-                                        <p className="pl-5">Real opinions real reviews</p>
-                                        <p className="pl-5 text-muted">Genuine guest feedback from 100,000+ reviews </p>
-                                        <p className="pl-5">Safe, simple, secure</p>
-                                        <p className="pl-5 text-muted">When you pay online with PayPal or by credit/debit card </p>
-                                        <p className="pl-5">Quick response times </p>
-                                        <p className="pl-5 text-muted">Know where you're staying within 24 hours </p>
-
-                                    </li>
-                                    <li class="list-group-item">
-                                        <p>
-                                            Also Consider
-                                </p>
-                                    </li>
-                                    <li class="list-group-item">
-                                        This listing is created and maintained by the homeThis listing is created and maintained by the homeowner; we can only publish adverts in good faith as we don't own, manage or inspect any of the properties. We advise you to familiarize yourself with our terms of use.owner; we can only publish adverts in good faith as we don't own, manage or inspect any of the properties. We advise you to familiarize yourself with our terms of use.
-                            </li>
-                                </ul>
-                            </div>
-                            <div class="col-4 p-5">
-                                <div class="card bg-light mb-3 sticky-top">
-                                    <div class="card-header">From:
-                                            <h4>{property[0].price}</h4>/night
                                     </div>
-                                    <div class="card-body">
-                                        <div class="card-text">
-                                            <div class=" container">
-                                                <div className="row">
-                                                    <input className='col-6 rounded-0 p-2 border-right-0 border-top-0 border-bottom-0' type='date' />
-                                                    <input className='col-6 rounded-0 p-2 border-right-0 border-top-0 border-bottom-0' type='date' />
-                                                </div>
-                                                <div className="row">
-                                                    <div className='col-4 btn-block border-left mx-0'>
-                                                        <Dropdown variant='white' className='rounded-0'>
-                                                            <DropdownToggle variant='white' className='rounded-0 w-100 m-0'>
-                                                                <Button variant='white' className='p-0 m-0 w-100'>
-                                                                    z                        {this.state.people} people
-                                                                    Submit                    </Button>
-                                                            </DropdownToggle>
 
-                                                            <DropdownMenu
-                                                                alignRight
-                                                            >
-                                                                {/* adult */}
-                                                                <div style={{ width: "210px" }} className='mx-3'>
-                                                                    <div className='row m-2 p-1'>
-                                                                        <div className=' col-6 text-right px-2 lead'>
-                                                                            Adults
-                                                    </div>
-                                                                        <div className='col-6'>
-                                                                            <div className='row  border border-muted'>
-                                                                                <div className='col-4  m-0 p-0'>
-                                                                                    <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0' >
-                                                                                        -
-                                                                </Button>
-                                                                                </div>
-                                                                                <div className='col-4 m-0 p-1'>
-                                                                                    <div className='text-center'>  </div>
-                                                                                </div>
-                                                                                <div className='col-4  m-0 p-0 text-center'>
-                                                                                    <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0'>
-                                                                                        +
-                                                                </Button>
-                                                                                </div>
+                                    <p>Should add more or less button</p>
+                                </div>
+                            </li>
+                            <li id="Description" class="list-group-item">
+                                <div>
+                                    <h4 class="mb-2">Access</h4>
+
+                                    <div class="m-3">
+                                        {
+                                        suitability[0].parking && suitability[0].elevator ? <div>
+                                            <span class="m-5">Parking Available</span>
+                                            <span class="m-5">Elevator Available</span>
+                                        </div> : suitability[0].parking && suitability[0].wheelchair ? <div>
+                                            <span class="m-5">Parking Available</span>
+                                            <span class="m-5"> wheelchair</span>
+                                        </div> : suitability[0].parking ? <div>
+                                            <span class="m-5">Parking Available</span>
+                                            <span class=" m-5"> No wheel chair</span>
+                                        </div> : <div>
+                                            <span class="m-5">Parking Not Available</span>
+                                            <span class="m-5"> No wheel chair</span>
+                                        </div>
+
+
+
+
+
+                                        }
+
+                                    </div>
+                                </div>
+                            </li>
+                            <li id="Description" class="list-group-item">
+                                <h5>
+                                    Check in time: Anytime
+                                </h5>
+                                <div>
+                                    <h4>Payment</h4>
+                                    <p className="ml-5">
+                                        This rental can only be paid for online through FlipKey using your credit/debit card or
+                                        PayPal (never by bank or wire transfer).
+                                    </p>
+                                    <p className="ml-5">Damage deposit: $200.00</p>
+                                </div>
+                                <div>
+                                    <h4>Smoking</h4>
+                                    {
+                                    suitability[0].smoke ? <p className="ml-5">Accesss to smoke</p> : <p className="ml-5">No
+                                        smoking at this property</p>
+                                    }
+                                </div>
+                            </li>
+                            <li id="Description" class="list-group-item">
+                                <p>Need to create the cancellation component</p>
+                            </li>
+                            <li id="Description" class="list-group-item">
+                                <h4 class="mb-2">About the owner</h4>
+
+                                <p><strong>{owner[0].name}</strong></p>
+                                <p>Response Rate:{owner[0].response_rate}</p>
+                                <p>Years listed : {owner[0].year_listed}</p>
+                                <p>Contact Info: {owner[0].phone}</p>
+                                {owner[0].english?<p>Languages Spoken: English</p>:<p>Languages Spoken: Native</p>}
+
+                            </li>
+                            <li id="Map" class="list-group-item">
+                                <h4 class="mb-2">Map Integration</h4>
+
+                            </li>
+                            <li id="Availablitiy" class="list-group-item">
+                                <p>One year calender integration</p>
+                            </li>
+                            <li class="list-group-item">
+                                <h4 class="mb-2">Reviews </h4>
+                                {
+                                avg >= 4?<p>Very Good based on {tot} reviews</p>:
+                                avg >= 3?<p>Good based on {tot} reviews</p>:
+                                avg >= 2?<p>Average based on {tot} reviews</p>:
+                                <p>Worst based on {tot} reviews</p>
+                                }
+
+
+                            </li>
+                            <li id="Reviews" class="list-group-item">
+                                <div>
+                                    <span className='p-5'>Excellent</span>
+                                    <span>
+                                        <div
+                                            style={{ height: "20px", width: "80px", backgroundColor: "grey",border:"1px solid black",borderRadius:"5px" }}>
+                                            <div style={{ height: "20px", width: a[5], backgroundColor: "green" }}></div>
+                                        </div>
+                                    </span>
+                                    <span>{obj[5][5]}</span>
+                                </div>
+                                <div>
+                                    <span className='p-5'>Very Good</span>
+                                    <span>
+                                        <div
+                                            style={{ height: "20px", width: "80px", backgroundColor: "grey",border:"1px solid black",borderRadius:"5px" }}>
+                                            <div style={{ height: "20px",  width: a[4], backgroundColor: "green" }}></div>
+                                        </div>
+                                    </span>
+                                    <span>{obj[4][4]}</span>
+                                </div>
+                                <div>
+                                    <span className='p-5'>Average</span>
+                                    <span>
+                                        <div
+                                            style={{ height: "20px", width: "80px", backgroundColor: "grey",border:"1px solid black",borderRadius:"5px" }}>
+                                            <div style={{ height: "20px",  width: a[3], backgroundColor: "green" }}></div>
+                                        </div>
+                                    </span>
+                                    <span>{obj[3][3]}</span>
+                                </div>
+                                <div>
+                                    <span className='p-5'>Poor</span>
+                                    <span>
+                                        <div
+                                            style={{ height: "20px", width: "80px", backgroundColor: "grey",border:"1px solid black",borderRadius:"5px" }}>
+                                            <div style={{ height: "20px",  width: a[2], backgroundColor: "green" }}></div>
+                                        </div>
+                                    </span>
+                                    <span>{obj[2][2]}</span>
+                                </div>
+                                <div>
+                                    <span className='p-5'>Terrible</span>
+                                    <span>
+                                        <div
+                                            style={{ height: "20px", width: "80px", backgroundColor: "grey",border:"1px solid black",borderRadius:"5px" }}>
+                                            <div style={{ height: "20px",  width: a[1], backgroundColor: "green" }}></div>
+                                        </div>
+                                    </span>
+                                    <span>{obj[1][1]}</span>
+                                </div>
+                            </li>
+                            {
+                            review.map(item => (
+                            <li class="list-group-item">
+                                <div>
+                                    <span style={{height:"30px" ,width:"30px",borderRadius:"50%", border:"1px solid black"}}>
+
+                                    </span>
+                                    <span>
+                                        <h4>{item.title}</h4>
+
+                                    </span>
+                                </div>
+                                <div className="mb-3 mr-2">
+                                    <span className="mb-3">
+                                        Ratings: {item.rating}
+                                    </span>
+                                    <span className="mb-3">
+                                        Reviewed {item.rev_date}
+                                    </span>
+                                </div>
+                                <p>
+                                    {item.review}
+                                </p>
+                            </li>
+                            ))
+                            }
+
+
+                            <li id="FAQs" class="list-group-item">
+                                <p>FAQ</p>
+                            </li>
+                            <li>
+                                Recommended for you
+                            </li>
+                            <li class="list-group-item">
+                                <h4 class="mb-2">
+                                    Build your perfect trip, with Flipkey & TripAdvisor</h4>
+
+                                <p className="pl-5">Build the sttaic component </p>
+                                <p className="pl-5 text-muted">Pay Online to be covered by payment protection </p>
+                                <p className="pl-5">Real opinions real reviews</p>
+                                <p className="pl-5 text-muted">Genuine guest feedback from 100,000+ reviews </p>
+                                <p className="pl-5">Safe, simple, secure</p>
+                                <p className="pl-5 text-muted">When you pay online with PayPal or by credit/debit card </p>
+                                <p className="pl-5">Quick response times </p>
+                                <p className="pl-5 text-muted">Know where you're staying within 24 hours </p>
+
+                            </li>
+                            <li class="list-group-item">
+                                <p>
+                                    Also Consider
+                                </p>
+                            </li>
+                            <li class="list-group-item">
+                                This listing is created and maintained by the homeThis listing is created and maintained by the
+                                homeowner; we can only publish adverts in good faith as we don't own, manage or inspect any of
+                                the properties. We advise you to familiarize yourself with our terms of use.owner; we can only
+                                publish adverts in good faith as we don't own, manage or inspect any of the properties. We
+                                advise you to familiarize yourself with our terms of use.
+                            </li>
+                        </ul>
+                    </div>
+                    {/* ***********************PriceForm************************ */}
+                    <div class="col-4 pl-5  mt-5 border">
+                        <div class="card bg-light my-5 mr-0 pr-0 sticky-top border" style={{right:0}}>
+                            <div class="">
+                                <small className='text-muted'>Total</small>
+                                <h2>${property[0].price}</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-text">
+                                    <div > 
+                                        {/* from Month and to Month */}
+                                        <div className="row">
+                                            {/* startDate */}
+                                            <div className='col-6 p-0 m-0'>
+                                                <DatePicker
+                                                    className='border col p-2 '
+                                                    placeholderText='Start Date'
+                                                    selected={this.state.startDate}
+                                                    onChange={this.handleStartDate}
+                                                    selectsStart
+                                                    startDate={this.state.startDate}
+                                                    endDate={this.state.endDate}
+                                                    // monthsShown={2}
+                                                />
+                                            </div>
+                                            {/* fromDate */}
+                                            <div className='col-6 p-0 m-0'>
+                                                <DatePicker
+                                                    className='border col p-2'
+                                                    placeholderText='End Date'
+                                                    selected={this.state.endDate}
+                                                    onChange={this.handleEndDate}
+                                                    selectsEnd
+                                                    startDate={this.state.startDate}
+                                                    endDate={this.state.endDate}
+                                                    mindDate={this.state.startDate}
+                                                    // monthsShown={2}  
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="row mt-2 bg-white">
+                                            <div className='col btn-block border m-0 p-0'>
+                                                <Dropdown variant='white' className='rounded-0'>
+                                                    <DropdownToggle variant='white' className='rounded-0 w-100 m-0'>
+                                                        <Button variant='white' className='p-0 m-0 w-100'>
+                                                            {this.state.people} guest
+                                                        </Button>
+                                                    </DropdownToggle>
+                                                    <DropdownMenu alignRight>
+                                                        {/* adult */}
+                                                        <div style={{ width: "180px" }} className='mx-3'>
+                                                            <div className='row p-1'>
+                                                                <div className=' col-6 text-right px-2 lead'>
+                                                                    Adults
+                                                                </div>
+                                                                <div className='col-6'>
+                                                                    <div className='row  border border-muted'>
+                                                                        <div className='col-4  m-0 p-0'>
+                                                                            <Button
+                                                                                className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0'>
+                                                                                -
+                                                                            </Button>
+                                                                        </div>
+                                                                        <div className='col-4 m-0 p-1'>
+                                                                            <div className='text-center'> 
+                                                                                {this.state.adult}
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-
-                                                                    {/* children */}
-                                                                    <div className='row m-2 p-1'>
-                                                                        <div className=' col-6 text-right px-2'>
-                                                                            <div className='row'>
-                                                                                <div className='col-12 lead my-0 py-0'>
-                                                                                    Children
-                                                            </div>
-                                                                                <div className='col-12 my-0 py-0'>
-                                                                                    <small className='m-0 p-0'>age 0-16</small>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div className='col-6'>
-                                                                            <div className='row  border border-muted'>
-                                                                                <div className='col-4  m-0 p-0'>
-                                                                                    <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0' >
-                                                                                        -
-                                                                </Button>
-                                                                                </div>
-                                                                                <div className='col-4 m-0 p-1'>
-                                                                                    <div className='text-center'> </div>
-                                                                                </div>
-                                                                                <div className='col-4  m-0 p-0 text-center'>
-                                                                                    <Button className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0' >
-                                                                                        +
-                                                                </Button>
-                                                                                </div>
-                                                                            </div>
+                                                                        <div className='col-4  m-0 p-0 text-center'>
+                                                                            <Button
+                                                                                className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0'>
+                                                                                +
+                                                                            </Button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </DropdownMenu>
-                                                        </Dropdown>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <span className="float-left">Total</span>
-                                                    <span className="float-right">{property[0].price}</span>
-                                                </div>
-                                                <div>
-                                                    <span className="float-left  text-muted">No Hidden values</span>
-                                                    <span className="float-right text-muted">Show details</span>
-                                                </div>
-                                                <button type="button" class="btn btn-primary">Book</button>
-                                                <button type="submit" class="btn btn-light">Contact owner</button>
+                                                            </div>
+
+                                                            {/* children */}
+                                                            <div className='row p-1'>
+                                                                <div className=' col-6 text-right px-2'>
+                                                                    <div className='row'>
+                                                                        <div className='col-12 lead my-0 py-0'>
+                                                                            Children
+                                                                        </div>
+                                                                        <div className='col-12 my-0 py-0'>
+                                                                            <small className='m-0 p-0'>age 0-16</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className='col-6'>
+                                                                    <div className='row  border border-muted'>
+                                                                        <div className='col-4  m-0 p-0'>
+                                                                            <Button
+                                                                                className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0'>
+                                                                                -
+                                                                            </Button>
+                                                                        </div>
+                                                                        <div className='col-4 m-0 p-1'>
+                                                                            <div className='text-center'>
+                                                                                {this.state.child}
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className='col-4  m-0 p-0 text-center'>
+                                                                            <Button
+                                                                                className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0'>
+                                                                                +
+                                                                            </Button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </DropdownMenu>
+                                                </Dropdown>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="card-footer text-muted">
-                                        Book online with payment protection
+                                        <div>
+                                            <span className="float-left">Total</span>
+                                            <span className="float-right">{property[0].price}</span>
+                                        </div>
+                                        <div>
+                                            <span className="float-left  text-muted">No Hidden values</span>
+                                            <span className="float-right text-muted">Show details</span>
+                                        </div>
+                                        <button type="button" class="btn btn-primary">Book</button>
+                                        <button type="submit" class="btn btn-light">Contact owner</button>
                                     </div>
                                 </div>
                             </div>
-                            hr
-                        <div class="row">
-                                <div class="col-12">
-                                    <p>import Vocation and the footer</p>
-                                </div>
+                            <div class="card-footer text-muted">
+                                Book online with payment protection
                             </div>
                         </div>
-                        {/* <div>
-                        
                     </div>
-                    <div> 
-                        
-                    </div> */}
+                    hr
+                    <div class="row">
+                        <div class="col-12">
+                            <p>import Vocation and the footer</p>
+                        </div>
                     </div>
                 </div>
-                : <div>Loading</div>
+                {/* <div>
 
+                </div>
+                <div>
 
-
+                </div> */}
+            </div>
+        </div>
+        : <div>Loading</div>
         )
 
-
-    }
+}
 }
 
 const mapStateToProps = (state) => {
@@ -550,9 +661,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => {
-    // return {
-    //     // getPropertyData: payload => dispatch(getPropertyData(payload))
-    // }
+// return {
+// // getPropertyData: payload => dispatch(getPropertyData(payload))
+// }
 
     return {
         afterPropData: payload => dispatch(afterPropData(payload)),

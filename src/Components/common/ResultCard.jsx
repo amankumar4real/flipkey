@@ -9,6 +9,9 @@ import DropdownMenu from 'react-bootstrap/esm/DropdownMenu';
 import {Link} from 'react-router-dom'
 import axios from 'axios';
 import FilterResults from 'react-filter-search';
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
+
 
 const sliderThumbStyles = (props) => (`
   width: 10px;
@@ -44,17 +47,14 @@ const Styles = styled.div
     }
   }`;
 
-
-
-
 class ResultCard extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             people: 1,
             adult: 1,
-            beds: 1,
             child: 0,
+            beds: 1,
             price: 50,
             type: [],
             bath: 1,
@@ -63,6 +63,8 @@ class ResultCard extends React.Component {
             sortby:"relevence",
             dummydata:[],
             searchVal: "bangalore",
+            startDate: new Date(),
+            endDate:''
             // place: this.props.
         }
     }
@@ -85,12 +87,24 @@ class ResultCard extends React.Component {
         console.log('selected suitability type')
         console.log(this.state.suitability)
         console.log(`sortby: ${this.state.sortby}`)
+        console.log(`startDate: ${this.state.startDate}
+        endData: ${this.state.endDate}`)
     }
     componentWillMount(){
         axios.get('https://jsonplaceholder.typicode.com/users')
         .then(response=> this.setState({dummydata:response.data}))
     }
-
+    // handle date
+    handleStartDate = date => {
+        this.setState({
+          startDate: date
+        });
+      };
+    handleEndDate = date => {
+      this.setState({
+        endDate: date
+      });
+    };
     adultInc = () => {
 
         this.setState({
@@ -243,20 +257,6 @@ class ResultCard extends React.Component {
     
     render() {
         const {dummydata,searchVal}= this.state;
-        {/* type of property- apartment, hotel_apartment, 
-                        house, villa, bungalow, castle, farmhouse, studio, 
-                        houseboat, fort, private_room, hospital_apartment, 
-                        B&B, guest_house, caravan 
-        -----------------------------------------------------------
-            values for amenities:
-            balcony, staffed, tv, fans, linen, towels,
-            housekeeper, wifi, swimming_pool, heated_pool, washing_machine, garden,
-            dvd, grill, fireplace, cot, dishwash, microwave, freezer, game, sea_view
-        ------------------------------------------------------------
-            values for Suitability:
-            pets, parking, children, smoke, elevator, wheelchair, cars_req
-        */}
-                    
         const rentalType=['apartment', 'hotel_apartment', 
             'house', 'villa', 'bungalow', 'castle', 'farmhouse', 'studio', 
             'houseboat', 'fort', 'private_room', 'hospital_apartment', 
@@ -267,7 +267,8 @@ class ResultCard extends React.Component {
         const suitability=['pets', 'parking', 'children', 'smoke', 'elevator', 'wheelchair', 'cars_req']
         const { result } = this.props.data
 
-        console.log(`primary Data:\n${result}`)
+        console.log(`primary Data:\n`)
+        console.log(`${result}`)
         return (
             <div >
                 {/* ******************************Search Box with date picker****************************** */}
@@ -285,13 +286,36 @@ class ResultCard extends React.Component {
                                 )
                             }
                            /> */}
-                           <input className='col-4 rounded-0 p-2 border-right-0 border-top-0 border-bottom-0' type='date'/>
+                            <div className='col-4 p-0 m-0'>
+                                <DatePicker
+                                    className='border p-2 '
+                                    placeholderText='Start Date'
+                                    selected={this.state.startDate}
+                                    onChange={this.handleStartDate}
+                                    selectsStart
+                                    startDate={this.state.startDate}
+                                    endDate={this.state.endDate}
+                                    // monthsShown={2}
+                                />
+                            </div>
                         </div>
                     </div>
                     {/* to date, people and search button */}
                     <div className='col-6'>
                         <div className='row'>
-                            <input className='col-4 rounded-0 p-2 border-right-0 border-top-0 border-bottom-0' type='date'/>
+                        <div className='col-4 p-0 m-0'>
+                            <DatePicker
+                                className='border col p-2'
+                                placeholderText='End Date'
+                                selected={this.state.endDate}
+                                onChange={this.handleEndDate}
+                                selectsEnd
+                                startDate={this.state.startDate}
+                                endDate={this.state.endDate}
+                                mindDate={this.state.startDate}
+                                // monthsShown={2}  
+                            />
+                        </div>
                             <div className='col-4 btn-block border-left mx-0'>
                                     <Dropdown variant='white'className='rounded-0'>
                                         <DropdownToggle variant='white'className='rounded-0 w-100 m-0'>
@@ -551,7 +575,7 @@ class ResultCard extends React.Component {
                                             <div class="row">
                                                 {typeof item.image == "string" ?
                                                     <div class="col-md-5 fill">
-                                                        <img className="img-card img-fluid" src={item.image} />
+                                                        <img className="img-card img-fluid" width='300' src={item.image} />
                                                     </div>
                                                     :
 
@@ -559,18 +583,18 @@ class ResultCard extends React.Component {
                                                         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                                                             <div class="carousel-inner">
                                                                 <div class="carousel-item active">
-                                                                    <img class="d-block w-100" src={item.image_a} alt="First slide" />
+                                                                    <img class="d-block " src={item.image_a} width='300' alt="First slide" />
                                                                 </div>
                                                                 {
                                                                     <div key = "myin">
                                                                         <div class="carousel-item">
-                                                                            <img class="d-block w-100" src={item.image_b} alt="Third slide" />
+                                                                            <img class="d-block " src={item.image_b} width='300' alt="Third slide" />
                                                                         </div>
                                                                         <div class="carousel-item">
-                                                                            <img class="d-block w-100" src={item.image_c} alt="Forth slide" />
+                                                                            <img class="d-block " src={item.image_c} width='300' alt="Forth slide" />
                                                                         </div>
                                                                         <div class="carousel-item">
-                                                                            <img class="d-block w-100" src={item.image_d} alt="Fifth slide" />
+                                                                            <img class="d-block " src={item.image_d} alt="Fifth slide" width='300' />
                                                                         </div>
                                                                     </div>
                                                                 }
@@ -591,7 +615,7 @@ class ResultCard extends React.Component {
                                                     <div class="container container-fluid">
                                                         <div class="row">
                                                             <div class="col-8">
-                                                            <Link to = {`/results/${item.id}`} style={{textDecoration:"none", color:"black"}}><h5 class="mt-2"><strong>{item.name}</strong></h5></Link>
+                                                            <Link to = {`/results/${item.property_id}`} style={{textDecoration:"none", color:"black"}}><h5 class="mt-2"><strong>{item.name}</strong></h5></Link>
                                                                 <p class=" mt-2">People: {item.no_people}</p>
                                                                 <p class=" mt-2">No. of Bedrooms:{item.bed}</p>
                                                                 <p class=" mt-2">Property Type:{item.type}</p>
@@ -599,7 +623,8 @@ class ResultCard extends React.Component {
                                                                     <FontAwesomeIcon
                                                                         icon={["fas", 'heart']}
                                                                         style={{ color: '#f7acbc' }}
-                                                                    /></button>
+                                                                    />
+                                                                </button>
                                                             </div>
 
                                                             <div className="col-4">
