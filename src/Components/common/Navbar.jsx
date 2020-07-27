@@ -25,9 +25,11 @@ class Navbar extends React.Component {
     }
     componentDidUpdate(){
         console.log(this.props.loginData)
+
     }
 
 render() {
+    
     const {username, token}= this.props.loginData
     return (
         <div>

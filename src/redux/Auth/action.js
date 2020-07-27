@@ -108,7 +108,7 @@ export const afterAuth =payload=> dispatch =>{
     console.log(payload)
     dispatch(gAuthStart)
 
-    return axios.post("https://f0c8e4890266.ngrok.io/user/google_auth", payload)
+    return axios.post("https://949831952d63.ngrok.io/user/google_auth", payload)
     .then(res=>res.data)
     .then(res=>dispatch((gAuthSuccess(res))))
     .catch(error=>dispatch(gAuthFail(error)))
