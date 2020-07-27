@@ -1,16 +1,33 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Vocation from '../common/Vacation';
-import {changeText} from "../../redux/LandingPage/action"
+import {changeText} from "../../redux/LandingPage/action";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
 
 class LandingPage extends React.Component{
     constructor(props){
         super(props)
         this.state={
             page:'',
-            inp:""
+            inp:"",
+            startDate: new Date(),
+            endDate:''
         }
     }
+    componentDidUpdate(){
+        console.log(this.state)
+    }
+    handleStartDate = date => {
+        this.setState({
+          startDate: date
+        });
+      };
+    handleEndDate = date => {
+      this.setState({
+        endDate: date
+      });
+    };
 
     handleClick = () => {
         this.props.changeText(this.state.inp)
@@ -39,13 +56,43 @@ class LandingPage extends React.Component{
                             <div className='h1 text-white text-center'>
                                 Find the perfect vacation rental
                                     </div>
-                            <div className="col-12 p-1">
-                                <div className="row mx-auto" >
-                                    <input onChange={this.handleChange} placeholder="Where do you want to go?" className="form-control col-6" />
-                                    <input type="date" className="form-control col-2" />
-                                    <input type="date" className="form-control col-2" />
-                                    <button className="form-control col-2 btn btn-warning text-light" onClick={this.handleClick}>Search</button>
-
+                            <div className="col-12 p-1" style={{background:"#b7c1cb", borderRadius:5}}>
+                                <div className="row m-1" >
+                                        <input 
+                                            onChange={this.handleChange} 
+                                            placeholder="Where do you want to go?" 
+                                            className="border col-6" 
+                                        />
+                                    <div className='col-6'>
+                                        <div className='row'> 
+                                            <div className='col-4 p-0 m-0'>
+                                                <DatePicker
+                                                    className='border p-2 '
+                                                    placeholderText='Start Date'
+                                                    selected={this.state.startDate}
+                                                    onChange={this.handleStartDate}
+                                                    selectsStart
+                                                    startDate={this.state.startDate}
+                                                    endDate={this.state.endDate}
+                                                    monthsShown={2}
+                                                />
+                                            </div>
+                                            <div className='col-4 p-0 m-0'>
+                                                <DatePicker
+                                                    className='border col p-2'
+                                                    placeholderText='End Date'
+                                                    selected={this.state.endDate}
+                                                    onChange={this.handleEndDate}
+                                                    selectsEnd
+                                                    startDate={this.state.startDate}
+                                                    endDate={this.state.endDate}
+                                                    mindDate={this.state.startDate}
+                                                    monthsShown={2}  
+                                                />
+                                            </div>
+                                            <button className="border btn btn-warning btn-block text-light col-4" onClick={this.handleClick}>Search</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -61,13 +108,13 @@ class LandingPage extends React.Component{
                     <p className='h2 font-weight-light px-2'> Top vacation rental destinations</p>
                     <div className='row border justify-content-md-center'>
                     {
-                        rentalData?.map(item=>
+                        rentalData?.map((item, ind)=>
                             (
-                                <div className='text-center'>
-                                <div className=' col-lg-4 col-md-6 col-sm-12 p-2 w-100'>
-                                    <img src={item.img} alt={item.name} width='350px' height='250px'/>
+                                <div className='text-center' key={ind}>
+                                    <div className=' col-lg-4 col-md-6 col-sm-12 p-2 w-100'>
+                                        <img src={item.img} alt={item.name} width='350px' height='250px'/>
+                                    </div>
                                 </div>
-                            </div>
                             )
                         )
                     }

@@ -20,7 +20,7 @@ export const propDataFail = payload => ({
 
 export const afterPropData =(payload) =>dispatch=>{
     console.log(payload)
-    var x = "https://949831952d63.ngrok.io/product/myData"
+    var x = "https://cf059a80cd74.ngrok.io/product/myData"
     return (
         axios.post(x,payload)
     .then(res=>res.data)
