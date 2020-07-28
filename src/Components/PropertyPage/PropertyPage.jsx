@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { getPropertyData } from '../../redux/Common/action'
 import { afterPropData, getRecommendations, recomData } from '../../redux/PropertyDetails/action'
 // import Carousel, { slidesToShowPlugin } from '@brainhubeu/react-carousel';
-import { Dropdown, Button, ButtonGroup, Form, FormCheck } from 'react-bootstrap';
+import { Dropdown, Button, ButtonGroup, Form, FormCheck, Table } from 'react-bootstrap';
 import DropdownToggle from 'react-bootstrap/esm/DropdownToggle';
 import DropdownMenu from 'react-bootstrap/esm/DropdownMenu';
 // import '@brainhubeu/react-carousel/lib/style.css';
@@ -254,14 +254,14 @@ class PropertyPage extends React.Component {
                                     <li id="Description" className="list-group-item ml-0 pl-0">
                                         <div className="mb-4">
                                             <span className="badge badge-pill badge-light p-3 mr-5" style={{background:"#f5f8f9"}}>
-                                                <strong> <Icons.House size={20}/>{property[0].type}</strong></span>
+                                                <strong> <Icons.House className='mx-2' size={20}/>{property[0].type}</strong></span>
                                             <span className="badge badge-pill badge-light p-3 mr-5" style={{background:"#f5f8f9"}}>
-                                                <Icons.DashSquare size={20}/>
+                                                <Icons.DashSquare className='mx-2' size={20}/>
                                                 <strong>{property[0].bed} Bedroom </strong></span>
                                             <span className="badge badge-pill badge-light p-3 mr-5" style={{background:"#f5f8f9"}}>
                                                 <strong> <Icons.People size={20}/> Sleeps {property[0].no_people}  </strong></span>
                                             <span className="badge badge-pill badge-light p-3 mr-5" style={{background:"#f5f8f9"}}>
-                                                <strong><Icons.Calendar4 size={20}/> 7 days</strong></span>
+                                                <strong><Icons.Calendar4 size={20} className='mx-2'/> 7 days</strong></span>
                                         </div>
                                         {/* BOOK WITH CONFIDENCE */}
                                         <div className="mb-4">
@@ -394,6 +394,8 @@ class PropertyPage extends React.Component {
                                             {
                                                 dispAmenitites.map((item, ind) => (
                                                 <div className='col-6' key={ind}>
+                                                    {item==='tv'?
+                                                    <Icons.Tv size={15} className='mx-2'/>:<Icons.CheckCircle size={15} className='mx-2'/>}
                                                     {item}
                                                 </div>
                                                 ))
@@ -403,13 +405,14 @@ class PropertyPage extends React.Component {
                                     </li>
                                     {/* Access */}
                                     <li id="Description" className="list-group-item ml-0 pl-0">
-                                        <h4 className="mb-2">Access</h4>
+                                    <p style={{fontWeight:600}}>ACCESS</p>
                                         {
                                         suitability[0].parking && suitability[0].elevator ? 
                                         <div className='container'>
                                             <div className="row justify-contnent-between">
                                                 <div className='col-6'>
-                                                    <Icons.CheckCircle size={15} className='mx-2'/> Parking Available
+                                                <img className='mx-2' src="https://img.icons8.com/dotty/80/000000/car.png"width='25px' />
+                                                    Parking Available
                                                 </div>
                                                 <div className='col-6'>
                                                     <Icons.CheckCircle size={15} className='mx-2'/>
@@ -432,40 +435,136 @@ class PropertyPage extends React.Component {
                                             <div className="col-6"><Icons.CheckCircle size={15} className='mx-2'/> No wheel chair</div>
                                         </div>
                                         }
-                                    </li>
-                                    <li id="Description" className="list-group-item ml-0 pl-0">
-                                        <h5>
-                                            Check in time: Anytime
-                                        </h5>
+                                        <hr/>
+                                        {/* interaction witn guest */}
                                         <div>
-                                            <h4>Payment</h4>
-                                            <p className="ml-5">
+                                        <p style={{fontWeight:600}}>INTERACTION WITH GUEST</p>
+                                            <div className='d-flex justify-content-around'>
+                                                <div className=''>
+                                                    <img src="https://img.icons8.com/dotty/80/000000/headset.png"width="25px"/>
+                                                </div>
+                                                <div className='pl-2' style={{fontSize:15}}>
+                                                    Detailed check-in and orientation information are emailed to guests prior to 
+                                                    arrival - please review carefully to avoid delays at check-in. Guests should 
+                                                    text/call the building manager prior to their departure to establish contact. 
+                                                    The building manager will provide guests with access to the apartment upon arrival. 
+                                                    Guests may contact building manager should any issues arise during their stay.
+                                                </div>
+                                            </div>
+                                            <hr/>
+                                        </div>
+                                    </li>
+                                    {/* policies */}
+                                    <div>
+                                        <p style={{fontWeight:600}}>POLICIES</p>
+                                        <div className='d-flex justify-content-around'>
+                                            <div className=''>
+                                            <img src="https://img.icons8.com/ios/50/000000/check-file.png" width='25'/>
+                                            </div>
+                                            <div>
+                                                <dl>
+                                                    <dd className='pl-2'>
+                                                        <strong>Check in time:</strong> 14:00, <strong>Check out time:</strong> 11:00
+                                                    </dd>
+                                                    <dd className='pl-2'>
+                                                    If you have any questions about check-in or check-out times, please contact the owner/manager.
+                                                    </dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                        <div className='row ml-1'>
+                                            <Icons.CreditCard size={30} className='pr-2'/>
+                                            <p className='mb-0'style={{fontWeight:600}}>Payment</p>
+                                            <p className='pl-4'>
                                                 This rental can only be paid for online through FlipKey using your credit/debit card or
                                                 PayPal (never by bank or wire transfer).
-                                            </p>
-                                            <p className="ml-5">Damage deposit: $200.00</p>
+                                            </p >
+                                            <p className='pl-4'>Damage deposit: $300.00</p>
                                         </div>
-                                        <div>
-                                            <h4>Smoking</h4>
-                                            {
-                                            suitability[0].smoke ? <p className="ml-5">Accesss to smoke</p> : <p className="ml-5">No
-                                                smoking at this property</p>
-                                            }
+                                        <div className='row ml-1'>
+                                            <Icons.XCircle size={30} className='pr-2' />
+                                            <p className='mb-0'style={{fontWeight:600}}>Smoking</p>
                                         </div>
-                                    </li>
-                                    <li id="Description" className="list-group-item ml-0 pl-0">
-                                        <p>Need to create the cancellation component</p>
-                                    </li>
-                                    <li id="Description" className="list-group-item ml-0 pl-0">
-                                        <h4 className="mb-2">About the owner</h4>
+                                            <p className='pl-4 mt-0'>No smoking at this property</p>
+                                        <hr/>
+                                    </div>
+                                    {/* CANCELLATIONS policy */}
+                                    <div>
+                                        <p style={{fontWeight:600}}>CANCELLATIONS</p>
+                                        <p>Change of plans? No problem. You could receive a partial or full refund, depending on when you cancel.</p>
+                                        <Table>
+                                            <tbody>
+                                                <tr>
+                                                    <td ><small style={{top:-20, position:'relative'}}>Booking confirmed</small></td>
+                                                    <td>
+                                                        {/* bullete point */}
+                                                        <ul>
+                                                            <li style={{listStyleType:'disc',top:-20,position:'relative'}}></li>
+                                                        </ul>
+                                                    </td>
+                                                    {/* condition-1 */}
+                                                    <td>
+                                                        <div className='border w-100 p-2' style={{width:'100%',top:-10,left:-10, position:'relative', background:'#1fa1db'}}>
+                                                            <strong> 100% refund </strong>within 24 hours after booking (provided the stay is at least 60 days away).>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><small style={{top:-20, position:'relative'}}><strong>24 </strong>hours after <br />booking</small></td>
+                                                    {/* bullete point */}
+                                                    <td>
+                                                        <ul>
+                                                            <li style={{listStyleType:'disc',top:-20,position:'relative'}}></li>
+                                                        </ul>
+                                                    </td>
+                                                    {/* condition-2 */}
+                                                    <td>
+                                                        <div className='border w-100 p-2' style={{width:'100%',top:-10,left:-10, position:'relative', background:'#8ed0ec'}}>
+                                                            <strong> 50% refund </strong>of the amount paid (minus the booking fee*) if cancelled at least 4 weeks before check-in.
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><small><strong>4</strong> weeks before</small></td>
+                                                    {/* bullete point */}
+                                                    <td>
+                                                        <ul>
+                                                            <li style={{listStyleType:'disc',top:-20,position:'relative'}}></li>
+                                                        </ul>
+                                                    </td>
+                                                    {/* condition-3 */}
+                                                    <td>
+                                                        <div className='border w-100 p-2' style={{width:'100%',left:-10, position:'relative'}}>
+                                                            <strong> No refund </strong>if cancelled less than 4 weeks before check-in.
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><small>Check-in date</small></td>
+                                                    {/* bullete point */}
+                                                    <td>
+                                                        <ul>
+                                                            <li style={{listStyleType:'disc',top:-20,position:'relative'}}></li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </Table>
+                                        <small>* The booking fee is stated in the cancellation policy information on the payment page. This fee helps us run our secure platform and enables us to provide 24/7 customer support</small>
+                                        <hr/>
+                                    </div>
+                                    {/* About the owner */}
+                                    <div>
+                                        <h4 style={{fontWeight:400}}>About the owner</h4>
+                                        <p style={{fontFamily:"Arial, Helvetica, sans-serif"}}><strong>{owner[0].name}</strong></p>
+                                        <div style={{fontSize:15, fontFamily:" Comic Sans MS, cursive, sans-serif"}}>
+                                            <p>Response Rate:{owner[0].response_rate}</p>
+                                            <p>Years listed : {owner[0].year_listed}</p>
+                                            <p>Contact Info: {owner[0].phone}</p>
+                                            {owner[0].english?<p>Languages Spoken: English</p>:<p>Languages Spoken: Native</p>}
+                                        </div>
+                                    </div>    
 
-                                        <p><strong>{owner[0].name}</strong></p>
-                                        <p>Response Rate:{owner[0].response_rate}</p>
-                                        <p>Years listed : {owner[0].year_listed}</p>
-                                        <p>Contact Info: {owner[0].phone}</p>
-                                        {owner[0].english?<p>Languages Spoken: English</p>:<p>Languages Spoken: Native</p>}
-
-                                    </li>
                                     <li id="Map" className="list-group-item ml-0 pl-0">
                                         <h4 className="mb-2">Map Integration</h4>
 
