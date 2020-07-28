@@ -85,7 +85,7 @@ export const postReg=payload=>dispatch=>{
     console.log('regi data')
     console.log(payload)
     dispatch(regStart)
-    return axios.post('https://ed1cd2945993.ngrok.io/user/register', payload)
+    return axios.post('https://b3a045ce175a.ngrok.io/user/register', payload)
     .then(res=>res.data)
     .then(res=>dispatch(regSucc(res)))
     .catch(error=>dispatch(regFail(error)))
