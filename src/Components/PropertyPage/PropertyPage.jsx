@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { getPropertyData } from '../../redux/Common/action'
-import { afterPropData, getRecommendations } from '../../redux/PropertyDetails/action'
+import { afterPropData, getRecommendations, recomData } from '../../redux/PropertyDetails/action'
 // import Carousel, { slidesToShowPlugin } from '@brainhubeu/react-carousel';
 import { Dropdown, Button, ButtonGroup, Form, FormCheck } from 'react-bootstrap';
 import DropdownToggle from 'react-bootstrap/esm/DropdownToggle';
@@ -27,7 +27,8 @@ class PropertyPage extends React.Component {
             child: 0,
             startDate:new Date(),
             endDate:'',
-            toggle:false
+            toggle:false, 
+            id:null
         }
 
     }
@@ -89,6 +90,12 @@ class PropertyPage extends React.Component {
             console.log(this.state.child)
         }
     }
+    handleRecom=(newId)=>{
+
+        // this.setState({id:newId})
+        this.props.history.push(`/results/${newId}`)
+        window.location.reload(false)
+    }
      
     render() {
         const {toggle}= this.state
@@ -116,6 +123,7 @@ class PropertyPage extends React.Component {
         var recData
         if (Object.keys(dataR).length != 0) {
             recData = dataR.data
+            console.log("req ata")
             console.log(recData)
         }
 
@@ -557,9 +565,49 @@ class PropertyPage extends React.Component {
                                     <li id="FAQs" className="list-group-item">
                                         <p>FAQ</p>
                                     </li>
-                                    <li>
-                                        Recommended for you
+                                    
+                                    <li class="list-group-item">
+
+                                    <div className="flex-container" style={{ flexWrap: "nowrap",flexDirection:"row" }}>
+
+                                        {
+
+                                            recData && recData.map(item => (
+                                                
+                                                <div className="card-fluid" style={{width:"150px"}}>
+
+                                                    <img className="img-fluid" src={item.image_a} alt="Loading"></img>
+
+                                                    <div className="card-body">
+
+                                                        <p className="card-title">From $ {item.price}/<p className="small text-muted">per night</p></p>
+
+                                                        <div className="card-text">
+
+                                                            {/* <Link to={`/results/${item.property_id}`} style={{ textDecoration: "none", color: "black" }}> */}
+
+                                                                <p onClick={()=>{this.handleRecom(item.property_id)}}>{item.name}</p>
+                                                            {/* </Link> */}
+
+                                                                <p>{item.city}</p>
+
+                                                                <p>{item.bed} beds/{item.no_people}/Sleep</p>
+
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            ))
+
+                                        }
+
+                                    </div>
+
                                     </li>
+
                                     <li className="list-group-item">
                                         <h4 className="mb-2">
                                             Build your perfect trip, with Flipkey & TripAdvisor</h4>
