@@ -386,28 +386,37 @@ class PropertyPage extends React.Component {
                                             </div>
                                         </div>
                                     </li>
+                                    {/* Access */}
                                     <li id="Description" className="list-group-item ml-0 pl-0">
-                                        <div>
-                                            <h4 className="mb-2">Access</h4>
-
-                                            <div className="m-3">
-                                                {
-                                                suitability[0].parking && suitability[0].elevator ? <div>
-                                                    <span className="m-5">Parking Available</span>
-                                                    <span className="m-5">Elevator Available</span>
-                                                </div> : suitability[0].parking && suitability[0].wheelchair ? <div>
-                                                    <span className="m-5">Parking Available</span>
-                                                    <span className="m-5"> wheelchair</span>
-                                                </div> : suitability[0].parking ? <div>
-                                                    <span className="m-5">Parking Available</span>
-                                                    <span className=" m-5"> No wheel chair</span>
-                                                </div> : <div>
-                                                    <span className="m-5">Parking Not Available</span>
-                                                    <span className="m-5"> No wheel chair</span>
+                                        <h4 className="mb-2">Access</h4>
+                                        {
+                                        suitability[0].parking && suitability[0].elevator ? 
+                                        <div className='container'>
+                                            <div className="row justify-contnent-between">
+                                                <div className='col-6'>
+                                                    <Icons.CheckCircle size={15} className='mx-2'/> Parking Available
                                                 </div>
-                                                }
+                                                <div className='col-6'>
+                                                    <Icons.CheckCircle size={15} className='mx-2'/>
+                                                    Elevator Available
+                                                </div>
                                             </div>
+                                        </div> 
+                                        : suitability[0].parking && suitability[0].wheelchair ? 
+                                        <div className='container'>
+                                            <div className='col-6'> <Icons.XCircle size={15} className='mx-2'/>Parking Available</div>
+                                            <div className='col-6'><Icons.XCircle size={15} className='mx-2'/> wheelchair</div>
+                                        </div> 
+                                        : suitability[0].parking ? 
+                                        <div className='container'>
+                                            <div className='col-6'> <Icons.XCircle size={15} className='mx-2'/>Parking Available</div>
+                                            <div className='col-6'> No wheel chair</div>
+                                        </div> 
+                                        : <div className='container'>
+                                            <div className="col-6"> <Icons.CheckCircle size={15} className='mx-2'/>Parking Not Available</div>
+                                            <div className="col-6"><Icons.CheckCircle size={15} className='mx-2'/> No wheel chair</div>
                                         </div>
+                                        }
                                     </li>
                                     <li id="Description" className="list-group-item ml-0 pl-0">
                                         <h5>
