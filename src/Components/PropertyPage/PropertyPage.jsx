@@ -31,6 +31,9 @@ class PropertyPage extends React.Component {
         }
 
     }
+    handleBooking = () => {
+        this.props.history.push(`/results/booking/${this.props.match.params.id}`)
+    }
     //Axios call for 
     componentDidMount() {
         this.props.afterPropData(this.props.match.params)
@@ -778,7 +781,7 @@ class PropertyPage extends React.Component {
                                                     </div>
                                                 </div>
                                                 {/* Book now button */}
-                                                <button className="btn btn-info btn-block font-weight-bold mt-3">
+                                                <button className="btn btn-info btn-block font-weight-bold mt-3" onClick={this.handleBooking}>
                                                     Book now
                                                 </button>
                                                 {/* Contact owner  */}
