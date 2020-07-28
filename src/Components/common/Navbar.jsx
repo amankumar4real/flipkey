@@ -132,7 +132,7 @@ render() {
                         }
                         {/* List your property */}
                         <div className="nav-item">
-                            <div className="nav-link"  tabindex="-1" aria-disabled="true">
+                            <div className="nav-link"  tabIndex="-1" aria-disabled="true">
                                 <Link to='/property_list' className='text-muted text-decoration-none'>
                                     List your property
                                 </Link>

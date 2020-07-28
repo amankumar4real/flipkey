@@ -74,7 +74,7 @@ class LandingPage extends React.Component{
                                                     selectsStart
                                                     startDate={this.state.startDate}
                                                     endDate={this.state.endDate}
-                                                    monthsShown={2}
+                                                    // monthsShown={2}
                                                 />
                                             </div>
                                             <div className='col-4 p-0 m-0'>
@@ -87,7 +87,7 @@ class LandingPage extends React.Component{
                                                     startDate={this.state.startDate}
                                                     endDate={this.state.endDate}
                                                     mindDate={this.state.startDate}
-                                                    monthsShown={2}  
+                                                    // monthsShown={2}  
                                                 />
                                             </div>
                                             <button className="border btn btn-warning btn-block text-light col-4" onClick={this.handleClick}>Search</button>

@@ -9,7 +9,7 @@ const CovidBanner=()=>{
     }
     return(
         <div>
-            <div class="alert" style={{...style.bg, ...style.padding}} role="alert">
+            <div className="alert" style={{...style.bg, ...style.padding}} role="alert">
                 <h5 style={{...style.fontColor,...style.padding}}>COVID-19 Update</h5>
                 <small style={{...style.padding, ...style.color}}>
                 The impact of COVID-19 on travel is unprecedented. Like you, we’re monitoring the situation. Rest assured, we’re here to help with questions about your plans. Learn more here: 
