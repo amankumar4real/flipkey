@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { getPropertyData } from '../../redux/Common/action'
-import { afterPropData, getRecommendations } from '../../redux/PropertyDetails/action'
+import { afterPropData, getRecommendations, changeEndDate,changeStartDate,changePrice } from '../../redux/PropertyDetails/action'
 // import Carousel, { slidesToShowPlugin } from '@brainhubeu/react-carousel';
 import { Dropdown, Button, ButtonGroup, Form, FormCheck } from 'react-bootstrap';
 import DropdownToggle from 'react-bootstrap/esm/DropdownToggle';
@@ -24,18 +24,136 @@ class PropertyPage extends React.Component {
             people: 1,
             adult: 1,
             child: 0,
-            startDate: new Date(),
-            endDate: ''
+            startDate: "",
+            endDate:"",
+            eDate : new Date(),
+            sDate : new Date(),
+            price:0
         }
 
     }
     //Axios call for 
     componentDidMount() {
+        // this.setState({
+        //     price : this.props.data.property_data[0].price
+        // })
+
         this.props.afterPropData(this.props.match.params)
         this.props.getRecommendations(this.props.match.params)
     }
 
+    handleStartDate = date => {
+        // console.log(date.target.value)
+        date = date.toString()
+        date = date.split(" ")
+        date.shift()
+        let mon = date.shift()
+        if(mon == "Jan"){
+            mon = "01"
+        }
+        else if(mon == "Feb"){
+            mon = "02"
+        } 
+        else if(mon == "Mar"){
+            mon = "03"
+        } 
+        else if(mon == "Apr"){
+            mon = "04"
+        } 
+        else if(mon == "May"){
+            mon = "05"
+        } 
+        else if(mon == "Jun"){
+            mon = "06"
+        } 
+        else if(mon == "Jul"){
+            mon = "07"
+        } 
+        else if(mon == "Aug"){
+            mon = "08"
+        } 
+        else if(mon == "Sep"){
+            mon = "09"
+        } 
+        else if(mon == "Oct"){
+            mon = "10"
+        } 
+        else if(mon == "Nov"){
+            mon = "11"
+        } 
+        else{
+            mon = "12"
+        } 
+        let day = date.shift()
+        let year = date.shift()
+        let newDate = year+"-" +mon +"-"+ day
+        newDate = newDate.toString()
+        // this.setState({
+        //   startDate: newDate,
+        //   price : 0
+        // });
+        console.log(newDate)
+    };
+    handleEndDate = date => {
+        date = date.toString()
+        date = date.split(" ")
+        date.shift()
+        let mon = date.shift()
+        if(mon == "Jan"){
+            mon = "01"
+        }
+        else if(mon == "Feb"){
+            mon = "02"
+        } 
+        else if(mon == "Mar"){
+            mon = "03"
+        } 
+        else if(mon == "Apr"){
+            mon = "04"
+        } 
+        else if(mon == "May"){
+            mon = "05"
+        } 
+        else if(mon == "Jun"){
+            mon = "06"
+        } 
+        else if(mon == "Jul"){
+            mon = "07"
+        } 
+        else if(mon == "Aug"){
+            mon = "08"
+        } 
+        else if(mon == "Sep"){
+            mon = "09"
+        } 
+        else if(mon == "Oct"){
+            mon = "10"
+        } 
+        else if(mon == "Nov"){
+            mon = "11"
+        } 
+        else{
+            mon = "12"
+        } 
+        let day = date.shift()
+        let year = date.shift()
+        let newDate = year+"-" +mon +"-"+ day
+        newDate = newDate.toString()
+      this.setState({
+        endDate:  newDate
+      });
+      console.log(newDate)
+    };
+    booking = () =>{
+        console.log(this.state.price)
+        this.props.changeStartDate(this.state.startDate)
+        this.props.changeEndDate(this.state.endDate)
+        this.props.changePrice(this.state.price)
+
+    }
+
     render() {
+        console.log(this.props)
         const responsive = {
             desktop: {
                 breakpoint: { max: 3000, min: 1024 },
@@ -54,7 +172,7 @@ class PropertyPage extends React.Component {
             }
         };
         //took data from props reducer
-        const data = this.props.data
+        var data = this.props.data
         const dataR = this.props.recom
         console.log(data, dataR)
         var recData
@@ -67,7 +185,7 @@ class PropertyPage extends React.Component {
 
         //this variables are defines outside because of axios post call
         //this if condition is to check whether the page loaded and do all the calculations after  that
-        var amenities, dispAmenitites, property, suitability, owner, review, i, tot, avg, obj, a, obj_percent
+        var amenities, dispAmenitites,price, property, suitability, owner, review, i, tot, avg, obj, a, obj_percent
         if (Object.keys(data).length != 0) {
             amenities = data.property_amenities[0]
             dispAmenitites = []
@@ -77,6 +195,8 @@ class PropertyPage extends React.Component {
                 }
             }
             property = data.property_data
+            price = property[0].price
+            console.log(price)
             suitability = data.property_suitability
             owner = data.property_owner
             review = data.property_review
@@ -540,8 +660,8 @@ class PropertyPage extends React.Component {
                                                             selected={this.state.startDate}
                                                             onChange={this.handleStartDate}
                                                             selectsStart
-                                                            startDate={this.state.startDate}
-                                                            endDate={this.state.endDate}
+                                                            startDate={this.state.sDate}
+                                                            endDate={this.state.eDate}
                                                         // monthsShown={2}
                                                         />
                                                     </div>
@@ -553,8 +673,8 @@ class PropertyPage extends React.Component {
                                                             selected={this.state.endDate}
                                                             onChange={this.handleEndDate}
                                                             selectsEnd
-                                                            startDate={this.state.startDate}
-                                                            endDate={this.state.endDate}
+                                                            startDate={this.state.sDate}
+                                                            endDate={this.state.eDate}
                                                             mindDate={this.state.startDate}
                                                         // monthsShown={2}  
                                                         />
@@ -645,7 +765,10 @@ class PropertyPage extends React.Component {
                                                     <span className="float-left  text-muted">No Hidden values</span>
                                                     <span className="float-right text-muted">Show details</span>
                                                 </div>
-                                                <button type="button" class="btn btn-primary">Book</button>
+                                                <Link to={`/results/booking/${property[0].property_id}`} style={{ textDecoration: "none", color: "black" }}>
+
+                                                <button type="button" class="btn btn-primary" onClick={this.booking}>Book</button>
+                                                </Link>
                                                 <button type="submit" class="btn btn-light">Contact owner</button>
                                             </div>
                                         </div>
@@ -692,7 +815,10 @@ const mapDispatchToProps = dispatch => {
 
     return {
         afterPropData: payload => dispatch(afterPropData(payload)),
-        getRecommendations: payload => dispatch(getRecommendations(payload))
+        getRecommendations: payload => dispatch(getRecommendations(payload)),
+        changeStartDate : payload => dispatch(changeStartDate(payload)),
+        changeEndDate: payload => dispatch(changeEndDate(payload)),
+        changePrice : payload => dispatch(changePrice(payload))
     }
 }
 

@@ -10,6 +10,7 @@ import Subscription from '../Components/Auth/subscription';
 import AccountInfo from '../Components/Auth/accountInfo';
 import PropertyList from '../Components/PropertyPage/propertyList';
 import ShortList from '../Components/Result/shortList';
+import  BookingPage from "../Components/BookingPage/BookingPage";
 
 
 
@@ -27,8 +28,8 @@ const Routers = () => {
                 <Route path="/owner/register" component = {Register}/>
                 <Route path="/owner/login" component = {Login}/>
                 <Route exact path="/results" component = {ResultPage} />
-                <Route path="/results/:id" component = {PropertyPage} />
-            
+                <Route exact path="/results/:id" component = {PropertyPage} />
+                <Route path="/results/booking/:id" component = {BookingPage} />
         </div>
     )
 }
