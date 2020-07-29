@@ -800,9 +800,9 @@ class PropertyPage extends React.Component {
                                     {
                                         review.map(item =>
                                             (
-                                                <li className="list-group-item">
-                                                    <div className='d-flex justify-content-start'>
-                                                        <div className='mx-2'>
+                                                <li className="list-group-item ml-0 pl-0">
+                                                    <div className='d-flex justify-content-start '>
+                                                        <div className='mr-2'>
                                                             <img src='/images/dummy_img.png' alt='img' width={60} className='rounded-circle border' />
                                                         </div>
                                                         <div className='d-flex flex-column '>
@@ -825,48 +825,66 @@ class PropertyPage extends React.Component {
                                             )
                                         )
                                     }
-                                    <li id="FAQs" className="list-group-item">
+                                    <li id="FAQs" className="list-group-item ml-0 pl-0">
                                         <p>FAQ</p>
                                     </li>
-
-                                    <li class="list-group-item">
-                                        <p className='lead' style={{fontWeight:400}}>Recommended for you</p>
+                                    {/* Recommendation */}
+                                    <li class="list-group-item ml-0 pl-0">
+                                        <h4 style={{fontWeight:400}}>Recommended for you</h4>
                                         <div className="row">
                                             {
                                                 recData && recData.map(item =>(
-                                                    <div className='col-4'>                                                    
-                                                        <div className="card  border">
+                                                    <div className='col-4 p-0 m-0'>                                                    
+                                                        <div className="card rounded-0 border-0 m-2">
                                                             <img className="img-fluid" src={item.image_a} alt="Loading" />
-                                                            <div className="card-body">
-                                                                <p className="card-title">From $ {item.price}/<p className="small text-muted">per night</p></p>
-                                                                <div className="card-text">
-                                                                    {/* <Link to={`/results/${item.property_id}`} style={{ textDecoration: "none", color: "black" }}> */}
-                                                                    <p onClick={()=>{this.handleRecom(item.property_id)}}>{item.name}</p>
-                                                                    {/* </Link> */}
-                                                                    <p>{item.city}</p>
-                                                                    <p>{item.bed} beds/{item.no_people}/Sleep</p>
-                                                                </div>
+                                                            <div className="card-title my-0">
+                                                                <small>
+                                                                    From <span style={{color:'#ff7300', fontSize:25}}>${item.price}</span>/per night
+                                                                </small>
                                                             </div>
+                                                            {/* <Link to={`/results/${item.property_id}`} style={{ textDecoration: "none", color: "black" }}> */}
+                                                            <small className="text-turncate my-0"onClick={()=>{this.handleRecom(item.property_id)}}>{item.name}</small>
+                                                            {/* </Link> */}
+                                                            <p className='text-capitalize small my-0'>{item.city}</p>
+                                                            <p className='small mt-0'>{item.bed} bedrooms / sleeps {item.no_people}</p>
+                                                            <button className='btn btn-block rounded-0 text-white' style={{background:'#ec9145'}}> View Details</button>
                                                         </div>
                                                     </div>
                                                 ))
                                             }
                                         </div>
-
+                                        {/* see all properties */}
+                                        <p>See all {recData.length} properties in {recData[0].city}</p>
                                     </li>
 
-                                    <li className="list-group-item">
+                                    <li className="list-group-item ml-0 pl-0">
                                         <h4 className="mb-2">
-                                            Build your perfect trip, with Flipkey & TripAdvisor</h4>
-
-                                        <p className="pl-5">Build the sttaic component </p>
-                                        <p className="pl-5 text-muted">Pay Online to be covered by payment protection </p>
-                                        <p className="pl-5">Real opinions real reviews</p>
-                                        <p className="pl-5 text-muted">Genuine guest feedback from 100,000+ reviews </p>
-                                        <p className="pl-5">Safe, simple, secure</p>
-                                        <p className="pl-5 text-muted">When you pay online with PayPal or by credit/debit card </p>
-                                        <p className="pl-5">Quick response times </p>
-                                        <p className="pl-5 text-muted">Know where you're staying within 24 hours </p>
+                                            Build your perfect trip, with Flipkey & TripAdvisor
+                                        </h4>
+                                        <p className="pl-5 mb-0">Build the sttaic component </p>
+                                        <p className="pl-5 text-muted">Pay Online to be covered by 
+                                            <strong style={{color:'#066bc8'}} className='px-1' >payment protection </strong> </p>
+                                        <div className='d-flex ml-0 pl-0'>
+                                            <Icons.Person size={40}/>
+                                            <div className=''>
+                                                <p className="pl-2 mb-0">Real opinions real reviews</p>
+                                                <p className="pl-2 text-muted">Genuine guest feedback from 100,000+ reviews </p>
+                                            </div>
+                                        </div>
+                                        <div className='d-flex ml-0 pl-0'>
+                                            <Icons.Lock size={40}/>
+                                            <div>
+                                                <p className="pl-2 mb-0">Safe, simple, secure</p>
+                                                <p className="pl-2 text-muted">When you pay online with PayPal or by credit/debit card </p>
+                                            </div>
+                                        </div>
+                                        <div className='d-flex ml-0 pl-0'>
+                                            <Icons.Clock size={35}/>
+                                            <div>
+                                                <p className="pl-2 mb-0">Quick response times </p>
+                                                <p className="pl-2 text-muted">Know where you're staying within 24 hours </p>
+                                            </div>
+                                        </div>
 
                                     </li>
                                     <li className="list-group-item">
@@ -930,7 +948,7 @@ class PropertyPage extends React.Component {
                                                         <DropdownToggle variant='white' className='rounded-0 w-100 m-0'>
                                                             <Button variant='white' className='p-0 m-0 w-100'>
                                                                 {this.state.people} guests
-                                                                </Button>
+                                                            </Button>
                                                         </DropdownToggle>
                                                         <DropdownMenu alignRight>
                                                             {/* adult */}
@@ -956,7 +974,7 @@ class PropertyPage extends React.Component {
                                                                                 <Button
                                                                                     className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0' onClick={this.adultInc}>
                                                                                     +
-                                                                                    </Button>
+                                                                                </Button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -980,7 +998,7 @@ class PropertyPage extends React.Component {
                                                                                 <Button
                                                                                     className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0' onClick={this.childDec}>
                                                                                     -
-                                                                                    </Button>
+                                                                                </Button>
                                                                             </div>
                                                                             <div className='col-4 m-0 p-1'>
                                                                                 <div className='text-center'>
@@ -991,7 +1009,7 @@ class PropertyPage extends React.Component {
                                                                                 <Button
                                                                                     className='lead font-weight-bold p-1 m-0 btn-block btn-light rounded-0' onClick={this.childInc}>
                                                                                     +
-                                                                                    </Button>
+                                                                                </Button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
