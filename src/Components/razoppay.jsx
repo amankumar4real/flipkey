@@ -29,7 +29,7 @@ function RazopPay(){
 			return
 		}
 
-		const data = await fetch('http://localhost:1337/razorpay', { method: 'POST' }).then((t) =>
+		const data = await fetch('http://127.0.0.1:5000/charge', { method: 'POST' }).then((t) =>
 			t.json()
 		)
 
@@ -50,13 +50,13 @@ function RazopPay(){
 			},
 			prefill: {
 				name,
-				email: 'sdfdsjfh2@ndsfdf.com',
+				email: 'amankumar4real@gmail.com',
 				phone_number: '9899999999'
 			}
 		}
 		const paymentObject = new window.Razorpay(options)
 		paymentObject.open()
-	} 
+   	} 
 
         return(
             <div className="App">
