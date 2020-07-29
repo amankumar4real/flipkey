@@ -11,16 +11,19 @@ export default class ResultPage extends React.Component {
     render() {
         console.log(this.props)
         return (
-            <div className="card card-fluid p-3">
-                <div className="row">
-                    <div className="col-lg-6 col-md-12">
-                        <ResultCard />
+            <div>
+                <div className="row m-auto">
+                    {/* resultCard */}
+                    <div className="col-lg-5 col-md-12">
+                        <div className='mx-2'>
+                            <ResultCard />
+                        </div>
                     </div>
-                    <div className="col-md-6 d-md-none">
-                    
-                        <img className="img img-fluid"  src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/SS2.max-1000x1000.png" alt=""/>
-
-                    
+                    {/* Map */}
+                    <div className="col-md-7 d-none d-xl-block">
+                        <div className='my-2'>
+                            <img className="img img-fluid"  src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/SS2.max-1000x1000.png" alt=""/>
+                        </div>
                     </div>
                 </div>
             </div>

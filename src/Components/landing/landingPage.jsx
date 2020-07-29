@@ -136,12 +136,12 @@ class LandingPage extends React.Component{
                         </div>
                         <div className='col-4'>
                         <div className='border bg-white my-3' style={{height:'400px'}}>
-                                sree
+                                
                             </div>
                         </div>
                         <div className='col-4'>
                         <div className='border bg-white my-3' style={{height:'400px'}}>
-                                sree
+                               
                             </div>
                         </div>
                     </div>
