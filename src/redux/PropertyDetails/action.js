@@ -7,7 +7,8 @@ import { PROP_DETAILS_FAIL,
     PROP_BOOKING_FAIL, 
     CHANGE_START_DATE,
     CHANGE_END_DATE,
-    CHANGE_PRICE} from './actionTypes'
+    CHANGE_PRICE,
+GUEST_DAYS} from './actionTypes'
 import axios from 'axios'
 
 
@@ -60,10 +61,15 @@ export const changePrice = payload => ({
     payload
 })
 
+export const guestDays = payload => ({
+    type: GUEST_DAYS,
+    payload
+})
+
 //axios call fro entity page
 export const afterPropData =(payload) =>dispatch=>{
     console.log(payload)
-    var x = "https://b3a045ce175a.ngrok.io/product/myData"
+    var x = "https://185ad56cf3f6.ngrok.io/product/myData"
     return (
         axios.post(x,payload)
     .then(res=>res.data)
@@ -74,16 +80,29 @@ export const afterPropData =(payload) =>dispatch=>{
 
 //axios call for recommendations in entity page
 export const getRecommendations = payload => dispatch =>{
-    var x = "https://b3a045ce175a.ngrok.io/product/recommendation"
+    var x = "https://185ad56cf3f6.ngrok.io/product/recommendation"
     return axios.post(x,payload)
     .then(res=>res.data)
     .then(res=>dispatch((recomData(res))))
 }
 
 export const propBookingData = payload => dispatch =>{
-    var x = "https://b3a045ce175a.ngrok.io/booking/addbooking"
+    const token = payload.token
+    const postData = {
+        property_id : payload.property_id,
+        from_date :payload.from_date,
+        end_date : payload.end_date,
+        price: payload.price
+    }
+    console.log(postData)
+    var x = "https://185ad56cf3f6.ngrok.io/booking/addbooking"
     dispatch(propBookingStart)
-    return axios.post(x,payload)
+    // axios.defaults.headers.common['Authorization'] = token
+    return axios.post(x,postData, {
+        headers: {
+          'Authorization': `Basic ${token}` 
+        }
+      })
     .then(res=>res.data)
     .then(res=>dispatch(propBookingSuccess(res))
     .catch(error=>dispatch(propBookingFail(error))))

@@ -4,19 +4,22 @@ import {
     PROP_BOOKING_FAIL,
     CHANGE_VAL,
     CHANGE_END_DATE,
-    CHANGE_START_DATE, CHANGE_PRICE
+    CHANGE_START_DATE, CHANGE_PRICE,
+    GUEST_DAYS
 } from './actionTypes'
 import { CHANGE_TYPE } from '../Auth/actionTypes'
 
 
 
 const initialstate = {
-    startDate : "",
-    endDate :  "",
-    price : "",
     primaryData: {},
     recomDetails: {},
-    bookingDetails: {}
+    bookingDetails: {},
+    startDate : null,
+    endDate :  null,
+    price : 0,
+    guest : 1,
+    days : 1
 }
 
 const reducerPropertyDetails = (state = initialstate, { type, payload }) => {
@@ -76,6 +79,12 @@ const reducerPropertyDetails = (state = initialstate, { type, payload }) => {
             return {
                 ...state,
                 price: payload
+            }
+        case GUEST_DAYS:
+            return {
+                ...state,
+                guest: payload.guest,
+                days : payload.days
             }
         default:
             return {
