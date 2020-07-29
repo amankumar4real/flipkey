@@ -11,7 +11,11 @@ import axios from 'axios';
 import FilterResults from 'react-filter-search';
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
+import { Next } from 'react-bootstrap/esm/PageItem';
 
+let params = new URLSearchParams(document.location.search.substring(1))
+
+// console.log(params.get("beds"))
 
 const sliderThumbStyles = (props) => (`
   width: 10px;
@@ -47,6 +51,8 @@ const Styles = styled.div
     }
   }`;
 
+// people, adult, child, beds, price, sortby,searchval
+
 class ResultCard extends React.Component {
     constructor(props) {
         super(props)
@@ -62,20 +68,17 @@ class ResultCard extends React.Component {
             suitability: [],
             sortby:"relevence",
             dummydata:[],
-            searchVal: "bangalore",
+            searchVal: "",
             startDate: new Date(),
-            endDate:''
+            endDate: new Date()
             // place: this.props.
         }
     }
     handleOnChange = (e) => {
         this.setState(
             { price: e.target.value },
-            console.log(e.target.value)
+            // console.log(e.target.value)
         )
-        // setTimeout(()=>{
-        //     this.props.getPropertyData()
-        // },2000)
         this.props.getPropertyData()
     }
 
@@ -155,14 +158,39 @@ class ResultCard extends React.Component {
         }
     }
 
+    componentWillMount() {
+        localStorage.getItem('people') && this.setState({
+            people: Number(JSON.parse(localStorage.getItem('people'))),
+            adult: Number(JSON.parse(localStorage.getItem('adult'))),
+            child: Number(JSON.parse(localStorage.getItem('child'))),
+            beds: Number(JSON.parse(localStorage.getItem('beds'))),
+            price: Number(JSON.parse(localStorage.getItem('price'))),
+            sortby: JSON.parse(localStorage.getItem('sortby')),
+            searchVal: JSON.parse(localStorage.getItem('searchVal'))
+        })
+
+        
+    }
+
     componentDidMount() {
         this.props.getPropertyData()
         console.log(this.props.landingText)
     }
 
+    componentWillUpdate(nextProps, nextState) {
+        localStorage.setItem('people', JSON.stringify(nextState.people));
+        localStorage.setItem('adult', JSON.stringify(nextState.adult));
+        localStorage.setItem('child', JSON.stringify(nextState.child));
+        localStorage.setItem('beds', JSON.stringify(nextState.beds));
+        localStorage.setItem('price', JSON.stringify(nextState.price));
+        localStorage.setItem('sortby', JSON.stringify(nextState.sortby));
+        localStorage.setItem('searchVal', JSON.stringify(nextState.searchVal))
+    }
+
+
     handleClick = () => {
         // this.props.history.push("/results")
-        const newUrl = new URL(window.location.href)
+        const newUrl = new URL(window.location.origin + window.location.pathname)
         newUrl.searchParams.set("people", this.state.people)
         newUrl.searchParams.set("price", this.state.price)
         newUrl.searchParams.set("beds", this.state.beds)
@@ -183,6 +211,7 @@ class ResultCard extends React.Component {
 
         // const newUrl = new URLSearchParams()
         console.log(newUrl.toString())
+
         window.location.href = newUrl.toString()
         // this.props.getPropertyData()
 
@@ -415,7 +444,7 @@ class ResultCard extends React.Component {
                                         <p className="value">{this.state.price}</p>
                                     </Styles>
                                     <div className='text-right mx-5'>
-                                        <Button className='rounded-0'> Apply</Button>
+                                        <Button onClick={this.handleClick} className='rounded-0'> Apply</Button>
                                     </div>
                                 </div>
                             </DropdownMenu>
@@ -455,7 +484,7 @@ class ResultCard extends React.Component {
                                     </div>
                                     {/* Apply button */}
                                     <div className='text-right mx-3'>
-                                        <Button className='rounded-0 p-2'> Apply</Button>
+                                        <Button onClick={this.handleClick} className='rounded-0 p-2'> Apply</Button>
                                     </div>
                                 </div>
                             </DropdownMenu>
@@ -560,7 +589,7 @@ class ResultCard extends React.Component {
                                 <div className="float-left">Cabins</div>
                                 <div className="float-right">
                                     Sort by:
-                                    <select name='sortby' onChange={this.handleSort}>
+                                    <select name='sortby' value={this.state.sortby} onChange={this.handleSort}>
                                         <option value='relevence'>Relevence</option>
                                         <option value='low'>Price: low to high</option>
                                         <option value='high'>Price: high to low</option>

@@ -10,13 +10,16 @@ import Subscription from '../Components/Auth/subscription';
 import AccountInfo from '../Components/Auth/accountInfo';
 import PropertyList from '../Components/PropertyPage/propertyList';
 import ShortList from '../Components/Result/shortList';
-import  BookingPage from "../Components/BookingPage/BookingPage";
+import BookingPage from "../Components/BookingPage/BookingPage";
+import RazopPay from "../Components/razoppay"
+import Navbar from "../Components/common/Navbar" 
 
 
 
 const Routers = () => {
     return(
         <div>
+                {/* <Route exact path="/nav" exact component ={Navbar}/> */}
                 <Route path="/" exact component ={landingPage}/>
                 <Route path="/user/register" component = {Register}/>
                 <Route path="/user/login" component = {Login}/>
@@ -30,6 +33,7 @@ const Routers = () => {
                 <Route exact path="/results" component = {ResultPage} />
                 <Route exact path="/results/:id" component = {PropertyPage} />
                 <Route path="/results/booking/:id" component = {BookingPage} />
+                <Route path="/pay" component={RazopPay}/>
         </div>
     )
 }

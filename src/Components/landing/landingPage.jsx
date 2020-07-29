@@ -74,6 +74,7 @@ class LandingPage extends React.Component{
                                                     selectsStart
                                                     startDate={this.state.startDate}
                                                     endDate={this.state.endDate}
+                                                    
                                                     // monthsShown={2}
                                                 />
                                             </div>

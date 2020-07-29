@@ -10,6 +10,7 @@ import { PROP_DETAILS_FAIL,
     CHANGE_PRICE,
 GUEST_DAYS} from './actionTypes'
 import axios from 'axios'
+import { api_link } from '../link'
 
 
 
@@ -69,7 +70,7 @@ export const guestDays = payload => ({
 //axios call fro entity page
 export const afterPropData =(payload) =>dispatch=>{
     console.log(payload)
-    var x = "https://185ad56cf3f6.ngrok.io/product/myData"
+    var x = api_link+"/product/myData"
     return (
         axios.post(x,payload)
     .then(res=>res.data)
@@ -80,7 +81,7 @@ export const afterPropData =(payload) =>dispatch=>{
 
 //axios call for recommendations in entity page
 export const getRecommendations = payload => dispatch =>{
-    var x = "https://185ad56cf3f6.ngrok.io/product/recommendation"
+    var x = api_link+"/product/recommendation"
     return axios.post(x,payload)
     .then(res=>res.data)
     .then(res=>dispatch((recomData(res))))
@@ -95,7 +96,7 @@ export const propBookingData = payload => dispatch =>{
         price: payload.price
     }
     console.log(postData)
-    var x = "https://185ad56cf3f6.ngrok.io/booking/addbooking"
+    var x = api_link+"/booking/addbooking"
     dispatch(propBookingStart)
     // axios.defaults.headers.common['Authorization'] = token
     return axios.post(x,postData, {
