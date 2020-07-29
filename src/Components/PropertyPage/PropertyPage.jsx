@@ -146,13 +146,14 @@ class PropertyPage extends React.Component {
             suitability = data.property_suitability
             owner = data.property_owner
             review = data.property_review
+            console.log('reaviews')
+            console.log(review)
             tot = 0
             obj = [{ "0": 0 }, { "1": 0 }, { "2": 0 }, { "3": 0 }, { "4": 0 }, { "5": 0 }]
-            review.map(item => {
+            review.map((item, ind) => {
                 tot += item.rating
-                console.log(item.rating)
-                if (item.rating == 0) {
-                    obj[0][0]++
+                if (item.rating == ind) {
+                    obj[ind][ind]++
                 }
                 if (item.rating == 1) {
                     obj[1][1]++
@@ -505,7 +506,7 @@ class PropertyPage extends React.Component {
                                                     {/* condition-1 */}
                                                     <td>
                                                         <div className='border w-100 p-2' style={{width:'100%',top:-10,left:-10, position:'relative', background:'#1fa1db'}}>
-                                                            <strong> 100% refund </strong>within 24 hours after booking (provided the stay is at least 60 days away).>
+                                                            <strong> 100% refund </strong>within 24 hours after booking (provided the stay is at least 60 days away).
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -556,105 +557,114 @@ class PropertyPage extends React.Component {
                                     {/* About the owner */}
                                     <div>
                                         <h4 style={{fontWeight:400}}>About the owner</h4>
-                                        <p style={{fontFamily:"Arial, Helvetica, sans-serif"}}><strong>{owner[0].name}</strong></p>
+                                        <p style={{fontFamily:"Arial, Helvetica, sans-serif"}}><strong>{owner[0].name}.</strong></p>
                                         <div style={{fontSize:15, fontFamily:" Comic Sans MS, cursive, sans-serif"}}>
-                                            <p>Response Rate:{owner[0].response_rate}</p>
-                                            <p>Years listed : {owner[0].year_listed}</p>
-                                            <p>Contact Info: {owner[0].phone}</p>
+                                            <p>Response Rate:<strong>{owner[0].response_rate}%</strong></p>
+                                            <p>Years listed : <strong>{owner[0].year_listed}</strong></p>
+                                            <p>Contact Info: <strong>{owner[0].phone}</strong></p>
                                             {owner[0].english?<p>Languages Spoken: English</p>:<p>Languages Spoken: Native</p>}
                                         </div>
                                     </div>    
-
+                                    {/* map inegration */}
                                     <li id="Map" className="list-group-item ml-0 pl-0">
                                         <h4 className="mb-2">Map Integration</h4>
 
                                     </li>
+                                    {/* calendar availability */}
                                     <li id="Availablitiy" className="list-group-item ml-0 pl-0">
                                         <p>One year calender integration</p>
                                     </li>
+                                    {/* Reviews page */}
                                     <li className="list-group-item ml-0 pl-0">
-                                        <h4 className="mb-2">Reviews </h4>
+                                        
+                                        <h4 style={{fontWeight:400}}>Reviews</h4>
                                         {
-                                        avg >= 4?<p>Very Good based on {tot} reviews</p>:
-                                        avg >= 3?<p>Good based on {tot} reviews</p>:
-                                        avg >= 2?<p>Average based on {tot} reviews</p>:
-                                        <p>Worst based on {tot} reviews</p>
+                                        avg >= 4?<p><strong style={{fontSize:15}}><i>Very Good</i></strong> – based on {tot} reviews</p>:
+                                        avg >= 3?<p><strong>Good </strong> – based on {tot} reviews</p>:
+                                        avg >= 2?<p><strong>Average </strong> – based on {tot} reviews</p>:
+                                        <p><strong>Worst </strong> – based on {tot} reviews</p>
                                         }
+                                        {/* redirect to add review component */}
+                                        <button className='btn rounded-0 btn-block text-center border w-50 mr-5'style={{color:'#066bc8', background:'#f4f4f4'}} >Write a review</button> {/* write a review button */}
                                     </li>
                                     <li id="Reviews" className="list-group-item ml-0 pl-0">
-                                        <div>
-                                            <span className='p-5'>Excellent</span>
-                                            <span>
-                                                <div
-                                                    style={{ height: "20px", width: "80px", backgroundColor: "grey",border:"1px solid black",borderRadius:"5px" }}>
-                                                    <div style={{ height: "20px", width: a[5], backgroundColor: "green" }}></div>
-                                                </div>
-                                            </span>
-                                            <span>{obj[5][5]}</span>
+                                        {/* Excellent rating */}
+                                        <div className='d-flex justify-content-start my-0'>
+                                            <p style={{width:100}}>Excellent</p>
+                                            <div
+                                                style={{ height: "20px", width: "120px", background: "#f4f4f4"}}>
+                                                <div style={{ height: "20px", width: a[5], background: "#00af87" }}></div>
+                                            </div> 
+                                            <p className='px-3 text-muted'>{obj[5][5]}</p>
                                         </div>
-                                        <div>
-                                            <span className='p-5'>Very Good</span>
-                                            <span>
+                                        {/* Very Good rating */}
+                                        <div className='d-flex justify-content-start my-0 py-0'>
+                                            <p style={{width:100}}>Very Good</p>
+                                            <div>
                                                 <div
-                                                    style={{ height: "20px", width: "80px", backgroundColor: "grey",border:"1px solid black",borderRadius:"5px" }}>
-                                                    <div style={{ height: "20px",  width: a[4], backgroundColor: "green" }}></div>
+                                                    style={{ height: "20px", width: "120px", background: "#f4f4f4"}}>
+                                                    <div style={{ height: "20px", width: a[4], background: "#00af87" }}></div>
                                                 </div>
-                                            </span>
-                                            <span>{obj[4][4]}</span>
+                                            </div>
+                                            <p className='px-3 text-muted'>{obj[4][4]}</p>
                                         </div>
-                                        <div>
-                                            <span className='p-5'>Average</span>
-                                            <span>
+                                        {/* Average rating */}
+                                        <div className='d-flex justify-content-start my-0 py-0'>
+                                            <p style={{width:100}}>Average</p>
+                                            <div>
                                                 <div
-                                                    style={{ height: "20px", width: "80px", backgroundColor: "grey",border:"1px solid black",borderRadius:"5px" }}>
-                                                    <div style={{ height: "20px",  width: a[3], backgroundColor: "green" }}></div>
+                                                    style={{ height: "20px", width: "120px", background: "#f4f4f4"}}>
+                                                    <div style={{ height: "20px", width: a[3], background: "#00af87" }}></div>
                                                 </div>
-                                            </span>
-                                            <span>{obj[3][3]}</span>
+                                            </div>
+                                            <p className='px-3 text-muted'>{obj[3][3]}</p>
                                         </div>
-                                        <div>
-                                            <span className='p-5'>Poor</span>
-                                            <span>
+                                        {/* Poor rating */}
+                                        <div className='d-flex justify-content-start my-0 py-0'>
+                                            <p style={{width:100}}>Poor</p>
+                                            <div>
                                                 <div
-                                                    style={{ height: "20px", width: "80px", backgroundColor: "grey",border:"1px solid black",borderRadius:"5px" }}>
-                                                    <div style={{ height: "20px",  width: a[2], backgroundColor: "green" }}></div>
+                                                    style={{ height: "20px", width: "120px", background: "#f4f4f4"}}>
+                                                    <div style={{ height: "20px", width: a[2], background: "#00af87" }}></div>
                                                 </div>
-                                            </span>
-                                            <span>{obj[2][2]}</span>
+                                            </div>
+                                            <div className='px-3 text-muted'>{obj[2][2]}</div>
                                         </div>
-                                        <div>
-                                            <span className='p-5'>Terrible</span>
-                                            <span>
+                                        {/* Terrible */}
+                                        <div className='d-flex justify-content-start my-0 py-0' >
+                                            <p style={{width:100}}>Terrible</p>
+                                            <div>
                                                 <div
-                                                    style={{ height: "20px", width: "80px", backgroundColor: "grey",border:"1px solid black",borderRadius:"5px" }}>
-                                                    <div style={{ height: "20px",  width: a[1], backgroundColor: "green" }}></div>
+                                                    style={{ height: "20px", width: "120px", background: "#f4f4f4"}}>
+                                                    <div style={{ height: "20px", width: a[1], background: "#00af87" }}></div>
                                                 </div>
-                                            </span>
-                                            <span>{obj[1][1]}</span>
+                                            </div>
+                                            <p className='px-3 text-muted'>{obj[1][1]}</p>
                                         </div>
                                     </li>
+                                    {/* displaying reviews */}
                                     {
                                         review.map(item => 
                                             (
                                                 <li className="list-group-item">
-                                                    <div>
-                                                        <span style={{height:"30px" ,width:"30px",borderRadius:"50%", border:"1px solid black"}}>
-
-                                                        </span>
-                                                        <span>
-                                                            <h4>{item.title}</h4>
-
-                                                        </span>
+                                                    <div className='d-flex justify-content-start'>
+                                                        <div className='mx-2'>
+                                                            <img src='/images/dummy_img.png' alt='img' width={60} className='rounded-circle border' />
+                                                        </div>
+                                                        <div className='d-flex flex-column '>
+                                                            <p className='lead py-0 mb-0' style={{fontWeight:400}}>"{item.title}!!"</p>
+                                                            <div >
+                                                                <span className="px-2">
+                                                                    {item.rating===5?<img src='/images/rating_5.png' width={100} alt='oops!'/>:item.rating}
+                                                                </span>
+                                                                <span className="px-2 text-muted" style={{fontSize:15}}>
+                                                                    Reviewed {item.rev_date}
+                                                                </span>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div className="mb-3 mr-2">
-                                                        <span className="mb-3">
-                                                            Ratings: {item.rating}
-                                                        </span>
-                                                        <span className="mb-3">
-                                                            Reviewed {item.rev_date}
-                                                        </span>
-                                                    </div>
-                                                    <p>
+                                                    
+                                                    <p className="my-2">
                                                         {item.review}
                                                     </p>
                                                 </li>
@@ -666,44 +676,28 @@ class PropertyPage extends React.Component {
                                     </li>
                                     
                                     <li class="list-group-item">
-
-                                    <div className="flex-container" style={{ flexWrap: "nowrap",flexDirection:"row" }}>
-
-                                        {
-
-                                            recData && recData.map(item => (
-                                                
-                                                <div className="card-fluid" style={{width:"150px"}}>
-
-                                                    <img className="img-fluid" src={item.image_a} alt="Loading"></img>
-
-                                                    <div className="card-body">
-
-                                                        <p className="card-title">From $ {item.price}/<p className="small text-muted">per night</p></p>
-
-                                                        <div className="card-text">
-
-                                                            {/* <Link to={`/results/${item.property_id}`} style={{ textDecoration: "none", color: "black" }}> */}
-
-                                                                <p onClick={()=>{this.handleRecom(item.property_id)}}>{item.name}</p>
-                                                            {/* </Link> */}
-
-                                                                <p>{item.city}</p>
-
-                                                                <p>{item.bed} beds/{item.no_people}/Sleep</p>
-
-
+                                        <p className='lead' style={{fontWeight:400}}>Recommended for you</p>
+                                        <div className="row">
+                                            {
+                                                recData && recData.map(item =>(
+                                                    <div className='col-4'>                                                    
+                                                        <div className="card  border">
+                                                            <img className="img-fluid" src={item.image_a} alt="Loading" />
+                                                            <div className="card-body">
+                                                                <p className="card-title">From $ {item.price}/<p className="small text-muted">per night</p></p>
+                                                                <div className="card-text">
+                                                                    {/* <Link to={`/results/${item.property_id}`} style={{ textDecoration: "none", color: "black" }}> */}
+                                                                    <p onClick={()=>{this.handleRecom(item.property_id)}}>{item.name}</p>
+                                                                    {/* </Link> */}
+                                                                    <p>{item.city}</p>
+                                                                    <p>{item.bed} beds/{item.no_people}/Sleep</p>
+                                                                </div>
+                                                            </div>
                                                         </div>
-
                                                     </div>
-
-                                                </div>
-
-                                            ))
-
-                                        }
-
-                                    </div>
+                                                ))
+                                            }
+                                        </div>
 
                                     </li>
 
