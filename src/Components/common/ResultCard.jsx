@@ -611,10 +611,10 @@ class ResultCard extends React.Component {
                             </div>
                             {/* scrolling part */}
                             <div className="col-12 mx-auto">
-                                <div className='border ' style={{overflowY:'scroll', height:710}}>
+                                <div className='' style={{overflowY:'scroll', height:710}}>
                                 {
                                     result ? result.map((item, ind) => (
-                                        <div key={item.property_id} class="card mb-3 m-2 rounded-0 border">
+                                        <div key={item.property_id} class="card mb-3 m-2 border-0 rounded-0">
                                             <div class="row">
                                                 {/* carousel */}
                                                 <div class="col-md-5">
@@ -648,27 +648,39 @@ class ResultCard extends React.Component {
                                                     <Icons.Heart size={40} style={{position:'absolute' , top:-60, left:30, color:`${shortListBg}`}} />
                                                 </div>        
                                                 <div class="col-md-7">
-                                                    <div class="container container-fluid">
                                                         <div class="row">
                                                             <div class="col-8">
                                                                 {/* dynamic routing */}
-                                                            <Link to = {`/results/${item.property_id}`} style={{textDecoration:"none", color:"black"}}><h5 class="mt-2"><strong>{item.name}</strong></h5></Link>
-                                                                <p class=" mt-2">People: {item.no_people}</p>
-                                                                <p class=" mt-2">No. of Bedrooms:{item.bed}</p>
-                                                                <p class=" mt-2">Property Type:{item.type}</p>
+                                                            <Link to = {`/results/${item.property_id}`} style={{textDecoration:"none", color:"black", fontFamily:"Arial, Helvetica, sans-serif"}} >
+                                                                    <h5 class="m-0 p-0" >
+                                                                        {item.name}
+                                                                    </h5>
+                                                            </Link>
+                                                                <p class=" m-0">{item.type}</p>
+                                                                <p class=" mt-0">{item.bed} bedrooms/ 2 bathrooms/ sleep {item.no_people}</p>
                                                             </div>
 
-                                                            <div className="col-4">
-                                                                <p className="mb-0 " ><small>Price per ight</small></p>
-                                                                <p class="mt-0 mb-5"><strong>${item.price}</strong></p>
-                                                                <button className="btn btn-primary btn-fluid mt-5 mr-1" onClick={this.booking}>Book</button>
+                                                            <div className="col-4 text-right ">
+                                                                <p className="my-0 text-muted "style={{fontSize:15}} >Price per night from</p>
+                                                                <h4 class="my-0">${item.price}</h4>
+                                                                <p className="my-0 text-muted" style={{fontSize:15}} >${`${item.price*7}`}-{`${item.price*8}`}/ week</p>
                                                             </div>
+                                                            {/* about property */}
+                                                            <p className='text-muted my-0 ml-3 w-75' style={{fontSize:16}}><strong>“Best stay yet!!”</strong> Me and my girlfriends (5) stayed here for our NYC stay! Suzanne and Edgar are AMAZING hosts! The apartment is clean,</p>
+                                                            <p className='mx-2'>
+                                                                <Icons.ClockHistory size={15} className='mx-2' />
+                                                                Responds fast! avg. 1 hour 50 minutes
+                                                            </p>
+                                                        </div>
+                                                        {/* button */}
+                                                        <div className='col text-right m-0 p-0 '>
+                                                            <Link to = {`/results/${item.property_id}`}>
+                                                                <button className="btn px-4 mb-0 text-white" style={{background:'#0076df'}} >Book</button>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
                                             </div>
-                                        </div>
                                     )) :
                                         <div className="card card-fluid">
                                             <div className="row">
