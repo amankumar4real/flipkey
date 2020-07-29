@@ -1,5 +1,6 @@
 import {COMMON_DATA,PROPERTY_DATA} from './actionTypes'
 import axios from 'axios'
+import { api_link } from '../link'
 
 export const common = payload => ({
  type: COMMON_DATA ,
@@ -19,7 +20,7 @@ export const getPropertyData = payload => dispatch =>{
     dispatch(propertyData)
     const newUrl = new URL(window.location.href)
     console.log(newUrl.search)
-    var x = "https://c6fd06c1c7c7.ngrok.io/product/filterMyProduct"
+    var x = api_link+"/product/filterMyProduct"
     return axios.get(x+newUrl.search)
     .then(res=>res.data)
     .then(res=>dispatch((propertyData(res))))

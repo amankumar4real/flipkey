@@ -15,6 +15,7 @@ import {
         SIGN_OUT
     } from './actionTypes'
 import axios from 'axios';
+import {api_link} from "../link"
 
 
 export const changeType=payload=>({
@@ -85,7 +86,7 @@ export const postReg=payload=>dispatch=>{
     console.log('regi data')
     console.log(payload)
     dispatch(regStart)
-    return axios.post('https://c6fd06c1c7c7.ngrok.io/user/register', payload)
+    return axios.post(api_link+'/user/register', payload)
     .then(res=>res.data)
     .then(res=>dispatch(regSucc(res)))
     .catch(error=>dispatch(regFail(error)))
@@ -96,7 +97,7 @@ export const postLogin=payload=> dispatch =>{
     console.log(payload)
     dispatch(PostUserData)
 
-    return axios.post("https://c6fd06c1c7c7.ngrok.io/user/login", payload)
+    return axios.post(api_link+'/user/login', payload)
     .then(res=>res.data)
     .then(res=>dispatch(logSucc(res)))
     .catch(error=>dispatch(logFail(error)))
@@ -108,7 +109,7 @@ export const afterAuth =payload=> dispatch =>{
     console.log(payload)
     dispatch(gAuthStart)
 
-    return axios.post("https://c6fd06c1c7c7.ngrok.io/user/google_auth", payload)
+    return axios.post(api_link+"/user/google_auth", payload)
     .then(res=>res.data)
     .then(res=>dispatch((gAuthSuccess(res))))
     .catch(error=>dispatch(gAuthFail(error)))

@@ -11,7 +11,11 @@ import axios from 'axios';
 import FilterResults from 'react-filter-search';
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
+import { Next } from 'react-bootstrap/esm/PageItem';
 
+let params = new URLSearchParams(document.location.search.substring(1))
+
+// console.log(params.get("beds"))
 
 const sliderThumbStyles = (props) => (`
   width: 10px;
@@ -64,7 +68,7 @@ class ResultCard extends React.Component {
             suitability: [],
             sortby:"relevence",
             dummydata:[],
-            searchVal: "bangalore",
+            searchVal: "",
             startDate: new Date(),
             endDate: new Date()
             // place: this.props.
@@ -156,14 +160,16 @@ class ResultCard extends React.Component {
 
     componentWillMount() {
         localStorage.getItem('people') && this.setState({
-            people: JSON.parse(localStorage.getItem('people')),
-            adult: JSON.parse(localStorage.getItem('adult')),
-            child: JSON.parse(localStorage.getItem('child')),
-            beds: JSON.parse(localStorage.getItem('beds')),
-            price: JSON.parse(localStorage.getItem('price')),
+            people: Number(JSON.parse(localStorage.getItem('people'))),
+            adult: Number(JSON.parse(localStorage.getItem('adult'))),
+            child: Number(JSON.parse(localStorage.getItem('child'))),
+            beds: Number(JSON.parse(localStorage.getItem('beds'))),
+            price: Number(JSON.parse(localStorage.getItem('price'))),
             sortby: JSON.parse(localStorage.getItem('sortby')),
             searchVal: JSON.parse(localStorage.getItem('searchVal'))
         })
+
+        
     }
 
     componentDidMount() {

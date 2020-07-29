@@ -36,13 +36,13 @@ function RazopPay(){
 		console.log(data)
 
 		const options = {
-			key: __DEV__ ? ' rzp_test_i2Oudlj4OnfNoz' : 'PRODUCTION_KEY',
+			key: __DEV__ ? 'rzp_test_i2Oudlj4OnfNoz' : 'PRODUCTION_KEY',
 			currency: data.currency,
-			amount: data.amount.toString(),
+			amount: data.amount,
 			order_id: data.id,
 			name: 'Property',
 			description: 'Thank you for booking with us!',
-			// image: 'http://localhost:1337/logo.svg',
+			image: 'logo192.png',
 			handler: function (response) {
 				alert(response.razorpay_payment_id)
 				alert(response.razorpay_order_id)
@@ -61,14 +61,12 @@ function RazopPay(){
         return(
             <div className="App">
 			<header className="App-header">
-				<a
-					className="App-link"
+				<button
 					onClick={displayRazorpay}
-					target="_blank"
-					rel="noopener noreferrer"
+					className="btn btn-danger"
 				>
-					Donate $5
-				</a>
+					Pay
+				</button>
 			</header>
 		</div>
 	

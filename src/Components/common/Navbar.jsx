@@ -22,6 +22,7 @@ class Navbar extends React.Component {
     }
     handleSignOut=()=>{
         this.props.signOut()
+        // this.props.history.push("/")
     }
     componentDidUpdate(){
         console.log(this.props.loginData)
@@ -110,7 +111,7 @@ render() {
                                         <Link style={{color:'black'}} to='/subscription'>Manage subscriptions</Link>
                                     </div>
                                     <div className="dropdown-item">
-                                        <Link style={{color:'black'}} to='/'onClick={this.handleSignOut}>Sign out</Link>
+                                        <Link style={{color:'black'}} to='/' onClick={this.handleSignOut}>Sign out</Link>
                                     </div>  
                                 </div>
                             </div>
