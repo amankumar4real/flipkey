@@ -15,3 +15,5 @@ export const CHANGE_END_DATE = "CHANGE_END_DATE"
 export const CHANGE_PRICE = "CHANGE_PRICE"
 
 export const GUEST_DAYS = "GUEST_DAYS"
+
+export const TOTAL_PRICE = "TOTAL_PRICE"

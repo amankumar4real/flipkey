@@ -854,7 +854,7 @@ class PropertyPage extends React.Component {
                                             }
                                         </div>
                                         {/* see all properties */}
-                                        <p>See all {recData.length} properties in {recData[0].city}</p>
+                                        {/* <p>See all {recData.length} properties in {recData[0].city}</p> */}
                                     </li>
 
                                     <li className="list-group-item ml-0 pl-0">

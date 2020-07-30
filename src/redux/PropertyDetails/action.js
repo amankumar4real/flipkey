@@ -8,7 +8,8 @@ import { PROP_DETAILS_FAIL,
     CHANGE_START_DATE,
     CHANGE_END_DATE,
     CHANGE_PRICE,
-GUEST_DAYS} from './actionTypes'
+    GUEST_DAYS,
+    TOTAL_PRICE} from './actionTypes'
 import axios from 'axios'
 import { api_link } from '../link'
 
@@ -64,6 +65,11 @@ export const changePrice = payload => ({
 
 export const guestDays = payload => ({
     type: GUEST_DAYS,
+    payload
+})
+
+export const totalPrice = payload => ({
+    type: TOTAL_PRICE,
     payload
 })
 

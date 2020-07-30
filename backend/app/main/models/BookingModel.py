@@ -9,3 +9,4 @@ class BookingModel(db.Model):
     from_date = db.Column(db.Date)
     to_date = db.Column(db.Date)
     price = db.Column(db.Integer)
+    status = db.Column(db.String(10), default="processing")
