@@ -284,25 +284,27 @@ class PropertyPage extends React.Component {
 
         const argPassDayPick = [{before : new Date()}]
         for(var i=0;i<available.length;i++){
-            let checkIn = available[i][0].split("-").map(val=>Number(val))
-            let checkOut = available[i][1].split("-").map(val=>Number(val))
+            const checkIn = available[i][0].split("-").map(val=>Number(val))
+            const checkOut = available[i][1].split("-").map(val=>Number(val))
             argPassDayPick.push({after: new Date(checkIn[0],checkIn[1]-1,checkIn[2]-1),before: new Date(checkOut[0],checkOut[1]-1,checkOut[2]+1)})
         }
 
         var argPassDatePick = []
         for(var i=0;i<available.length;i++){
-            let checkIn = available[i][0].split("-").map(val=>Number(val))
-            let checkOut = available[i][1].split("-").map(val=>Number(val))
-                while(checkIn[2]<=checkOut[2]){
-                    while(checkIn[3]<31 || checkIn[3]<30 ){
-                        argPassDatePick.push(new Date(`${checkIn[2]}/${checkIn[3]}/${checkIn[1]}`))
-
+            const checkIn = available[i][0].split("-").map(val=>Number(val))
+            const checkOut = available[i][1].split("-").map(val=>Number(val))
+            console.log(`${checkIn[1]}/${checkIn[2]}/${checkIn[0]}`)
+            console.log(`${checkOut[1]}/${checkOut[2]}/${checkOut[0]}`)
+                while(checkIn[1]<=checkOut[1]){
+                    while(checkIn[2]<checkOut[2] ){
+                        argPassDatePick.push(new Date(`${checkIn[1]}/${checkIn[2]}/${checkIn[0]}`))
+                        checkIn[2]++
                     }
-                    while(checkOut[3]<31 || checkOut[3]<30 ){
-                        argPassDatePick.push(new Date(`${checkIn[2]}/${checkIn[3]}/${checkIn[1]}`))
-
+                    while(checkOut[2]<checkOut[2] ){
+                        argPassDatePick.push(new Date(`${checkIn[1]}/${checkIn[2]}/${checkIn[0]}`))
+                        checkOut[2]++
                     }
-                    checkIn[2]++
+                    checkIn[1]++
             }
         }
         console.log(argPassDatePick)
@@ -776,10 +778,10 @@ class PropertyPage extends React.Component {
 
                                         <h4 style={{ fontWeight: 400 }}>Reviews</h4>
                                         {
-                                            avg >= 4 ? <p><strong style={{ fontSize: 15 }}><i>Very Good</i></strong> – based on {tot} reviews</p> :
-                                                avg >= 3 ? <p><strong>Good </strong> – based on {tot} reviews</p> :
-                                                    avg >= 2 ? <p><strong>Average </strong> – based on {tot} reviews</p> :
-                                                        <p><strong>Worst </strong> – based on {tot} reviews</p>
+                                            avg >= 4 ? <p><strong style={{ fontSize: 15 }}><i>Very Good</i></strong> – based on {review.length} reviews</p> :
+                                                avg >= 3 ? <p><strong>Good </strong> – based on {review.length} reviews</p> :
+                                                    avg >= 2 ? <p><strong>Average </strong> – based on {review.length} reviews</p> :
+                                                        <p><strong>Worst </strong> – based on {review.length} reviews</p>
                                         }
                                         {/* redirect to add review component */}
                                         <button className='btn rounded-0 btn-block text-center border w-50 mr-5' style={{ color: '#066bc8', background: '#f4f4f4' }} >Write a review</button> {/* write a review button */}
