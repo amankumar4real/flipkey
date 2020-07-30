@@ -112,7 +112,7 @@ class BookingPage extends React.Component {
             console.log(property)
         }
         return (
-            !this.props.token?this.props.history.push("/user/login"):
+            // !this.props.token?this.props.history.push("/user/login"):
             Object.keys(data).length != 0 ?
                 <div>
                     <div className="container-fluid  w-50" style={{ backgroundColor: "white" }}>
