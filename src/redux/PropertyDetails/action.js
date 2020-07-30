@@ -8,6 +8,7 @@ import { PROP_DETAILS_FAIL,
     CHANGE_START_DATE,
     CHANGE_END_DATE,
     CHANGE_PRICE,
+    TOTAL_PRICE,
     AVAIL_DATES_FAIL,
     AVAIL_DATES_START,
     AVAIL_DATES_SUCC,
@@ -81,6 +82,11 @@ export const changePrice = payload => ({
 
 export const guestDays = payload => ({
     type: GUEST_DAYS,
+    payload
+})
+
+export const totalPrice = payload => ({
+    type: TOTAL_PRICE,
     payload
 })
 

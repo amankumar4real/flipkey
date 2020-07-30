@@ -1,5 +1,9 @@
-import React, { useState } from 'react'
-// import logo from './logo.svg'
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { useHistory } from "react-router"
+// import {flip} from '../../public'
+import { api_link } from '../redux/link'
 
 function loadScript(src) {
 	return new Promise((resolve) => {
@@ -17,7 +21,18 @@ function loadScript(src) {
 
 const __DEV__ = document.domain === 'localhost'
 
-function RazopPay(){
+function RazopPay({total, start, end, ids, token}){
+	const history = useHistory()
+	// console.log(total, start, end, ids, token)
+	// console.log(start.split("T")[0])
+	var my_data = {
+		property_id: ids,
+		from_date: start,
+		to_date: end,
+		price: total
+	}
+	
+	console.log(my_data)
     
     const [name, setName] = useState('Aman')
 
@@ -29,7 +44,15 @@ function RazopPay(){
 			return
 		}
 
-		const data = await fetch('http://127.0.0.1:5000/charge', { method: 'POST' }).then((t) =>
+		const data = await fetch(api_link+`/charge`, 
+		{
+			method: 'POST' , 
+			body: JSON.stringify(my_data),
+			headers: {
+				"Content-Type": "application/json",
+				"Auth": token
+			  },
+		}).then((t) =>
 			t.json()
 		)
 
@@ -42,11 +65,10 @@ function RazopPay(){
 			order_id: data.id,
 			name: 'Property',
 			description: 'Thank you for booking with us!',
-			image: 'logo192.png',
+			image: 'flip.jpg',
 			handler: function (response) {
-				alert(response.razorpay_payment_id)
-				alert(response.razorpay_order_id)
-				alert(response.razorpay_signature)
+				alert("Payment Completed!")
+				// history.push("/")
 			},
 			prefill: {
 				name,
@@ -59,18 +81,24 @@ function RazopPay(){
    	} 
 
         return(
-            <div className="App">
-			<header className="App-header">
-				<button
-					onClick={displayRazorpay}
-					className="btn btn-danger"
-				>
-					Pay
-				</button>
-			</header>
-		</div>
+			<button
+				onClick={displayRazorpay}
+				className="btn btn-warning"
+			>
+				Pay with RazorPay
+			</button>
 	
         )
 }
 
-export default RazopPay
+function mapStateToProps(state) {
+	return { 
+		total: state.reducerPropertyDetails.price,
+		start: state.reducerPropertyDetails.startDate,
+		end: state.reducerPropertyDetails.endDate,
+		ids: state.reducerPropertyDetails.prop_id,
+		token: state.reducerAuth.token
+	};
+}
+
+export default connect(mapStateToProps)(RazopPay)

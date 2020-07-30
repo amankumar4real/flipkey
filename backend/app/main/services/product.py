@@ -126,7 +126,7 @@ def propertyAllDetails(details):
                                         owner as o JOIN ownerProperty as op ON o.id = op.owner_id
                                         WHERE op.property_id = "%s" '''%(product_id))
 
-    property_review = db.session.execute('''SELECT * FROM review WHERE property_id = %s'''%(product_id))
+    property_review = db.session.execute('''SELECT r.*, u.image FROM review as r JOIN user as u ON r.user_id = u.id WHERE property_id = %s'''%(product_id))
 
 
     return jsonify({"property_data": [dict(row) for row in property_data],

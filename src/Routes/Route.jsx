@@ -11,10 +11,6 @@ import AccountInfo from '../Components/Auth/accountInfo';
 import PropertyList from '../Components/PropertyPage/propertyList';
 import ShortList from '../Components/Result/shortList';
 import BookingPage from "../Components/BookingPage/BookingPage";
-import RazopPay from "../Components/razoppay"
-import Navbar from "../Components/common/Navbar" 
-
-
 
 const Routers = () => {
     return(
@@ -33,7 +29,6 @@ const Routers = () => {
                 <Route exact path="/results" component = {ResultPage} />
                 <Route exact path="/results/:id" component = {PropertyPage} />
                 <Route path="/results/booking/:id" component = {BookingPage} />
-                <Route path="/pay" component={RazopPay}/>
         </div>
     )
 }

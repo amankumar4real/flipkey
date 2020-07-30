@@ -137,6 +137,7 @@ def google_auth(details):
         email = details["email"]
         google_id = details["googleId"]
         typ = details["type"]
+        image = details["imageUrl"]
     except KeyError:
         return json.dumps({"error": True,
                            "message": "One or more fields are missing!"})
@@ -163,7 +164,7 @@ def google_auth(details):
             db.session.add(owner)
             db.session.commit()
         else:
-            user = UserModel(name=name, email=email, phone=123, password="google")
+            user = UserModel(name=name, email=email, phone=123, password="google",image=image)
 
             db.session.add(user)
             db.session.commit()

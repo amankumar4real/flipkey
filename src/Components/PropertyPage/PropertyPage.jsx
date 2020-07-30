@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { getPropertyData } from '../../redux/Common/action'
-import { afterPropData, getRecommendations, recomData, changeEndDate, changeStartDate, changePrice, guestDays, availableDates} from '../../redux/PropertyDetails/action'
+import { afterPropData, getRecommendations, recomData, changeEndDate, changeStartDate, changePrice, guestDays, availableDates } from '../../redux/PropertyDetails/action'
 // import Carousel, { slidesToShowPlugin } from '@brainhubeu/react-carousel';
 import { Dropdown, Button, ButtonGroup, Form, FormCheck, Table } from 'react-bootstrap';
 import DropdownToggle from 'react-bootstrap/esm/DropdownToggle';
@@ -12,7 +12,7 @@ import GoogleLogin from 'react-google-login';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import "react-datepicker/dist/react-datepicker.css";
-import DatePicker,{moment} from "react-datepicker";
+import DatePicker, { moment } from "react-datepicker";
 import * as Icons from 'react-bootstrap-icons';
 import Calendar from 'react-calendar'
 import DayPicker from 'react-day-picker';
@@ -35,7 +35,7 @@ class PropertyPage extends React.Component {
         }
 
     }
-    
+
     handleBooking = p => {
         this.props.changeStartDate(this.state.startDate)
         this.props.changeEndDate(this.state.endDate)
@@ -43,6 +43,15 @@ class PropertyPage extends React.Component {
         this.props.guestDays({ guest: this.state.people, days: this.state.days })
         this.props.history.push(`/results/booking/${this.props.match.params.id}`)
     }
+
+    // componentWillMount() {
+    //     localStorage.getItem('startDate') && this.setState({
+    //         startDate: new Date(parseInt(localStorage.getItem('startDate'))),
+    //         endDate: new Date(parseInt(localStorage.getItem('endDate')))
+
+    //     })
+    // }
+
     //Axios call for 
     componentDidMount() {
         // this.setState({
@@ -51,8 +60,14 @@ class PropertyPage extends React.Component {
         console.log(this.props.match.params.id)
         this.props.afterPropData(this.props.match.params)
         this.props.getRecommendations(this.props.match.params)
-        this.props.availableDates({property_id : Number(this.props.match.params.id)})
+        this.props.availableDates({ property_id: Number(this.props.match.params.id) })
     }
+
+
+    // componentWillUpdate(nextProps, nextState) {
+    //     localStorage.setItem('startDate',+new JSON.stringify(nextState.startDate));
+    //     localStorage.setItem('endDate',+new JSON.stringify(nextState.endDate));
+    // }
 
     handleStartDate = date => {
         // if(this.state.endDate){
@@ -254,7 +269,7 @@ class PropertyPage extends React.Component {
         this.props.history.push(`/results/${newId}`)
         window.location.reload(false)
     }
-    
+
     render() {
         const { toggle } = this.state
         console.log(this.props)
@@ -278,37 +293,39 @@ class PropertyPage extends React.Component {
         //took data from props reducer
         var data = this.props.data
         const dataR = this.props.recom
-        const available = this.props.datesFromR.data
-        console.log(available)
+
+        var available = ""
         var recData
-
-        const argPassDayPick = [{before : new Date()}]
-        for(var i=0;i<available.length;i++){
-            const checkIn = available[i][0].split("-").map(val=>Number(val))
-            const checkOut = available[i][1].split("-").map(val=>Number(val))
-            argPassDayPick.push({after: new Date(checkIn[0],checkIn[1]-1,checkIn[2]-1),before: new Date(checkOut[0],checkOut[1]-1,checkOut[2]+1)})
-        }
-
+        var argPassDayPick = [{ before: new Date() }]
         var argPassDatePick = []
-        for(var i=0;i<available.length;i++){
-            const checkIn = available[i][0].split("-").map(val=>Number(val))
-            const checkOut = available[i][1].split("-").map(val=>Number(val))
-            console.log(`${checkIn[1]}/${checkIn[2]}/${checkIn[0]}`)
-            console.log(`${checkOut[1]}/${checkOut[2]}/${checkOut[0]}`)
-                while(checkIn[1]<=checkOut[1]){
-                    while(checkIn[2]<checkOut[2] ){
-                        argPassDatePick.push(new Date(`${checkIn[1]}/${checkIn[2]}/${checkIn[0]}`))
+
+        if (Object.keys(this.props.datesFromR).length != 0) {
+            available = this.props.datesFromR.data
+            for (var i = 0; i < available.length; i++) {
+                const checkIn = available[i][0].split("-").map(val => Number(val))
+                const checkOut = available[i][1].split("-").map(val => Number(val))
+                argPassDayPick.push({ after: new Date(checkIn[0], checkIn[1] - 1, checkIn[2] - 1), before: new Date(checkOut[0], checkOut[1] - 1, checkOut[2] + 1) })
+            }
+
+            for (var i = 0; i < available.length; i++) {
+                const checkIn = available[i][0].split("-").map(val => Number(val))
+                const checkOut = available[i][1].split("-").map(val => Number(val))
+                console.log(`${checkIn[1]}/${checkIn[2]}/${checkIn[0]}`)
+                console.log(`${checkOut[1]}/${checkOut[2]}/${checkOut[0]}`)
+                while (checkIn[1] <= checkOut[1]) {
+                    while (checkIn[2] < checkOut[2]) {
+                        argPassDatePick.push(new Date(`${checkIn[1]}/${checkIn[2]+1}/${checkIn[0]}`))
                         checkIn[2]++
                     }
-                    while(checkOut[2]<checkOut[2] ){
-                        argPassDatePick.push(new Date(`${checkIn[1]}/${checkIn[2]}/${checkIn[0]}`))
+                    while (checkOut[2] < checkOut[2]) {
+                        argPassDatePick.push(new Date(`${checkIn[1]}/${checkIn[2]+1}/${checkIn[0]}`))
                         checkOut[2]++
                     }
                     checkIn[1]++
+                }
             }
-        }
-        console.log(argPassDatePick)
 
+        }
         if (Object.keys(dataR).length != 0) {
             recData = dataR.data
             console.log("req ata")
@@ -378,7 +395,7 @@ class PropertyPage extends React.Component {
             }
         }
 
-        
+
 
         console.log(a, avg)
         return (
@@ -763,15 +780,15 @@ class PropertyPage extends React.Component {
                                     {/* calendar availability */}
                                     <li id="Availability" className="list-group-item ml-0 pl-0">
                                         <h4>Availability</h4>
-                                        
+
                                         {
-                                           <DayPicker className = "DayPicker-Day "
-                                           numberOfMonths = {12}
-                                           initialMonth = {new Date(2020,6,30)}
-                                           disabledDays = {argPassDayPick}
-                                       />
+                                            <DayPicker className="DayPicker-Day "
+                                                numberOfMonths={12}
+                                                initialMonth={new Date(2020, 6, 30)}
+                                                disabledDays={argPassDayPick}
+                                            />
                                         }
-                                        
+
                                     </li>
                                     {/* Reviews page */}
                                     <li className="list-group-item ml-0 pl-0">
@@ -899,7 +916,7 @@ class PropertyPage extends React.Component {
                                             }
                                         </div>
                                         {/* see all properties */}
-                                        <p>See all {recData.length} properties in {recData[0].city}</p>
+                                        {/* <p>See all {recData.length} properties in {recData[0].city}</p> */}
                                     </li>
 
                                     <li className="list-group-item ml-0 pl-0">
@@ -984,11 +1001,11 @@ class PropertyPage extends React.Component {
                                                         selectsEnd
                                                         startDate={this.state.startDate}
                                                         endDate={this.state.endDate}
-                                                        minDate={new Date() }
+                                                        minDate={new Date()}
                                                         shouldCloseOnSelect={true}
                                                         excludeDates={argPassDatePick}
-                                                        // excludeDates={[moment(), moment().subtract(1, "days")]}
-                                                        // minDate={moment().toDate()} 
+                                                    // excludeDates={[moment(), moment().subtract(1, "days")]}
+                                                    // minDate={moment().toDate()} 
                                                     // monthsShown={2}  
                                                     />
                                                 </div>
@@ -1182,7 +1199,7 @@ const mapStateToProps = (state) => {
         // data: statefined.reducerCommon.primaryData
         data: state.reducerPropertyDetails.primaryData,
         recom: state.reducerPropertyDetails.recomDetails,
-        datesFromR : state.reducerPropertyDetails.availableDates
+        datesFromR: state.reducerPropertyDetails.availableDates
     }
 
 }
@@ -1199,7 +1216,7 @@ const mapDispatchToProps = dispatch => {
         changeEndDate: payload => dispatch(changeEndDate(payload)),
         changePrice: payload => dispatch(changePrice(payload)),
         guestDays: payload => dispatch(guestDays(payload)),
-        availableDates : payload => dispatch(availableDates(payload))
+        availableDates: payload => dispatch(availableDates(payload))
     }
 }
 
