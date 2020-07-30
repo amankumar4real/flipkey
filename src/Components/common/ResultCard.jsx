@@ -324,6 +324,7 @@ class ResultCard extends React.Component {
                                     selectsStart
                                     startDate={this.state.startDate}
                                     endDate={this.state.endDate}
+                                    minDate={this.state.startDate}
                                     // monthsShown={2}
                                 />
                             </div>
@@ -341,7 +342,7 @@ class ResultCard extends React.Component {
                                 selectsEnd
                                 startDate={this.state.startDate}
                                 endDate={this.state.endDate}
-                                mindDate={this.state.startDate}
+                                minDate={this.state.startDate}
                                 // monthsShown={2}  
                             />
                         </div>

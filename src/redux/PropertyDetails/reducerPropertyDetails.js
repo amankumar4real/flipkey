@@ -6,8 +6,11 @@ import {
     CHANGE_END_DATE,
     CHANGE_START_DATE, CHANGE_PRICE,
     GUEST_DAYS,
-    TOTAL_PRICE
-    } from './actionTypes'
+    TOTAL_PRICE,
+    AVAIL_DATES_SUCC,
+    AVAIL_DATES_START,
+    AVAIL_DATES_FAIL
+} from './actionTypes'
 import { CHANGE_TYPE } from '../Auth/actionTypes'
 
 
@@ -18,11 +21,12 @@ const initialstate = {
     bookingDetails: {},
     startDate : null,
     endDate :  null,
-    price : 0,
     guest : 1,
     days : 1,
     total_price: 0,
-    prop_id: ""
+    prop_id: "",
+    availableDates: {},
+    price: 0
 }
 
 const reducerPropertyDetails = (state = initialstate, { type, payload }) => {
@@ -88,7 +92,25 @@ const reducerPropertyDetails = (state = initialstate, { type, payload }) => {
             return {
                 ...state,
                 guest: payload.guest,
-                days : payload.days
+                days: payload.days
+            }
+        case AVAIL_DATES_START:
+            return {
+                ...state
+
+            }
+        case AVAIL_DATES_SUCC:
+            console.log(payload)
+            return {
+                ...state,
+                availableDates : payload
+
+            }
+        case AVAIL_DATES_FAIL:
+            console.log(payload)
+            return {
+                ...state
+
             }
         case TOTAL_PRICE:
             console.log(payload)

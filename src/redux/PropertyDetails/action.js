@@ -8,8 +8,11 @@ import { PROP_DETAILS_FAIL,
     CHANGE_START_DATE,
     CHANGE_END_DATE,
     CHANGE_PRICE,
-    GUEST_DAYS,
-    TOTAL_PRICE} from './actionTypes'
+    TOTAL_PRICE,
+    AVAIL_DATES_FAIL,
+    AVAIL_DATES_START,
+    AVAIL_DATES_SUCC,
+GUEST_DAYS} from './actionTypes'
 import axios from 'axios'
 import { api_link } from '../link'
 
@@ -31,6 +34,20 @@ export const propDataFail = payload => ({
 
 export const propBookingStart=payload=>({
     type: PROP_BOOKING_START,
+    payload
+})
+export const availableDateSuccess = payload => ({
+    type: AVAIL_DATES_SUCC,
+    payload
+})
+
+export const availableDateFail = payload => ({
+    type: AVAIL_DATES_FAIL,
+    payload
+})
+
+export const availableDateStart=payload=>({
+    type: AVAIL_DATES_START,
     payload
 })
 export const propBookingSuccess = payload => ({
@@ -107,12 +124,24 @@ export const propBookingData = payload => dispatch =>{
     // axios.defaults.headers.common['Authorization'] = token
     return axios.post(x,postData, {
         headers: {
-          'Authorization': `Basic ${token}` 
+          'Authorization': `Ba#Availabilitysic ${token}` 
         }
       })
     .then(res=>res.data)
     .then(res=>dispatch(propBookingSuccess(res))
     .catch(error=>dispatch(propBookingFail(error))))
+}
+
+
+export const availableDates = payload => dispatch =>{
+    console.log(payload)
+    dispatch(availableDateStart)    
+    var x = api_link+"/booking/available"
+    console.log(x)
+   return axios.post(x,payload)
+    .then(res=>res.data)
+    .then(res=>dispatch(availableDateSuccess(res)))
+    .catch(error=>dispatch(availableDateFail(error)))
 }
 
 
