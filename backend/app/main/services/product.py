@@ -114,7 +114,8 @@ def propertyAllDetails(details):
         return json.dumps({"error": True, "message": "Wrong data format!"})
 
 
-    property_data = db.session.execute('''SELECT * FROM product as p JOIN location as l ON
+    property_data = db.session.execute('''SELECT p.*, l.lat as pro_lat, l.lng as pro_lng, c.lat as city_lat, 
+                                       c.lng as city_lng FROM product as p JOIN location as l ON
                                        p.id = l.property_id JOIN city as c on l.city_id = c.id
                                        WHERE p.id = %s'''%(product_id))
 
