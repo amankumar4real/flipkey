@@ -129,7 +129,7 @@ export const propBookingData = payload => dispatch =>{
 
 export const availableDates = payload => dispatch =>{
     console.log(payload)
-    dispatch(availableDateStart)
+    dispatch(availableDateStart)    
     var x = api_link+"/booking/available"
     console.log(x)
    return axios.post(x,payload)
