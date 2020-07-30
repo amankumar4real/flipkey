@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { useHistory } from "react-router"
 // import {flip} from '../../public'
 
 function loadScript(src) {
@@ -19,7 +21,7 @@ function loadScript(src) {
 const __DEV__ = document.domain === 'localhost'
 
 function RazopPay({total, start, end, ids, token}){
-
+	const history = useHistory()
 	// console.log(total, start, end, ids, token)
 	// console.log(start.split("T")[0])
 	var my_data = {
@@ -64,9 +66,8 @@ function RazopPay({total, start, end, ids, token}){
 			description: 'Thank you for booking with us!',
 			image: 'flip.jpg',
 			handler: function (response) {
-				alert(response.razorpay_payment_id)
-				alert(response.razorpay_order_id)
-				alert(response.razorpay_signature)
+				alert("Payment Completed!")
+				// history.push("/")
 			},
 			prefill: {
 				name,

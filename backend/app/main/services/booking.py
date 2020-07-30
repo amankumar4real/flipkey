@@ -59,7 +59,7 @@ def availableService(details):
         return json.dumps({"error": True, "message": "Wrong data format!"})
 
     check_dates = db.session.execute('''SELECT b.from_date, b.to_date FROM product as p JOIN booking as b ON p.id = b.property_id
-                                     where p.id = "%s"'''%(property_id))
+                                     where p.id = "%s" AND b.status = "complete"'''%(property_id))
 
     date_sets = []
 

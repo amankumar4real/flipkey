@@ -94,6 +94,9 @@ def payment_verification():
         changes.status = "complete"
         db.session.commit()
 
+        obj = BookingModel.query.filter_by(status="processing").delete()
+        db.session.commit()
+
         return json.dumps({"error": False, "message":"Payment received!"})
     else:
 

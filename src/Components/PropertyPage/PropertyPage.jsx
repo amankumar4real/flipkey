@@ -39,6 +39,15 @@ class PropertyPage extends React.Component {
         this.props.guestDays({guest:this.state.people,days:this.state.days})
         this.props.history.push(`/results/booking/${this.props.match.params.id}`)
     }
+
+    // componentWillMount() {
+    //     localStorage.getItem('startDate') && this.setState({
+    //         startDate: new Date(parseInt(localStorage.getItem('startDate'))),
+    //         endDate: new Date(parseInt(localStorage.getItem('endDate')))
+
+    //     })
+    // }
+
     //Axios call for 
     componentDidMount() {
         // this.setState({
@@ -48,6 +57,12 @@ class PropertyPage extends React.Component {
         this.props.afterPropData(this.props.match.params)
         this.props.getRecommendations(this.props.match.params)
     }
+
+
+    // componentWillUpdate(nextProps, nextState) {
+    //     localStorage.setItem('startDate',+new JSON.stringify(nextState.startDate));
+    //     localStorage.setItem('endDate',+new JSON.stringify(nextState.endDate));
+    // }
 
     handleStartDate = date => {
         // if(this.state.endDate){
