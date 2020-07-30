@@ -634,6 +634,10 @@ class ResultCard extends React.Component {
                                                                     <img class="d-block w-100" src={item.image_d} alt="Fifth slide" width='300' height='250' />
                                                                 </div>
                                                             </div>
+                                                                <div >
+                                                                    {/* toggle shortList */}
+                                                                    <Icons.Heart size={40} style={{position:'absolute' , top:-60, left:30, color:`${shortListBg}`}} />
+                                                                </div>
                                                         </div>
                                                         <a class="carousel-control-prev" href={`#s${ind}`} role="button" data-slide="prev">
                                                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -644,8 +648,6 @@ class ResultCard extends React.Component {
                                                             <span class="sr-only">Next</span>
                                                         </a>
                                                     </div>
-                                                    {/* toggle shortList */}
-                                                    <Icons.Heart size={40} style={{position:'absolute' , top:-60, left:30, color:`${shortListBg}`}} />
                                                 </div>        
                                                 <div class="col-md-7">
                                                         <div class="row">
