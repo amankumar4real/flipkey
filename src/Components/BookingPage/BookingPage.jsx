@@ -3,7 +3,8 @@ import React from 'react'
 import { afterPropData, propBookingData, totalPrice} from '../../redux/PropertyDetails/action'
 import Vocation from '../common/Vacation';
 import { connect } from 'react-redux';
-import RazopPay from "../razoppay"
+import RazopPay from "../razoppay";
+import * as Icons from 'react-bootstrap-icons'; 
 
 
 class BookingPage extends React.Component {
@@ -13,9 +14,54 @@ class BookingPage extends React.Component {
             startDate: new Date(),
             endDate: new Date(),
             price: 0,
+            firstname:'',
+            lastname:'',
+            email:'',
+            phone:'',
+            checkbox:false,
+            isRazorPay:false,
+            message:''
         }
 
     }
+    handleSubmit=(e)=>{
+        e.preventDefault()
+        console.log(this.state)
+    }
+    handleChange=e=>{
+        this.setState({   
+            checkbox: !this.state.checkbox
+        })
+    }
+    handleFirstName=e=>{
+        this.setState({   
+            firstname: e.target.value
+        })
+    }
+    handleLastName=e=>{
+        this.setState({   
+            lastname: e.target.value
+        })
+    }
+    handleEmail=e=>{
+        this.setState({   
+            email: e.target.value
+        })
+    }
+    handlePhone=e=>{
+        this.setState({   
+            phone: e.target.value
+        })
+    }
+    handleRadioBtn=(e)=>{
+        this.setState({   
+            isRazorPay: !this.state.isRazorPay
+        })
+    }
+    componentDidUpdate(){
+        console.log(this.state)
+    }
+    
     componentDidMount() {
         this.props.afterPropData(this.props.match.params)
         this.props.totalPrice((this.props.property.price * this.props.days * this.props.guest) + (Math.round((this.props.days * this.props.property.price * this.props.guest) * 0.1)) + 60 + 60 + 60)
@@ -115,144 +161,166 @@ class BookingPage extends React.Component {
             // !this.props.token?this.props.history.push("/user/login"):
             Object.keys(data).length != 0 ?
                 <div>
-                    <div className="container-fluid  w-50" style={{ backgroundColor: "white" }}>
-                        <div>
-                            <div className=" mt-3 row d-flex justify-content-between" >
-                                <h3 className="text-muted">Your Secure Booking</h3>
-                                <h4 className=" p-2 mb-0 bg-light" >42 traverlers have <br></br>booked this rentals</h4>
-                            </div>
+                    <div className="container my-4 p-0">
+                        <div className="d-flex justify-content-start m-0 p-0" >
+                            <Icons.LockFill size={40} color="#bbbbbb" className='pr-2 '/>
+                            <h3 className="text-muted">Your Secure Booking</h3><span className='text-danger'>*</span>
+                            {/* <h4 className=" p-2 mb-0 bg-light" >42 traverlers have <br></br>booked this rentals</h4> */}
                         </div>
-                        <div className="row justify-content-center p-3 bg-light">
-                            <div className="col-8">
+                        {/* *************** outer frame *************** */}
+                        <div className="row justify-content-center border bg-light">
+                            {/* *****************************Form***************************** */}
+                            <div className="col-xl-8 col-md-12">
                                 <div className="m-2 p-2" style={{ backgroundColor: "white" }}>
                                     <h4>
                                         Your Information
-                                </h4>
+                                    </h4>
                                     <form>
                                         <div class="row mb-3">
-                                            <div class="col">
-                                                <label for="fname">Firstname *</label>
-                                                <input id="fname" type="text" class="form-control" placeholder="First name" value="Mark" required />
+                                            {/* first name */}
+                                            <div class="col-xl-6 col-md-12">
+                                                <label for="fname">Firstname <span className='text-danger'>*</span></label>
+                                                <input 
+                                                    name='firstname'
+                                                    type="text" 
+                                                    class="form-control" 
+                                                    placeholder="First name" 
+                                                    autoComplete='off'
+                                                    value={this.state.firstname}
+                                                    onChange={this.handleFirstName} 
+                                                    required 
+                                                />
                                             </div>
-                                            <div class="col">
-                                                <label for="lname">Lastname *</label>
-                                                <input id="lname" type="text" class="form-control" placeholder="Last name" value="Mark" required />
+                                            {/* last name */}
+                                            <div class="col-xl-6 col-md-12">
+                                                <label for="lname">Lastname <span className='text-danger'>*</span></label>
+                                                <input 
+                                                    name='lastname' 
+                                                    type="text" 
+                                                    class="form-control" 
+                                                    placeholder="Last name" 
+                                                    autoComplete='off'
+                                                    value={this.state.lastname}
+                                                    onChange={this.handleLastName}
+                                                    required />
                                             </div>
-                                        </div>
-                                        <div className="row mb-3">
-                                            <div class="col">
-                                                <label for="email">Email *</label>
-                                                <input id="email" type="email" class="form-control" placeholder="Enter your mail id" value="Mark" required />
+                                            {/* email */}
+                                            <div class="col-xl-6 col-md-12">
+                                                <label for="email">Email <span className='text-danger'>*</span></label>
+                                                <input 
+                                                    name='email' 
+                                                    type="email" 
+                                                    class="form-control" 
+                                                    placeholder="Enter your mail id" 
+                                                    autoComplete='off'
+                                                    value={this.state.email}
+                                                    onChange={this.handleEmail}
+                                                    required />
                                             </div>
-                                        </div>
-                                        <div className="row mb-3">
-                                            <div class="col-4">
-                                                <button type="button" class="btn btn-outline-secondary">US +1</button>
-                                                <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <span class="sr-only">Toggle Dropdown</span>
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">IND +91</a>
-                                                    <a class="dropdown-item" href="#">US +1</a>
-                                                    <a class="dropdown-item" href="#">Something else here</a>
-                                                    <div role="separator" class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#">Separated link</a>
-                                                </div>
-                                            </div>
-                                            <div class="col-8">
-                                                <input id="phone" type="number" class="form-control" placeholder="Phone Number" value="Mark" required />
+                                            {/* phone */}
+                                            <div class="col-xl-6 col-md-12">
+                                                <label for="phone">Mobile phone number <span className='text-danger'>*</span></label>
+                                                <input 
+                                                    name='phone' 
+                                                    type="number" 
+                                                    class="form-control" 
+                                                    placeholder="phone number" 
+                                                    autoComplete='off'
+                                                    value={this.state.phone}
+                                                    onChange={this.handlePhone}
+                                                    required />
                                             </div>
                                         </div>
                                         <div class="form-group form-check">
-                                            <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+                                            <input 
+                                                type="checkbox" 
+                                                class="form-check-input" 
+                                                value={this.state.checkbox}
+                                                onChange={this.handleChange}
+                                                name='checkbox'
+                                            />
                                             <label class="form-check-label" for="exampleCheck1">Receive text message updates about your booking. Message rates may apply.</label>
                                         </div>
                                     </form>
                                 </div>
+                                {/* ********************** Payment Details *********************** */}
                                 <div className="m-2 p-2" style={{ backgroundColor: "white" }}>
                                     <h4>
                                         Payment details
-                                </h4>
-                                    <br />
+                                    </h4>
+                                    {/* razor log */}
+                                    <div class="form-group form-check border px-0 pt-2 " style={{width:120}}>
+                                        <input type='radio' name='razor_payment' value={this.state.isRazorPay} onChange={this.handleRadioBtn}/>
+                                        <img src='/images/razor_logo.png' alt='logo' width='100'/>
+                                    </div>
                                     <h5>
                                         Paying through RazorPay
-                                </h5>
+                                    </h5>
                                 <hr/>
-                                    <p><small>To book this rental, we require you to pay via RazorPay.</small></p>
-                                    <p><small>When you click <strong>Continue to PayPal below</strong>, you'll be redirected to the PayPal site to complete your payment. Even if you don't have a PayPal account, you can pay as a guest, using a credit or debit card.</small></p>
+                                    <p style={{fontSize:15}}>To book this rental, we require you to pay via RazorPay.</p>
+                                    <p style={{fontSize:15}}>When you click <strong>Continue to RazorPay below</strong>, you'll be redirected to the RazorPay site to complete your payment. Even if you don't have a RazorPay account, you can pay as a guest, using a credit or debit card.</p>
                                 </div>
                                 <div className="m-2 p-2" style={{ backgroundColor: "white" }}>
                                     <h4>Indroduce Yourself to the Owner</h4>
+                                    {/* <Icons.LightningFill size={25}/> */}
                                     <h5 className="text-warning">Be Sure to share</h5>
                                     <ul>
-                                        <li>Some info about you and who's coming with you</li>
-                                        <li>What brings you to location ?</li>
-                                        <li>What about this home interests you?</li>
+                                        <li className='py-0 text-muted'>Some info about you and who's coming with you</li>
+                                        <li className='py-0 text-muted'>What brings you to location ?</li>
+                                        <li className='py-0 text-muted'>What about this home interests you?</li>
                                     </ul>
-                                    <p>Message for owner</p>
+                                    <p className='pb-0 mb-0 text-muted'>Message for owner<span className='text-danger'>*</span></p>
                                     <label for="message"></label>
-                                    <textarea id="message" className="justify-content">
+                                    <textarea id="message" className="justify-content w-100" onChange={(e)=>this.setState({message:e.target.value})} >
 
                                     </textarea>
                                 </div>
                                 <div className="m-2 p-2" style={{ backgroundColor: "white" }}>
-                                    <ul class="list-group list-group-flush">
-                                        <li className="list-group-item">
-                                            <h4>
-                                                Review and Book
-                                </h4>
-                                        </li>
-                                        <li className="list-group-item">
-                                            <h5>You will be charged ${(property.price * this.props.days * this.props.guest) + (Math.round((this.props.days * property.price * this.props.guest) * 0.1)) + 60 + 60 + 60}</h5>
-                                        </li>
-                                        <li className="list-group-item">
-                                            <p><small className="text-muted">The owner has 24 hours to respond, and we will only charge your card if your booking   </small></p>
-                                        </li>
-                                        <li>
-                                            <RazopPay onClick={() => this.handleBooking(property.price)}/>
-                                            {/* <button onClick={() => this.handleBooking(property.price)}>Continue with Razor pay</button> */}
-                                            <p><small className="text-muted">This booking is facilitated by FlipKey Inc (part of the TripAdvisor group) but the booking is solely between you and the owner/manager. By clicking above, you agree to the booking conditions and cancellation policy of the owner/manager, as well as FlipKey Inc’s terms & conditions (which includes a chargeback policy) and privacy policy. Although FlipKey Inc facilitates your booking, your payment may be processed by another group company, e.g. Holiday Lettings Ltd., on behalf of FlipKey, Inc.</small></p>
-                                        </li>
-                                    </ul>
+                                    <h4>
+                                        Review and Book
+                                    </h4>
+                                    <p>You will be charged <strong>${(property.price * this.props.days * this.props.guest) + (Math.round((this.props.days * property.price * this.props.guest) * 0.1)) + 60 + 60 + 60}</strong></p>
+                                    <p className="text-muted" style={{fontSize:15}} >The owner has 24 hours to respond, and we will only charge your card if your booking.</p>
+                                    <RazopPay onClick={() => this.handleBooking(property.price)}/>
+                                    {/* <button onClick={() => this.handleBooking(property.price)}>Continue with Razor pay</button> */}
+                                    <p><small className="text-muted">This booking is facilitated by FlipKey Inc (part of the TripAdvisor group) but the booking is solely between you and the owner/manager. By clicking above, you agree to the booking conditions and cancellation policy of the owner/manager, as well as FlipKey Inc’s terms & conditions (which includes a chargeback policy) and privacy policy. Although FlipKey Inc facilitates your booking, your payment may be processed by another group company, e.g. Holiday Lettings Ltd., on behalf of FlipKey, Inc.</small></p>    
                                 </div>
                             </div>
                             <div className="col-4 ">
-                                <div class="card sticky-top mt-2">
-                                    <div className="card-header">
-                                        <div id="carouselExampleControls" class="carousel slide  justify-content-center" data-ride="carousel">
-                                            <div class="carousel-inner">
-                                                <div class="carousel-item active">
-                                                    <img class="d-block img-fluid" src={property.image_a} width='300' alt="First slide" />
-                                                </div>
-                                                {
-                                                    <div key="myin">
-                                                        <div class="carousel-item">
-                                                            <img class="d-block  img-fluid" src={property.image_b} width='300' alt="Third slide" />
-                                                        </div>
-                                                        <div class="carousel-item">
-                                                            <img class="d-block  img-fluid" src={property.image_c} width='300' alt="Forth slide" />
-                                                        </div>
-                                                        <div class="carousel-item">
-                                                            <img class="d-block  img-fluid" src={property.image_d} alt="Fifth slide" width='300' />
-                                                        </div>
-                                                    </div>
-                                                }
+                                <div class="card sticky-top mt-5 rounded-0 w-100">
+                                    <div id="carouselExampleControls" class="carousel slide w-100 m-0 p-0 justify-content-center" data-ride="carousel">
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active">
+                                                <img class="d-block img-fluid" src={property.image_a} width='300' alt="First slide" />
                                             </div>
-                                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                <span class="sr-only">Previous</span>
-                                            </a>
-                                            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                <span class="sr-only">Next</span>
-                                            </a>
+                                            {
+                                                <div key="myin">
+                                                    <div class="carousel-item">
+                                                        <img class="d-block  img-fluid" src={property.image_b} width='300' alt="Third slide" />
+                                                    </div>
+                                                    <div class="carousel-item">
+                                                        <img class="d-block  img-fluid" src={property.image_c} width='300' alt="Forth slide" />
+                                                    </div>
+                                                    <div class="carousel-item">
+                                                        <img class="d-block  img-fluid" src={property.image_d} alt="Fifth slide" width='300' />
+                                                    </div>
+                                                </div>
+                                            }
                                         </div>
+                                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
                                     </div>
                                     <div class="card-body">
                                         <small class="card-text text-muted">
-                                            <p>{property.name}</p>
-                                            <p>{property.type}/{property.no_people}</p>
-                                            <p>{property.city}</p>
+                                            <p className='mx-0'>{property.name}</p>
+                                            <p className='mx-0'>{property.type}/{property.no_people}</p>
+                                            <p className='mx-0'>{property.city}</p>
                                         </small>
                                         <p className="card-text">
                                             {dateS[0]}, {dateS[1]} {dateS[2]} - {dateE[0]}, {dateE[1]} {dateE[2]},{dateE[3]}
