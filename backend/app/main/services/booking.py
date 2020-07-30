@@ -59,27 +59,17 @@ def availableService(details):
         return json.dumps({"error": True, "message": "Wrong data format!"})
 
     check_dates = db.session.execute('''SELECT b.from_date, b.to_date FROM product as p JOIN booking as b ON p.id = b.property_id
-                                     where p.id = "%s"'''%(property_id))
+                                     where p.id = "%s" AND b.status = "complete"'''%(property_id))
 
     date_sets = []
 
-    # for date in check_dates:
-    #     # check = []
+    for date in check_dates:
+        check = []
 
-    #     from_date_split = str(date["from_date"]).split("-")
-    #     to_date_split = str(date["to_date"]).split("-")
+        check.append(str(date["from_date"]))
+        check.append(str(date["to_date"]))
 
-    #     # print(int(from_date_split[0]))
+        date_sets.append(check)
 
-    #     def daterange(date1, date2):
-    #         for n in range(int ((date2 - date1).days)+1):
-    #             yield date1 + timedelta(n)
-
-    #     start_dt = date(from_date_split[0], from_date_split[1], from_date_split[2])
-    #     end_dt = date(to_date_split[0],to_date_split[1], to_date_split[2])
-
-    #     for dt in daterange(start_dt, end_dt):
-    #         date_sets.append(str(dt.strftime("%Y-%m-%d")))
     
-    # print(date_sets)
-    return ({"data": "Still in works!"})
+    return ({"data": date_sets})

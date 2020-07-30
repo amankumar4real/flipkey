@@ -16,6 +16,8 @@ export const CHANGE_PRICE = "CHANGE_PRICE"
 
 export const GUEST_DAYS = "GUEST_DAYS"
 
+export const TOTAL_PRICE = "TOTAL_PRICE"
+
 export const AVAIL_DATES_START = "AVAIL_DATES_START"
 export const AVAIL_DATES_FAIL = "AVAIL_DATES_FAIL"
 export const AVAIL_DATES_SUCC = "AVAIL_DATES_SUCC"

@@ -43,6 +43,15 @@ class PropertyPage extends React.Component {
         this.props.guestDays({ guest: this.state.people, days: this.state.days })
         this.props.history.push(`/results/booking/${this.props.match.params.id}`)
     }
+
+    // componentWillMount() {
+    //     localStorage.getItem('startDate') && this.setState({
+    //         startDate: new Date(parseInt(localStorage.getItem('startDate'))),
+    //         endDate: new Date(parseInt(localStorage.getItem('endDate')))
+
+    //     })
+    // }
+
     //Axios call for 
     componentDidMount() {
         // this.setState({
@@ -53,6 +62,12 @@ class PropertyPage extends React.Component {
         this.props.getRecommendations(this.props.match.params)
         this.props.availableDates({property_id : Number(this.props.match.params.id)})
     }
+
+
+    // componentWillUpdate(nextProps, nextState) {
+    //     localStorage.setItem('startDate',+new JSON.stringify(nextState.startDate));
+    //     localStorage.setItem('endDate',+new JSON.stringify(nextState.endDate));
+    // }
 
     handleStartDate = date => {
         // if(this.state.endDate){
@@ -278,7 +293,11 @@ class PropertyPage extends React.Component {
         //took data from props reducer
         var data = this.props.data
         const dataR = this.props.recom
-        const available = this.props.datesFromR.data
+        var available = ""
+        if(this.props.datesFromR){
+            available = this.props.datesFromR.data
+        }
+        
         console.log(available)
         var recData
 
@@ -897,7 +916,7 @@ class PropertyPage extends React.Component {
                                             }
                                         </div>
                                         {/* see all properties */}
-                                        <p>See all {recData.length} properties in {recData[0].city}</p>
+                                        {/* <p>See all {recData.length} properties in {recData[0].city}</p> */}
                                     </li>
 
                                     <li className="list-group-item ml-0 pl-0">

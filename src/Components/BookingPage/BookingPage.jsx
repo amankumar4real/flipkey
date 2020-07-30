@@ -1,9 +1,9 @@
 import React from 'react'
-import { afterPropData, propBookingData } from '../../redux/PropertyDetails/action'
-import Vocation from '../common/Vacation'
-import { connect } from 'react-redux'
-
-
+// import React, { useState } from 'react'
+import { afterPropData, propBookingData, totalPrice} from '../../redux/PropertyDetails/action'
+import Vocation from '../common/Vacation';
+import { connect } from 'react-redux';
+import RazopPay from "../razoppay"
 
 
 class BookingPage extends React.Component {
@@ -18,6 +18,7 @@ class BookingPage extends React.Component {
     }
     componentDidMount() {
         this.props.afterPropData(this.props.match.params)
+        this.props.totalPrice((this.props.property.price * this.props.days * this.props.guest) + (Math.round((this.props.days * this.props.property.price * this.props.guest) * 0.1)) + 60 + 60 + 60)
 
     }
     handleBooking = p => {
@@ -27,7 +28,7 @@ class BookingPage extends React.Component {
                 property_id: this.props.match.params.id,
                 from_date: this.convertDate(new Date()),
                 end_date: this.convertDate(new Date()),
-                price: (p * this.props.days * this.props.guest) + (Math.round((this.props.days * p * this.props.guest) * 0.1)) + 60 + 60 + 60,
+                price: (this.props.property.price * this.props.days * this.props.guest) + (Math.round((this.props.days * p * this.props.guest) * 0.1)) + 60 + 60 + 60,
                 token: this.props.token
             }
             // this.props.propBookingData(x)
@@ -207,7 +208,8 @@ class BookingPage extends React.Component {
                                             <p><small className="text-muted">The owner has 24 hours to respond, and we will only charge your card if your booking   </small></p>
                                         </li>
                                         <li>
-                                            <button onClick={() => this.handleBooking(property.price)}>Continue with Razor pay</button>
+                                            <RazopPay onClick={() => this.handleBooking(property.price)}/>
+                                            {/* <button onClick={() => this.handleBooking(property.price)}>Continue with Razor pay</button> */}
                                             <p><small className="text-muted">This booking is facilitated by FlipKey Inc (part of the TripAdvisor group) but the booking is solely between you and the owner/manager. By clicking above, you agree to the booking conditions and cancellation policy of the owner/manager, as well as FlipKey Inc’s terms & conditions (which includes a chargeback policy) and privacy policy. Although FlipKey Inc facilitates your booking, your payment may be processed by another group company, e.g. Holiday Lettings Ltd., on behalf of FlipKey, Inc.</small></p>
                                         </li>
                                     </ul>
@@ -259,7 +261,7 @@ class BookingPage extends React.Component {
                                         </p>
                                         <ul className="list-group list-group-flush m-0 ">
                                             <li className="list-group-item m-0">
-                                                    Detailed Qoute
+                                                    Detailed Quote
                                             </li>
                                             <li className="list-group-item d-flex justify-content-between m-0">
                                                 <small>Rate for {this.props.days} {this.props.days == 1 ? "night" : "nights"}</small>
@@ -306,6 +308,7 @@ const mapDispatchToProps = dispatch => {
     return {
         afterPropData: payload => dispatch(afterPropData(payload)),
         propBookingData: payload => dispatch(propBookingData(payload)),
+        totalPrice: payload => dispatch(totalPrice(payload)),
 
     }
 }
