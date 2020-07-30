@@ -4,7 +4,9 @@ import Vocation from '../common/Vacation';
 import {changeText} from "../../redux/LandingPage/action";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
-
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import {Carousel} from 'react-responsive-carousel';
+import styles from '../landing/landing.module.css'
 class LandingPage extends React.Component{
     constructor(props){
         super(props)
@@ -111,11 +113,19 @@ class LandingPage extends React.Component{
                     {
                         rentalData?.map((item, ind)=>
                             (
-                                <div className='text-center' key={ind}>
+                                // <div className='text-center my-2' key={ind}>
                                     <div className=' col-lg-4 col-md-6 col-sm-12 p-2 w-100'>
+                                    <Carousel className='text-center my-2' key={ind} showArrows={true} showIndicators={false} showStatus={false} showThumbs={false}>
+                                        <div>
                                         <img src={item.img} alt={item.name} width='350px' height='250px'/>
+                                        <div className='legend'style={{position:'absolute', bottom:-20}} >
+                                            <p className={styles.legend}>Bangalore</p>
+                                            <p>202</p>
+                                        </div>
+                                        </div>
+                                    </Carousel>
                                     </div>
-                                </div>
+                                // </div>
                             )
                         )
                     }
@@ -136,12 +146,12 @@ class LandingPage extends React.Component{
                         </div>
                         <div className='col-4'>
                         <div className='border bg-white my-3' style={{height:'400px'}}>
-                                sree
+                                
                             </div>
                         </div>
                         <div className='col-4'>
                         <div className='border bg-white my-3' style={{height:'400px'}}>
-                                sree
+                               
                             </div>
                         </div>
                     </div>

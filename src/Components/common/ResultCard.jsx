@@ -12,6 +12,7 @@ import FilterResults from 'react-filter-search';
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import { Next } from 'react-bootstrap/esm/PageItem';
+import * as Icons from 'react-bootstrap-icons';
 
 let params = new URLSearchParams(document.location.search.substring(1))
 
@@ -70,7 +71,8 @@ class ResultCard extends React.Component {
             dummydata:[],
             searchVal: "",
             startDate: new Date(),
-            endDate: new Date()
+            endDate: new Date(),
+            shortListToggle:false
             // place: this.props.
         }
     }
@@ -81,6 +83,7 @@ class ResultCard extends React.Component {
         )
         this.props.getPropertyData()
     }
+   
 
     componentDidUpdate = () => {
         console.log('selected rental type')
@@ -92,6 +95,8 @@ class ResultCard extends React.Component {
         console.log(`sortby: ${this.state.sortby}`)
         console.log(`startDate: ${this.state.startDate}
         endData: ${this.state.endDate}`)
+        console.log('shortList bg')
+        console.log(this.state.shortListToggle)
     }
     componentWillMount(){
         axios.get('https://jsonplaceholder.typicode.com/users')
@@ -175,6 +180,7 @@ class ResultCard extends React.Component {
     componentDidMount() {
         this.props.getPropertyData()
         console.log(this.props.landingText)
+        
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -283,6 +289,10 @@ class ResultCard extends React.Component {
         })
         console.log(e.target.value)
     }
+     // handle short list
+    handleShortList=e=>{
+        this.setState({shortListToggle:!this.state.shortListToggle})
+    }
     
     render() {
         const {dummydata,searchVal}= this.state;
@@ -295,7 +305,8 @@ class ResultCard extends React.Component {
             'dvd', 'grill', 'fireplace', 'cot', 'dishwash', 'microwave', 'freezer', 'game', 'sea_view']
         const suitability=['pets', 'parking', 'children', 'smoke', 'elevator', 'wheelchair', 'cars_req']
         const { result } = this.props.data
-
+        let shortListBg= this.state.shortListToggle?'#f7acbc':'red'
+        console.log("bg",shortListBg)
         console.log(`primary Data:\n`)
         console.log(`${result}`)
         return (
@@ -421,7 +432,7 @@ class ResultCard extends React.Component {
                         </div>
                     </div>
                 </div>
-                {/* ************* Filters Row ************* */}
+                {/* ***************************************** Filters Row ********************************** */}
                 <div className="row border">
                     {/* ******************************* per Night ************************** */}
                     <div className='btn-block col-3 border-right mx-0'>
@@ -583,12 +594,13 @@ class ResultCard extends React.Component {
                         </Dropdown>     
                     </div>
                 </div>
-                <div className='my-2 mx-auto row'>
-                    <div className="card p-0 border border-success w-100">
+                {/* ******************************** listing page ****************************************** */}
+                <div className='row my-2'>
+                    <div className="p-0 border ">
                         <div className="row">
-                            <div className="col-12" style={{background:"#f5f8f9"}}>
-                                <div className="float-left">Cabins</div>
-                                <div className="float-right">
+                            <div className="d-flex justify-content-between border w-100 mx-3 p-2" style={{background:"#f5f8f9"}}>
+                                <div> {result.length} apartment rentals</div>
+                                <div className="">
                                     Sort by:
                                     <select name='sortby' value={this.state.sortby} onChange={this.handleSort}>
                                         <option value='relevence'>Relevence</option>
@@ -598,76 +610,80 @@ class ResultCard extends React.Component {
                                     </select>
                                 </div>
                             </div>
-                            <div className="col-12 clearfix" >
+                            {/* scrolling part */}
+                            <div className="col-12 mx-auto">
+                                <div className='' style={{overflowY:'scroll', height:710}}>
                                 {
-                                    result ? result.map(item => (
-                                        <div key={item.property_id} class="card mb-3 card-fluid" style={{overscrollBehaviorY:1}}>
+                                    result ? result.map((item, ind) => (
+                                        <div key={item.property_id} class="card mb-3 m-2 border-0 rounded-0">
                                             <div class="row">
-                                                {typeof item.image == "string" ?
-                                                    <div class="col-md-5 fill">
-                                                        <img className="img-card img-fluid" width='300' src={item.image} />
-                                                    </div>
-                                                    :
-
-                                                    <div class="col-md-5 fill">
-                                                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                                                            <div class="carousel-inner">
-                                                                <div class="carousel-item active">
-                                                                    <img class="d-block " src={item.image_a} width='300' alt="First slide" />
-                                                                </div>
-                                                                {
-                                                                    <div key = "myin">
-                                                                        <div class="carousel-item">
-                                                                            <img class="d-block " src={item.image_b} width='300' alt="Third slide" />
-                                                                        </div>
-                                                                        <div class="carousel-item">
-                                                                            <img class="d-block " src={item.image_c} width='300' alt="Forth slide" />
-                                                                        </div>
-                                                                        <div class="carousel-item">
-                                                                            <img class="d-block " src={item.image_d} alt="Fifth slide" width='300' />
-                                                                        </div>
-                                                                    </div>
-                                                                }
+                                                {/* carousel */}
+                                                <div class="col-md-5">
+                                                    <div id={`s${ind}`} class="carousel slide" data-interval="false">
+                                                        <div class="carousel-inner">
+                                                            <div class="carousel-item active">
+                                                                <img class="d-block w-100 " src={item.image_a} width='300' height='250' alt="First slide" />
                                                             </div>
-                                                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                                <span class="sr-only">Previous</span>
-                                                            </a>
-                                                            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                                <span class="sr-only">Next</span>
-                                                            </a>
+                                                            <div key = {ind}>
+                                                                <div class="carousel-item">
+                                                                    <img class="d-block w-100" src={item.image_b} width='300' height='250' alt="Third slide" />
+                                                                </div>
+                                                                <div class="carousel-item">
+                                                                    <img class="d-block w-100" src={item.image_c} width='300' height='250' alt="Forth slide" />
+                                                                </div>
+                                                                <div class="carousel-item">
+                                                                    <img class="d-block w-100" src={item.image_d} alt="Fifth slide" width='300' height='250' />
+                                                                </div>
+                                                            </div>
+                                                                <div >
+                                                                    {/* toggle shortList */}
+                                                                    <Icons.Heart size={40} style={{position:'absolute' , top:-60, left:30, color:`${shortListBg}`}} />
+                                                                </div>
                                                         </div>
+                                                        <a class="carousel-control-prev" href={`#s${ind}`} role="button" data-slide="prev">
+                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                            <span class="sr-only">Previous</span>
+                                                        </a>
+                                                        <a class="carousel-control-next" href={`#s${ind}`} role="button" data-slide="next">
+                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                            <span class="sr-only">Next</span>
+                                                        </a>
                                                     </div>
-                                                }
-                                                
+                                                </div>        
                                                 <div class="col-md-7">
-                                                    <div class="container container-fluid">
                                                         <div class="row">
                                                             <div class="col-8">
-                                                            <Link to = {`/results/${item.property_id}`} style={{textDecoration:"none", color:"black"}}><h5 class="mt-2"><strong>{item.name}</strong></h5></Link>
-                                                                <p class=" mt-2">People: {item.no_people}</p>
-                                                                <p class=" mt-2">No. of Bedrooms:{item.bed}</p>
-                                                                <p class=" mt-2">Property Type:{item.type}</p>
-                                                                <button className="btn btn-light" onClick={this.shortList}>
-                                                                    <FontAwesomeIcon
-                                                                        icon={["fas", 'heart']}
-                                                                        style={{ color: '#f7acbc' }}
-                                                                    />
-                                                                </button>
+                                                                {/* dynamic routing */}
+                                                            <Link to = {`/results/${item.property_id}`} style={{textDecoration:"none", color:"black", fontFamily:"Arial, Helvetica, sans-serif"}} >
+                                                                    <h5 class="m-0 p-0" >
+                                                                        {item.name}
+                                                                    </h5>
+                                                            </Link>
+                                                                <p class=" m-0">{item.type}</p>
+                                                                <p class=" mt-0">{item.bed} bedrooms/ 2 bathrooms/ sleep {item.no_people}</p>
                                                             </div>
 
-                                                            <div className="col-4">
-                                                                <p className="mb-0 " ><small>Price per ight</small></p>
-                                                                <p class="mt-0 mb-5"><strong>${item.price}</strong></p>
-                                                                <button className="btn btn-primary btn-fluid mt-5 mr-1" onClick={this.booking}>Book</button>
+                                                            <div className="col-4 text-right ">
+                                                                <p className="my-0 text-muted "style={{fontSize:15}} >Price per night from</p>
+                                                                <h4 class="my-0">${item.price}</h4>
+                                                                <p className="my-0 text-muted" style={{fontSize:15}} >${`${item.price*7}`}-{`${item.price*8}`}/ week</p>
                                                             </div>
+                                                            {/* about property */}
+                                                            <p className='text-muted my-0 ml-3 w-75' style={{fontSize:16}}><strong>“Best stay yet!!”</strong> Me and my girlfriends (5) stayed here for our NYC stay! Suzanne and Edgar are AMAZING hosts! The apartment is clean,</p>
+                                                            <p className='mx-2'>
+                                                                <Icons.ClockHistory size={15} className='mx-2' />
+                                                                Responds fast! avg. 1 hour 50 minutes
+                                                            </p>
+                                                        </div>
+                                                        {/* button */}
+                                                        <div className='col text-right m-0 p-0 '>
+                                                            <Link to = {`/results/${item.property_id}`}>
+                                                                <button className="btn px-4 mb-0 text-white" style={{background:'#0076df'}} >Book</button>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
                                             </div>
-                                        </div>
                                     )) :
                                         <div className="card card-fluid">
                                             <div className="row">
@@ -678,6 +694,7 @@ class ResultCard extends React.Component {
 
                                         </div>
                                 }
+                                </div>
                             </div> 
                         </div>
                     </div>
