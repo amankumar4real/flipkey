@@ -44,7 +44,7 @@ function RazopPay({total, start, end, ids, token}){
 			return
 		}
 
-		const data = await fetch(api_link+`charge`, 
+		const data = await fetch(api_link+`/charge`, 
 		{
 			method: 'POST' , 
 			body: JSON.stringify(my_data),
