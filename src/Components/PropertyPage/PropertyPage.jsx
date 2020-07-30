@@ -17,6 +17,7 @@ import * as Icons from 'react-bootstrap-icons';
 import Calendar from 'react-calendar'
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
+import Googlemap from "./GoogleMap"
 
 class PropertyPage extends React.Component {
     constructor(props) {
@@ -776,7 +777,7 @@ class PropertyPage extends React.Component {
                                     {/* map inegration */}
                                     <li id="Map" className="list-group-item ml-0 pl-0">
                                         <h4 className="mb-2">Map Integration</h4>
-
+                                        <Googlemap/>
                                     </li>
                                     {/* calendar availability */}
                                     <li id="Availability" className="list-group-item ml-0 pl-0">

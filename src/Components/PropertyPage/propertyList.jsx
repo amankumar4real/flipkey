@@ -1,5 +1,6 @@
 import React from 'react';
 import Vocation from '../common/Vacation'
+
 const PropertyList=()=>{
     return(
         <div>
