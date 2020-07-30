@@ -293,38 +293,39 @@ class PropertyPage extends React.Component {
         //took data from props reducer
         var data = this.props.data
         const dataR = this.props.recom
+
         var available = ""
-        if(this.props.datesFromR){
+        var recData
+        const argPassDayPick = [{before : new Date()}]
+        var argPassDatePick = []
+
+        if( Object.keys(this.props.datesFromR).length != 0){
             available = this.props.datesFromR.data
+
+            for(var i=0;i<available.length;i++){
+                        let checkIn = available[i][0].split("-").map(val=>Number(val))
+                        let checkOut = available[i][1].split("-").map(val=>Number(val))
+                        argPassDayPick.push({after: new Date(checkIn[0],checkIn[1]-1,checkIn[2]-1),before: new Date(checkOut[0],checkOut[1]-1,checkOut[2]+1)})
+                    }
+
+                    
+                    for(var i=0;i<available.length;i++){
+                        let checkIn = available[i][0].split("-").map(val=>Number(val))
+                        let checkOut = available[i][1].split("-").map(val=>Number(val))
+                            while(checkIn[2]<=checkOut[2]){
+                                while(checkIn[3]<31 || checkIn[3]<30 ){
+                                    argPassDatePick.push(new Date(`${checkIn[2]}/${checkIn[3]}/${checkIn[1]}`))
+
+                                }
+                                while(checkOut[3]<31 || checkOut[3]<30 ){
+                                    argPassDatePick.push(new Date(`${checkIn[2]}/${checkIn[3]}/${checkIn[1]}`))
+
+                                }
+                                checkIn[2]++
+                        }
+                    }
         }
         
-        console.log(available)
-        var recData
-
-        const argPassDayPick = [{before : new Date()}]
-        for(var i=0;i<available.length;i++){
-            let checkIn = available[i][0].split("-").map(val=>Number(val))
-            let checkOut = available[i][1].split("-").map(val=>Number(val))
-            argPassDayPick.push({after: new Date(checkIn[0],checkIn[1]-1,checkIn[2]-1),before: new Date(checkOut[0],checkOut[1]-1,checkOut[2]+1)})
-        }
-
-        var argPassDatePick = []
-        for(var i=0;i<available.length;i++){
-            let checkIn = available[i][0].split("-").map(val=>Number(val))
-            let checkOut = available[i][1].split("-").map(val=>Number(val))
-                while(checkIn[2]<=checkOut[2]){
-                    while(checkIn[3]<31 || checkIn[3]<30 ){
-                        argPassDatePick.push(new Date(`${checkIn[2]}/${checkIn[3]}/${checkIn[1]}`))
-
-                    }
-                    while(checkOut[3]<31 || checkOut[3]<30 ){
-                        argPassDatePick.push(new Date(`${checkIn[2]}/${checkIn[3]}/${checkIn[1]}`))
-
-                    }
-                    checkIn[2]++
-            }
-        }
-        console.log(argPassDatePick)
 
         if (Object.keys(dataR).length != 0) {
             recData = dataR.data
