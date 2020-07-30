@@ -1,7 +1,9 @@
-from ..models import db, ProductModel
+from ..models import db, ProductModel, ReviewModel
 import json
 from flask import jsonify
 import random
+from ..util.auth_token import check_auth_token
+from datetime import date, timedelta, datetime
 
 def sendProduct():
     
@@ -25,7 +27,8 @@ def finalFilteredData(details):
     data = ""
 
     if sortby == "relevence":
-        data = db.session.execute('''SELECT * FROM product as p JOIN amenities as a ON p.id = a.property_id
+        data = db.session.execute('''SELECT p.*, a.*, s.*, lo.lat as lat_pro, lo.lng as lng_pro, ci.city, ci.lat as lat_ci,
+                                  ci.lng as lng_ci FROM product as p JOIN amenities as a ON p.id = a.property_id
                                   JOIN suitability as s on p.id = s.property_id JOIN location as lo ON lo.property_id = p.id
                                   JOIN city as ci on ci.id = lo.city_id WHERE p.no_people >= %s AND
                                   p.price >= %s AND p.bed >= %s AND p.bath > %s AND ci.city = "%s"'''%(details["people"],
@@ -176,3 +179,41 @@ def recommendationProperty(details):
     print(len(final_data), len(amenities))
 
     return jsonify({"data": final_data})
+
+
+def addReview(details, token):
+
+    try:
+        property_id = details["property_id"]
+        title = details["title"]
+        rating = details["rating"]
+        review = details["review"]
+    except KeyError:
+        return json.dumps({"error": True, "message": "One or more fields are missing!"})
+
+    if property_id == "" or title == "" or rating == "" or review == "" or token == "":
+        return json.dumps({"error": True, "message": "Empty Fields"})
+
+    if type(property_id) is not int or type(title) is not str or type(rating) is not int or type(review) is not str or type(token) is not str:
+        return json.dumps({"error": True, "message": "Wrong data format!"})
+
+    status, data = check_auth_token(token)
+
+    if status is False:
+        return json.dumps({"error": True, "message": "Token has expired!"})
+    
+
+    user_id = db.session.execute('''SELECT id FROM user where email = "%s"'''%(data["email"]))
+
+    user_id = [dict(row) for row in user_id]
+
+    user_id = user_id[0]["id"]
+
+    review = ReviewModel(property_id = property_id, user_id = user_id, title = title, rating = rating, rev_date = datetime.today().strftime('%Y-%m-%d'), review = review)
+
+    db.session.add(review)
+    db.session.commit()
+
+    return json.dumps({
+        "error": False, "message": "Data added to the review table!"
+    })

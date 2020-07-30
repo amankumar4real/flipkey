@@ -1,6 +1,6 @@
 from . import product
 from flask import request
-from ..services.product import sendProduct, filteredData, finalFilteredData, propertyAllDetails, recommendationProperty
+from ..services.product import sendProduct, filteredData, finalFilteredData, propertyAllDetails, recommendationProperty, addReview
 
 
 @product.route("/")
@@ -63,5 +63,15 @@ def propertycomplete():
 def recomm():
 
     response = recommendationProperty(request.json)
+
+    return response
+
+
+@product.route("/addReview", methods=["POST"])
+def addrev():
+
+    token =request.headers.get("Auth")
+
+    response = addReview(request.json, token)
 
     return response

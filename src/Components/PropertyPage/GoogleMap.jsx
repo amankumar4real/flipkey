@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {GoogleMap, withScriptjs, withGoogleMap} from "react-google-maps"
+import {GoogleMap, withScriptjs, withGoogleMap, Marker} from "react-google-maps"
 
 
 function Googlemap({map_data}){
@@ -20,7 +20,10 @@ function Googlemap({map_data}){
                 Object.keys(map_data).length != 0 ?
                 <>
                     <GoogleMap defaultZoom={10}
-                     defaultCenter={{lat: Number(property_map.city_lat), lng: Number(property_map.city_lng)}} />
+                     defaultCenter={{lat: Number(property_map.city_lat), lng: Number(property_map.city_lng)}} 
+                     >
+                     <Marker key="position_on_map" position={{lat: Number(property_map.pro_lat), lng: Number(property_map.pro_lng)}} />
+                    </GoogleMap>
                 </>
                 :
                 <div>Loading.......</div>
@@ -30,9 +33,9 @@ function Googlemap({map_data}){
         const WrappedMap = withScriptjs(withGoogleMap(Map))
 
         return(
-            <div style={{ width: "50vw", height: "100vh" }}>
+            <div style={{ width: "35vw", height: "50vh" }}>
                 <WrappedMap 
-                googleMapURL= {`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyCcS0j7hDpSs-F4xDi2q6AkTD_sWqECR9M}`} 
+                googleMapURL= {`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyCcS0j7hDpSs-F4xDi2q6AkTD_sWqECR9M`} 
                 loadingElement={<div style={{ height: `100%` }} />}
                 containerElement={<div style={{ height: `100%` }} />}
                 mapElement={<div style={{ height: `100%` }} />}
