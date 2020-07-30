@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { getPropertyData } from '../../redux/Common/action'
-import { afterPropData, getRecommendations, recomData, changeEndDate, changeStartDate, changePrice, guestDays, availableDates} from '../../redux/PropertyDetails/action'
+import { afterPropData, getRecommendations, recomData, changeEndDate, changeStartDate, changePrice, guestDays, availableDates } from '../../redux/PropertyDetails/action'
 // import Carousel, { slidesToShowPlugin } from '@brainhubeu/react-carousel';
 import { Dropdown, Button, ButtonGroup, Form, FormCheck, Table } from 'react-bootstrap';
 import DropdownToggle from 'react-bootstrap/esm/DropdownToggle';
@@ -12,7 +12,7 @@ import GoogleLogin from 'react-google-login';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import "react-datepicker/dist/react-datepicker.css";
-import DatePicker,{moment} from "react-datepicker";
+import DatePicker, { moment } from "react-datepicker";
 import * as Icons from 'react-bootstrap-icons';
 import Calendar from 'react-calendar'
 import DayPicker from 'react-day-picker';
@@ -36,7 +36,7 @@ class PropertyPage extends React.Component {
         }
 
     }
-    
+
     handleBooking = p => {
         this.props.changeStartDate(this.state.startDate)
         this.props.changeEndDate(this.state.endDate)
@@ -61,7 +61,7 @@ class PropertyPage extends React.Component {
         console.log(this.props.match.params.id)
         this.props.afterPropData(this.props.match.params)
         this.props.getRecommendations(this.props.match.params)
-        this.props.availableDates({property_id : Number(this.props.match.params.id)})
+        this.props.availableDates({ property_id: Number(this.props.match.params.id) })
     }
 
 
@@ -270,7 +270,7 @@ class PropertyPage extends React.Component {
         this.props.history.push(`/results/${newId}`)
         window.location.reload(false)
     }
-    
+
     render() {
         const { toggle } = this.state
         console.log(this.props)
@@ -297,37 +297,36 @@ class PropertyPage extends React.Component {
 
         var available = ""
         var recData
-        const argPassDayPick = [{before : new Date()}]
+        var argPassDayPick = [{ before: new Date() }]
         var argPassDatePick = []
 
-        if( Object.keys(this.props.datesFromR).length != 0){
+        if (Object.keys(this.props.datesFromR).length != 0) {
             available = this.props.datesFromR.data
+            for (var i = 0; i < available.length; i++) {
+                const checkIn = available[i][0].split("-").map(val => Number(val))
+                const checkOut = available[i][1].split("-").map(val => Number(val))
+                argPassDayPick.push({ after: new Date(checkIn[0], checkIn[1] - 1, checkIn[2] - 1), before: new Date(checkOut[0], checkOut[1] - 1, checkOut[2] + 1) })
+            }
 
-            for(var i=0;i<available.length;i++){
-                        let checkIn = available[i][0].split("-").map(val=>Number(val))
-                        let checkOut = available[i][1].split("-").map(val=>Number(val))
-                        argPassDayPick.push({after: new Date(checkIn[0],checkIn[1]-1,checkIn[2]-1),before: new Date(checkOut[0],checkOut[1]-1,checkOut[2]+1)})
+            for (var i = 0; i < available.length; i++) {
+                const checkIn = available[i][0].split("-").map(val => Number(val))
+                const checkOut = available[i][1].split("-").map(val => Number(val))
+                console.log(`${checkIn[1]}/${checkIn[2]}/${checkIn[0]}`)
+                console.log(`${checkOut[1]}/${checkOut[2]}/${checkOut[0]}`)
+                while (checkIn[1] <= checkOut[1]) {
+                    while (checkIn[2] < checkOut[2]) {
+                        argPassDatePick.push(new Date(`${checkIn[1]}/${checkIn[2]+1}/${checkIn[0]}`))
+                        checkIn[2]++
                     }
-
-                    
-                    for(var i=0;i<available.length;i++){
-                        let checkIn = available[i][0].split("-").map(val=>Number(val))
-                        let checkOut = available[i][1].split("-").map(val=>Number(val))
-                            while(checkIn[2]<=checkOut[2]){
-                                while(checkIn[3]<31 || checkIn[3]<30 ){
-                                    argPassDatePick.push(new Date(`${checkIn[2]}/${checkIn[3]}/${checkIn[1]}`))
-
-                                }
-                                while(checkOut[3]<31 || checkOut[3]<30 ){
-                                    argPassDatePick.push(new Date(`${checkIn[2]}/${checkIn[3]}/${checkIn[1]}`))
-
-                                }
-                                checkIn[2]++
-                        }
+                    while (checkOut[2] < checkOut[2]) {
+                        argPassDatePick.push(new Date(`${checkIn[1]}/${checkIn[2]+1}/${checkIn[0]}`))
+                        checkOut[2]++
                     }
+                    checkIn[1]++
+                }
+            }
+
         }
-        
-
         if (Object.keys(dataR).length != 0) {
             recData = dataR.data
             console.log("req ata")
@@ -397,7 +396,7 @@ class PropertyPage extends React.Component {
             }
         }
 
-        
+
 
         console.log(a, avg)
         return (
@@ -782,25 +781,25 @@ class PropertyPage extends React.Component {
                                     {/* calendar availability */}
                                     <li id="Availability" className="list-group-item ml-0 pl-0">
                                         <h4>Availability</h4>
-                                        
+
                                         {
-                                           <DayPicker className = "DayPicker-Day "
-                                           numberOfMonths = {12}
-                                           initialMonth = {new Date(2020,6,30)}
-                                           disabledDays = {argPassDayPick}
-                                       />
+                                            <DayPicker className="DayPicker-Day "
+                                                numberOfMonths={12}
+                                                initialMonth={new Date(2020, 6, 30)}
+                                                disabledDays={argPassDayPick}
+                                            />
                                         }
-                                        
+
                                     </li>
                                     {/* Reviews page */}
                                     <li className="list-group-item ml-0 pl-0">
 
                                         <h4 style={{ fontWeight: 400 }}>Reviews</h4>
                                         {
-                                            avg >= 4 ? <p><strong style={{ fontSize: 15 }}><i>Very Good</i></strong> – based on {tot} reviews</p> :
-                                                avg >= 3 ? <p><strong>Good </strong> – based on {tot} reviews</p> :
-                                                    avg >= 2 ? <p><strong>Average </strong> – based on {tot} reviews</p> :
-                                                        <p><strong>Worst </strong> – based on {tot} reviews</p>
+                                            avg >= 4 ? <p><strong style={{ fontSize: 15 }}><i>Very Good</i></strong> – based on {review.length} reviews</p> :
+                                                avg >= 3 ? <p><strong>Good </strong> – based on {review.length} reviews</p> :
+                                                    avg >= 2 ? <p><strong>Average </strong> – based on {review.length} reviews</p> :
+                                                        <p><strong>Worst </strong> – based on {review.length} reviews</p>
                                         }
                                         {/* redirect to add review component */}
                                         <button className='btn rounded-0 btn-block text-center border w-50 mr-5' style={{ color: '#066bc8', background: '#f4f4f4' }} >Write a review</button> {/* write a review button */}
@@ -1003,11 +1002,11 @@ class PropertyPage extends React.Component {
                                                         selectsEnd
                                                         startDate={this.state.startDate}
                                                         endDate={this.state.endDate}
-                                                        minDate={new Date() }
+                                                        minDate={new Date()}
                                                         shouldCloseOnSelect={true}
                                                         excludeDates={argPassDatePick}
-                                                        // excludeDates={[moment(), moment().subtract(1, "days")]}
-                                                        // minDate={moment().toDate()} 
+                                                    // excludeDates={[moment(), moment().subtract(1, "days")]}
+                                                    // minDate={moment().toDate()} 
                                                     // monthsShown={2}  
                                                     />
                                                 </div>
@@ -1201,7 +1200,7 @@ const mapStateToProps = (state) => {
         // data: statefined.reducerCommon.primaryData
         data: state.reducerPropertyDetails.primaryData,
         recom: state.reducerPropertyDetails.recomDetails,
-        datesFromR : state.reducerPropertyDetails.availableDates
+        datesFromR: state.reducerPropertyDetails.availableDates
     }
 
 }
@@ -1218,7 +1217,7 @@ const mapDispatchToProps = dispatch => {
         changeEndDate: payload => dispatch(changeEndDate(payload)),
         changePrice: payload => dispatch(changePrice(payload)),
         guestDays: payload => dispatch(guestDays(payload)),
-        availableDates : payload => dispatch(availableDates(payload))
+        availableDates: payload => dispatch(availableDates(payload))
     }
 }
 

@@ -38,7 +38,7 @@ const reducerPropertyDetails = (state = initialstate, { type, payload }) => {
             }
 
         case PROP_DETAILS_SUCCESS:
-            console.log(payload.property_data[0].property_id)
+            console.log(payload.property_data[0].id)
             return {
                 ...state,
                 primaryData: payload,

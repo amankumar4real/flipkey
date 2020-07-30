@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useHistory } from "react-router"
 // import {flip} from '../../public'
+import { api_link } from '../redux/link'
 
 function loadScript(src) {
 	return new Promise((resolve) => {
@@ -43,7 +44,7 @@ function RazopPay({total, start, end, ids, token}){
 			return
 		}
 
-		const data = await fetch('http://127.0.0.1:5000/charge', 
+		const data = await fetch(api_link+`/charge`, 
 		{
 			method: 'POST' , 
 			body: JSON.stringify(my_data),
