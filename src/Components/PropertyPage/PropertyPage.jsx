@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { getPropertyData } from '../../redux/Common/action'
-import { afterPropData, getRecommendations, recomData, changeEndDate, changeStartDate, changePrice,guestDays } from '../../redux/PropertyDetails/action'
+import { afterPropData, getRecommendations, recomData, changeEndDate, changeStartDate, changePrice, guestDays, availableDates} from '../../redux/PropertyDetails/action'
 // import Carousel, { slidesToShowPlugin } from '@brainhubeu/react-carousel';
 import { Dropdown, Button, ButtonGroup, Form, FormCheck, Table } from 'react-bootstrap';
 import DropdownToggle from 'react-bootstrap/esm/DropdownToggle';
@@ -12,8 +12,11 @@ import GoogleLogin from 'react-google-login';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import "react-datepicker/dist/react-datepicker.css";
-import DatePicker from "react-datepicker";
+import DatePicker,{moment} from "react-datepicker";
 import * as Icons from 'react-bootstrap-icons';
+import Calendar from 'react-calendar'
+import DayPicker from 'react-day-picker';
+import 'react-day-picker/lib/style.css';
 
 class PropertyPage extends React.Component {
     constructor(props) {
@@ -32,11 +35,12 @@ class PropertyPage extends React.Component {
         }
 
     }
+    
     handleBooking = p => {
         this.props.changeStartDate(this.state.startDate)
         this.props.changeEndDate(this.state.endDate)
-        this.props.changePrice((p*this.state.days * this.state.people)+(Math.round((this.state.days * p * this.state.people)*0.1))+60+60+60)
-        this.props.guestDays({guest:this.state.people,days:this.state.days})
+        this.props.changePrice((p * this.state.days * this.state.people) + (Math.round((this.state.days * p * this.state.people) * 0.1)) + 60 + 60 + 60)
+        this.props.guestDays({ guest: this.state.people, days: this.state.days })
         this.props.history.push(`/results/booking/${this.props.match.params.id}`)
     }
     //Axios call for 
@@ -44,9 +48,10 @@ class PropertyPage extends React.Component {
         // this.setState({
         //     price : this.props.data.property_data[0].price
         // })
-
+        console.log(this.props.match.params.id)
         this.props.afterPropData(this.props.match.params)
         this.props.getRecommendations(this.props.match.params)
+        this.props.availableDates({property_id : Number(this.props.match.params.id)})
     }
 
     handleStartDate = date => {
@@ -64,8 +69,8 @@ class PropertyPage extends React.Component {
             this.setState({
                 startDate: date,
             });
-            var s = this.calculateDays(date)
-            var e = this.calculateDays(this.state.endDate)
+            let s = this.calculateDays(date)
+            let e = this.calculateDays(this.state.endDate)
             s = s.map(val => Number(val))
             e = e.map(val => Number(val))
             console.log(s, e)
@@ -102,7 +107,7 @@ class PropertyPage extends React.Component {
             startDate: date,
         });
         // }
-        
+
 
 
         console.log(this.state.days)
@@ -167,8 +172,8 @@ class PropertyPage extends React.Component {
             this.setState({
                 endDate: date,
             });
-            var s = this.calculateDays(this.state.startDate)
-            var e = this.calculateDays(date)
+            let s = this.calculateDays(this.state.startDate)
+            let e = this.calculateDays(date)
             s = s.map(val => Number(val))
             e = e.map(val => Number(val))
             console.log(s, e)
@@ -203,7 +208,7 @@ class PropertyPage extends React.Component {
             endDate: date,
         });
         // }
-        
+
 
         console.log(this.state.days)
     };
@@ -249,7 +254,7 @@ class PropertyPage extends React.Component {
         this.props.history.push(`/results/${newId}`)
         window.location.reload(false)
     }
-
+    
     render() {
         const { toggle } = this.state
         console.log(this.props)
@@ -273,8 +278,35 @@ class PropertyPage extends React.Component {
         //took data from props reducer
         var data = this.props.data
         const dataR = this.props.recom
-        console.log(data, dataR)
+        const available = this.props.datesFromR.data
+        console.log(available)
         var recData
+
+        const argPassDayPick = [{before : new Date()}]
+        for(var i=0;i<available.length;i++){
+            let checkIn = available[i][0].split("-").map(val=>Number(val))
+            let checkOut = available[i][1].split("-").map(val=>Number(val))
+            argPassDayPick.push({after: new Date(checkIn[0],checkIn[1]-1,checkIn[2]-1),before: new Date(checkOut[0],checkOut[1]-1,checkOut[2]+1)})
+        }
+
+        var argPassDatePick = []
+        for(var i=0;i<available.length;i++){
+            let checkIn = available[i][0].split("-").map(val=>Number(val))
+            let checkOut = available[i][1].split("-").map(val=>Number(val))
+                while(checkIn[2]<=checkOut[2]){
+                    while(checkIn[3]<31 || checkIn[3]<30 ){
+                        argPassDatePick.push(new Date(`${checkIn[2]}/${checkIn[3]}/${checkIn[1]}`))
+
+                    }
+                    while(checkOut[3]<31 || checkOut[3]<30 ){
+                        argPassDatePick.push(new Date(`${checkIn[2]}/${checkIn[3]}/${checkIn[1]}`))
+
+                    }
+                    checkIn[2]++
+            }
+        }
+        console.log(argPassDatePick)
+
         if (Object.keys(dataR).length != 0) {
             recData = dataR.data
             console.log("req ata")
@@ -344,6 +376,8 @@ class PropertyPage extends React.Component {
             }
         }
 
+        
+
         console.log(a, avg)
         return (
             Object.keys(data).length != 0 ?
@@ -408,15 +442,15 @@ class PropertyPage extends React.Component {
                                     </li>
                                     <li id="Description" className="list-group-item ml-0 pl-0">
                                         <div className="mb-4">
-                                            <span className="badge badge-pill badge-light p-3 mr-5" style={{background:"#f5f8f9"}}>
-                                                <strong> <Icons.House className='mx-2' size={20}/>{property[0].type}</strong></span>
-                                            <span className="badge badge-pill badge-light p-3 mr-5" style={{background:"#f5f8f9"}}>
-                                                <Icons.DashSquare className='mx-2' size={20}/>
+                                            <span className="badge badge-pill badge-light p-3 mr-5" style={{ background: "#f5f8f9" }}>
+                                                <strong> <Icons.House className='mx-2' size={20} />{property[0].type}</strong></span>
+                                            <span className="badge badge-pill badge-light p-3 mr-5" style={{ background: "#f5f8f9" }}>
+                                                <Icons.DashSquare className='mx-2' size={20} />
                                                 <strong>{property[0].bed} Bedroom </strong></span>
-                                            <span className="badge badge-pill badge-light p-3 mr-5" style={{background:"#f5f8f9"}}>
-                                                <strong> <Icons.People size={20}/> Sleeps {property[0].no_people}  </strong></span>
-                                            <span className="badge badge-pill badge-light p-3 mr-5" style={{background:"#f5f8f9"}}>
-                                                <strong><Icons.Calendar4 size={20} className='mx-2'/> 7 days</strong></span>
+                                            <span className="badge badge-pill badge-light p-3 mr-5" style={{ background: "#f5f8f9" }}>
+                                                <strong> <Icons.People size={20} /> Sleeps {property[0].no_people}  </strong></span>
+                                            <span className="badge badge-pill badge-light p-3 mr-5" style={{ background: "#f5f8f9" }}>
+                                                <strong><Icons.Calendar4 size={20} className='mx-2' /> 7 days</strong></span>
                                         </div>
                                         {/* BOOK WITH CONFIDENCE */}
                                         <div className="mb-4">
@@ -546,28 +580,28 @@ class PropertyPage extends React.Component {
                                         <p style={{ fontWeight: 600 }}>AMENITIES</p>
                                         <div className='container'>
                                             <div className="row justify-contnent-between">
-                                            {
-                                                dispAmenitites.map((item, ind) => (
-                                                <div className='col-6' key={ind}>
-                                                    {item==='tv'?
-                                                    <Icons.Tv size={15} className='mx-2'/>:<Icons.CheckCircle size={15} className='mx-2'/>}
-                                                    {item}
-                                                </div>
-                                                ))
-                                            }
+                                                {
+                                                    dispAmenitites.map((item, ind) => (
+                                                        <div className='col-6' key={ind}>
+                                                            {item === 'tv' ?
+                                                                <Icons.Tv size={15} className='mx-2' /> : <Icons.CheckCircle size={15} className='mx-2' />}
+                                                            {item}
+                                                        </div>
+                                                    ))
+                                                }
                                             </div>
                                         </div>
                                     </li>
                                     {/* Access */}
                                     <li id="Description" className="list-group-item ml-0 pl-0">
-                                    <p style={{fontWeight:600}}>ACCESS</p>
+                                        <p style={{ fontWeight: 600 }}>ACCESS</p>
                                         {
-                                        suitability[0].parking && suitability[0].elevator ? 
-                                        <div className='container'>
-                                            <div className="row justify-contnent-between">
-                                                <div className='col-6'>
-                                                <img className='mx-2' src="https://img.icons8.com/dotty/80/000000/car.png"width='25px' />
-                                                    Parking Available
+                                            suitability[0].parking && suitability[0].elevator ?
+                                                <div className='container'>
+                                                    <div className="row justify-contnent-between">
+                                                        <div className='col-6'>
+                                                            <img className='mx-2' src="https://img.icons8.com/dotty/80/000000/car.png" width='25px' />
+                                                            Parking Available
                                                 </div>
                                                         <div className='col-6'>
                                                             <Icons.CheckCircle size={15} className='mx-2' />
@@ -590,31 +624,31 @@ class PropertyPage extends React.Component {
                                                             <div className="col-6"><Icons.CheckCircle size={15} className='mx-2' /> No wheel chair</div>
                                                         </div>
                                         }
-                                        <hr/>
+                                        <hr />
                                         {/* interaction witn guest */}
                                         <div>
-                                        <p style={{fontWeight:600}}>INTERACTION WITH GUEST</p>
+                                            <p style={{ fontWeight: 600 }}>INTERACTION WITH GUEST</p>
                                             <div className='d-flex justify-content-around'>
                                                 <div className=''>
-                                                    <img src="https://img.icons8.com/dotty/80/000000/headset.png"width="25px"/>
+                                                    <img src="https://img.icons8.com/dotty/80/000000/headset.png" width="25px" />
                                                 </div>
-                                                <div className='pl-2' style={{fontSize:15}}>
-                                                    Detailed check-in and orientation information are emailed to guests prior to 
-                                                    arrival - please review carefully to avoid delays at check-in. Guests should 
-                                                    text/call the building manager prior to their departure to establish contact. 
-                                                    The building manager will provide guests with access to the apartment upon arrival. 
+                                                <div className='pl-2' style={{ fontSize: 15 }}>
+                                                    Detailed check-in and orientation information are emailed to guests prior to
+                                                    arrival - please review carefully to avoid delays at check-in. Guests should
+                                                    text/call the building manager prior to their departure to establish contact.
+                                                    The building manager will provide guests with access to the apartment upon arrival.
                                                     Guests may contact building manager should any issues arise during their stay.
                                                 </div>
                                             </div>
-                                            <hr/>
+                                            <hr />
                                         </div>
                                     </li>
                                     {/* policies */}
                                     <div>
-                                        <p style={{fontWeight:600}}>POLICIES</p>
+                                        <p style={{ fontWeight: 600 }}>POLICIES</p>
                                         <div className='d-flex justify-content-around'>
                                             <div className=''>
-                                            <img src="https://img.icons8.com/ios/50/000000/check-file.png" width='25'/>
+                                                <img src="https://img.icons8.com/ios/50/000000/check-file.png" width='25' />
                                             </div>
                                             <div>
                                                 <dl>
@@ -622,14 +656,14 @@ class PropertyPage extends React.Component {
                                                         <strong>Check in time:</strong> 14:00, <strong>Check out time:</strong> 11:00
                                                     </dd>
                                                     <dd className='pl-2'>
-                                                    If you have any questions about check-in or check-out times, please contact the owner/manager.
+                                                        If you have any questions about check-in or check-out times, please contact the owner/manager.
                                                     </dd>
                                                 </dl>
                                             </div>
                                         </div>
                                         <div className='row ml-1'>
-                                            <Icons.CreditCard size={30} className='pr-2'/>
-                                            <p className='mb-0'style={{fontWeight:600}}>Payment</p>
+                                            <Icons.CreditCard size={30} className='pr-2' />
+                                            <p className='mb-0' style={{ fontWeight: 600 }}>Payment</p>
                                             <p className='pl-4'>
                                                 This rental can only be paid for online through FlipKey using your credit/debit card or
                                                 PayPal (never by bank or wire transfer).
@@ -638,43 +672,43 @@ class PropertyPage extends React.Component {
                                         </div>
                                         <div className='row ml-1'>
                                             <Icons.XCircle size={30} className='pr-2' />
-                                            <p className='mb-0'style={{fontWeight:600}}>Smoking</p>
+                                            <p className='mb-0' style={{ fontWeight: 600 }}>Smoking</p>
                                         </div>
-                                            <p className='pl-4 mt-0'>No smoking at this property</p>
-                                        <hr/>
+                                        <p className='pl-4 mt-0'>No smoking at this property</p>
+                                        <hr />
                                     </div>
                                     {/* CANCELLATIONS policy */}
                                     <div>
-                                        <p style={{fontWeight:600}}>CANCELLATIONS</p>
+                                        <p style={{ fontWeight: 600 }}>CANCELLATIONS</p>
                                         <p>Change of plans? No problem. You could receive a partial or full refund, depending on when you cancel.</p>
                                         <Table>
                                             <tbody>
                                                 <tr>
-                                                    <td ><small style={{top:-20, position:'relative'}}>Booking confirmed</small></td>
+                                                    <td ><small style={{ top: -20, position: 'relative' }}>Booking confirmed</small></td>
                                                     <td>
                                                         {/* bullete point */}
                                                         <ul>
-                                                            <li style={{listStyleType:'disc',top:-20,position:'relative'}}></li>
+                                                            <li style={{ listStyleType: 'disc', top: -20, position: 'relative' }}></li>
                                                         </ul>
                                                     </td>
                                                     {/* condition-1 */}
                                                     <td>
-                                                        <div className='border w-100 p-2' style={{width:'100%',top:-10,left:-10, position:'relative', background:'#1fa1db'}}>
+                                                        <div className='border w-100 p-2' style={{ width: '100%', top: -10, left: -10, position: 'relative', background: '#1fa1db' }}>
                                                             <strong> 100% refund </strong>within 24 hours after booking (provided the stay is at least 60 days away).
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td><small style={{top:-20, position:'relative'}}><strong>24 </strong>hours after <br />booking</small></td>
+                                                    <td><small style={{ top: -20, position: 'relative' }}><strong>24 </strong>hours after <br />booking</small></td>
                                                     {/* bullete point */}
                                                     <td>
                                                         <ul>
-                                                            <li style={{listStyleType:'disc',top:-20,position:'relative'}}></li>
+                                                            <li style={{ listStyleType: 'disc', top: -20, position: 'relative' }}></li>
                                                         </ul>
                                                     </td>
                                                     {/* condition-2 */}
                                                     <td>
-                                                        <div className='border w-100 p-2' style={{width:'100%',top:-10,left:-10, position:'relative', background:'#8ed0ec'}}>
+                                                        <div className='border w-100 p-2' style={{ width: '100%', top: -10, left: -10, position: 'relative', background: '#8ed0ec' }}>
                                                             <strong> 50% refund </strong>of the amount paid (minus the booking fee*) if cancelled at least 4 weeks before check-in.
                                                         </div>
                                                     </td>
@@ -684,12 +718,12 @@ class PropertyPage extends React.Component {
                                                     {/* bullete point */}
                                                     <td>
                                                         <ul>
-                                                            <li style={{listStyleType:'disc',top:-20,position:'relative'}}></li>
+                                                            <li style={{ listStyleType: 'disc', top: -20, position: 'relative' }}></li>
                                                         </ul>
                                                     </td>
                                                     {/* condition-3 */}
                                                     <td>
-                                                        <div className='border w-100 p-2' style={{width:'100%',left:-10, position:'relative'}}>
+                                                        <div className='border w-100 p-2' style={{ width: '100%', left: -10, position: 'relative' }}>
                                                             <strong> No refund </strong>if cancelled less than 4 weeks before check-in.
                                                         </div>
                                                     </td>
@@ -699,64 +733,73 @@ class PropertyPage extends React.Component {
                                                     {/* bullete point */}
                                                     <td>
                                                         <ul>
-                                                            <li style={{listStyleType:'disc',top:-20,position:'relative'}}></li>
+                                                            <li style={{ listStyleType: 'disc', top: -20, position: 'relative' }}></li>
                                                         </ul>
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </Table>
                                         <small>* The booking fee is stated in the cancellation policy information on the payment page. This fee helps us run our secure platform and enables us to provide 24/7 customer support</small>
-                                        <hr/>
+                                        <hr />
                                     </div>
                                     {/* About the owner */}
                                     <div>
-                                        <h4 style={{fontWeight:400}}>About the owner</h4>
-                                        <p style={{fontFamily:"Arial, Helvetica, sans-serif"}}><strong>{owner[0].name}.</strong></p>
-                                        <div style={{fontSize:15, fontFamily:" Comic Sans MS, cursive, sans-serif"}}>
+                                        <h4 style={{ fontWeight: 400 }}>About the owner</h4>
+                                        <p style={{ fontFamily: "Arial, Helvetica, sans-serif" }}><strong>{owner[0].name}.</strong></p>
+                                        <div style={{ fontSize: 15, fontFamily: " Comic Sans MS, cursive, sans-serif" }}>
                                             <p>Response Rate:<strong>{owner[0].response_rate}%</strong></p>
                                             <p>Years listed : <strong>{owner[0].year_listed}</strong></p>
                                             <p>Contact Info: <strong>{owner[0].phone}</strong></p>
-                                            {owner[0].english?<p>Languages Spoken: English</p>:<p>Languages Spoken: Native</p>}
+                                            {owner[0].english ? <p>Languages Spoken: English</p> : <p>Languages Spoken: Native</p>}
                                         </div>
-                                    </div>    
+                                    </div>
                                     {/* map inegration */}
                                     <li id="Map" className="list-group-item ml-0 pl-0">
                                         <h4 className="mb-2">Map Integration</h4>
 
                                     </li>
                                     {/* calendar availability */}
-                                    <li id="Availablitiy" className="list-group-item ml-0 pl-0">
-                                        <p>One year calender integration</p>
+                                    <li id="Availability" className="list-group-item ml-0 pl-0">
+                                        <h4>Availability</h4>
+                                        
+                                        {
+                                           <DayPicker className = "DayPicker-Day "
+                                           numberOfMonths = {12}
+                                           initialMonth = {new Date(2020,6,30)}
+                                           disabledDays = {argPassDayPick}
+                                       />
+                                        }
+                                        
                                     </li>
                                     {/* Reviews page */}
                                     <li className="list-group-item ml-0 pl-0">
-                                        
-                                        <h4 style={{fontWeight:400}}>Reviews</h4>
+
+                                        <h4 style={{ fontWeight: 400 }}>Reviews</h4>
                                         {
-                                        avg >= 4?<p><strong style={{fontSize:15}}><i>Very Good</i></strong> – based on {tot} reviews</p>:
-                                        avg >= 3?<p><strong>Good </strong> – based on {tot} reviews</p>:
-                                        avg >= 2?<p><strong>Average </strong> – based on {tot} reviews</p>:
-                                        <p><strong>Worst </strong> – based on {tot} reviews</p>
+                                            avg >= 4 ? <p><strong style={{ fontSize: 15 }}><i>Very Good</i></strong> – based on {tot} reviews</p> :
+                                                avg >= 3 ? <p><strong>Good </strong> – based on {tot} reviews</p> :
+                                                    avg >= 2 ? <p><strong>Average </strong> – based on {tot} reviews</p> :
+                                                        <p><strong>Worst </strong> – based on {tot} reviews</p>
                                         }
                                         {/* redirect to add review component */}
-                                        <button className='btn rounded-0 btn-block text-center border w-50 mr-5'style={{color:'#066bc8', background:'#f4f4f4'}} >Write a review</button> {/* write a review button */}
+                                        <button className='btn rounded-0 btn-block text-center border w-50 mr-5' style={{ color: '#066bc8', background: '#f4f4f4' }} >Write a review</button> {/* write a review button */}
                                     </li>
                                     <li id="Reviews" className="list-group-item ml-0 pl-0">
                                         {/* Excellent rating */}
                                         <div className='d-flex justify-content-start my-0'>
-                                            <p style={{width:100}}>Excellent</p>
+                                            <p style={{ width: 100 }}>Excellent</p>
                                             <div
-                                                style={{ height: "20px", width: "120px", background: "#f4f4f4"}}>
+                                                style={{ height: "20px", width: "120px", background: "#f4f4f4" }}>
                                                 <div style={{ height: "20px", width: a[5], background: "#00af87" }}></div>
-                                            </div> 
+                                            </div>
                                             <p className='px-3 text-muted'>{obj[5][5]}</p>
                                         </div>
                                         {/* Very Good rating */}
                                         <div className='d-flex justify-content-start my-0 py-0'>
-                                            <p style={{width:100}}>Very Good</p>
+                                            <p style={{ width: 100 }}>Very Good</p>
                                             <div>
                                                 <div
-                                                    style={{ height: "20px", width: "120px", background: "#f4f4f4"}}>
+                                                    style={{ height: "20px", width: "120px", background: "#f4f4f4" }}>
                                                     <div style={{ height: "20px", width: a[4], background: "#00af87" }}></div>
                                                 </div>
                                             </div>
@@ -764,10 +807,10 @@ class PropertyPage extends React.Component {
                                         </div>
                                         {/* Average rating */}
                                         <div className='d-flex justify-content-start my-0 py-0'>
-                                            <p style={{width:100}}>Average</p>
+                                            <p style={{ width: 100 }}>Average</p>
                                             <div>
                                                 <div
-                                                    style={{ height: "20px", width: "120px", background: "#f4f4f4"}}>
+                                                    style={{ height: "20px", width: "120px", background: "#f4f4f4" }}>
                                                     <div style={{ height: "20px", width: a[3], background: "#00af87" }}></div>
                                                 </div>
                                             </div>
@@ -775,10 +818,10 @@ class PropertyPage extends React.Component {
                                         </div>
                                         {/* Poor rating */}
                                         <div className='d-flex justify-content-start my-0 py-0'>
-                                            <p style={{width:100}}>Poor</p>
+                                            <p style={{ width: 100 }}>Poor</p>
                                             <div>
                                                 <div
-                                                    style={{ height: "20px", width: "120px", background: "#f4f4f4"}}>
+                                                    style={{ height: "20px", width: "120px", background: "#f4f4f4" }}>
                                                     <div style={{ height: "20px", width: a[2], background: "#00af87" }}></div>
                                                 </div>
                                             </div>
@@ -786,10 +829,10 @@ class PropertyPage extends React.Component {
                                         </div>
                                         {/* Terrible */}
                                         <div className='d-flex justify-content-start my-0 py-0' >
-                                            <p style={{width:100}}>Terrible</p>
+                                            <p style={{ width: 100 }}>Terrible</p>
                                             <div>
                                                 <div
-                                                    style={{ height: "20px", width: "120px", background: "#f4f4f4"}}>
+                                                    style={{ height: "20px", width: "120px", background: "#f4f4f4" }}>
                                                     <div style={{ height: "20px", width: a[1], background: "#00af87" }}></div>
                                                 </div>
                                             </div>
@@ -806,18 +849,18 @@ class PropertyPage extends React.Component {
                                                             <img src='/images/dummy_img.png' alt='img' width={60} className='rounded-circle border' />
                                                         </div>
                                                         <div className='d-flex flex-column '>
-                                                            <p className='lead py-0 mb-0' style={{fontWeight:400}}>"{item.title}!!"</p>
+                                                            <p className='lead py-0 mb-0' style={{ fontWeight: 400 }}>"{item.title}!!"</p>
                                                             <div >
                                                                 <span className="px-2">
-                                                                    {item.rating===5?<img src='/images/rating_5.png' width={100} alt='oops!'/>:item.rating}
+                                                                    {item.rating === 5 ? <img src='/images/rating_5.png' width={100} alt='oops!' /> : item.rating}
                                                                 </span>
-                                                                <span className="px-2 text-muted" style={{fontSize:15}}>
+                                                                <span className="px-2 text-muted" style={{ fontSize: 15 }}>
                                                                     Reviewed {item.rev_date}
                                                                 </span>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <p className="my-2">
                                                         {item.review}
                                                     </p>
@@ -830,24 +873,24 @@ class PropertyPage extends React.Component {
                                     </li>
                                     {/* Recommendation */}
                                     <li class="list-group-item ml-0 pl-0">
-                                        <h4 style={{fontWeight:400}}>Recommended for you</h4>
+                                        <h4 style={{ fontWeight: 400 }}>Recommended for you</h4>
                                         <div className="row">
                                             {
-                                                recData && recData.map(item =>(
-                                                    <div className='col-4 p-0 m-0'>                                                    
+                                                recData && recData.map(item => (
+                                                    <div className='col-4 p-0 m-0'>
                                                         <div className="card rounded-0 border-0 m-2">
                                                             <img className="img-fluid" src={item.image_a} alt="Loading" />
                                                             <div className="card-title my-0">
                                                                 <small>
-                                                                    From <span style={{color:'#ff7300', fontSize:25}}>${item.price}</span>/per night
+                                                                    From <span style={{ color: '#ff7300', fontSize: 25 }}>${item.price}</span>/per night
                                                                 </small>
                                                             </div>
                                                             {/* <Link to={`/results/${item.property_id}`} style={{ textDecoration: "none", color: "black" }}> */}
-                                                            <small className="text-turncate my-0"onClick={()=>{this.handleRecom(item.property_id)}}>{item.name}</small>
+                                                            <small className="text-turncate my-0" onClick={() => { this.handleRecom(item.property_id) }}>{item.name}</small>
                                                             {/* </Link> */}
                                                             <p className='text-capitalize small my-0'>{item.city}</p>
                                                             <p className='small mt-0'>{item.bed} bedrooms / sleeps {item.no_people}</p>
-                                                            <button className='btn btn-block rounded-0 text-white' style={{background:'#ec9145'}}> View Details</button>
+                                                            <button className='btn btn-block rounded-0 text-white' style={{ background: '#ec9145' }} onClick={() => { this.handleRecom(item.property_id) }}> View Details</button>
                                                         </div>
                                                     </div>
                                                 ))
@@ -862,24 +905,24 @@ class PropertyPage extends React.Component {
                                             Build your perfect trip, with Flipkey & TripAdvisor
                                         </h4>
                                         <p className="pl-5 mb-0">Build the sttaic component </p>
-                                        <p className="pl-5 text-muted">Pay Online to be covered by 
-                                            <strong style={{color:'#066bc8'}} className='px-1' >payment protection </strong> </p>
+                                        <p className="pl-5 text-muted">Pay Online to be covered by
+                                            <strong style={{ color: '#066bc8' }} className='px-1' >payment protection </strong> </p>
                                         <div className='d-flex ml-0 pl-0'>
-                                            <Icons.Person size={40}/>
+                                            <Icons.Person size={40} />
                                             <div className=''>
                                                 <p className="pl-2 mb-0">Real opinions real reviews</p>
                                                 <p className="pl-2 text-muted">Genuine guest feedback from 100,000+ reviews </p>
                                             </div>
                                         </div>
                                         <div className='d-flex ml-0 pl-0'>
-                                            <Icons.Lock size={40}/>
+                                            <Icons.Lock size={40} />
                                             <div>
                                                 <p className="pl-2 mb-0">Safe, simple, secure</p>
                                                 <p className="pl-2 text-muted">When you pay online with PayPal or by credit/debit card </p>
                                             </div>
                                         </div>
                                         <div className='d-flex ml-0 pl-0'>
-                                            <Icons.Clock size={35}/>
+                                            <Icons.Clock size={35} />
                                             <div>
                                                 <p className="pl-2 mb-0">Quick response times </p>
                                                 <p className="pl-2 text-muted">Know where you're staying within 24 hours </p>
@@ -907,7 +950,7 @@ class PropertyPage extends React.Component {
                                     <div className="ml-2">
                                         <small className=''>Total Cost</small>
                                         <h2 style={{ fontWeight: 600 }}>${property[0].price * this.state.days * this.state.people}<small className="text-muted">
-                                            {"/ "+ this.state.days} {this.state.days==1?"night":"nights"}</small></h2>
+                                            {"/ " + this.state.days} {this.state.days == 1 ? "night" : "nights"}</small></h2>
                                     </div>
                                     <div className="p-2">
                                         <div className="" style={{ background: "#f5f8f9" }}>
@@ -923,6 +966,9 @@ class PropertyPage extends React.Component {
                                                         selectsStart
                                                         startDate={this.state.startDate}
                                                         endDate={this.state.endDate}
+                                                        minDate={new Date()}
+                                                        shouldCloseOnSelect={true}
+                                                        excludeDates={argPassDatePick}
                                                     // monthsShown={2}
                                                     />
                                                 </div>
@@ -936,7 +982,11 @@ class PropertyPage extends React.Component {
                                                         selectsEnd
                                                         startDate={this.state.startDate}
                                                         endDate={this.state.endDate}
-                                                        mindDate={this.state.startDate}
+                                                        minDate={new Date() }
+                                                        shouldCloseOnSelect={true}
+                                                        excludeDates={argPassDatePick}
+                                                        // excludeDates={[moment(), moment().subtract(1, "days")]}
+                                                        // minDate={moment().toDate()} 
                                                     // monthsShown={2}  
                                                     />
                                                 </div>
@@ -1047,7 +1097,7 @@ class PropertyPage extends React.Component {
                                                             </div>
                                                             <div className="">
                                                                 <div className="small">{this.state.days * property[0].price * this.state.people}</div>
-                                                                <div className="small text-right">{Math.round((this.state.days * property[0].price  * this.state.people)*0.1)}</div>
+                                                                <div className="small text-right">{Math.round((this.state.days * property[0].price * this.state.people) * 0.1)}</div>
                                                                 <div className="small text-right">$60</div>
                                                                 <div className="small text-right">$60</div>
                                                             </div>
@@ -1060,7 +1110,7 @@ class PropertyPage extends React.Component {
                                                 {/* Total  */}
                                                 <div className="row justify-content-between px-3">
                                                     <div className="lead">Total</div>
-                                                    <div className="lead" >${(property[0].price*this.state.days * this.state.people)+(Math.round((this.state.days * property[0].price * this.state.people)*0.1))+60+60}</div>
+                                                    <div className="lead" >${(property[0].price * this.state.days * this.state.people) + (Math.round((this.state.days * property[0].price * this.state.people) * 0.1)) + 60 + 60}</div>
                                                 </div>
                                                 {/* 2.toggle dropdown */}
                                                 {toggle ? (
@@ -1074,7 +1124,7 @@ class PropertyPage extends React.Component {
                                                             </div>
                                                             <div className="">
                                                                 <div className="small">$60</div>
-                                                                <div className="small text-right">${(property[0].price*this.state.days*this.state.people)+(Math.round((this.state.days * property[0].price * this.state.people)*0.1))+60+60+60}</div>
+                                                                <div className="small text-right">${(property[0].price * this.state.days * this.state.people) + (Math.round((this.state.days * property[0].price * this.state.people) * 0.1)) + 60 + 60 + 60}</div>
                                                             </div>
                                                         </div>
                                                         <hr />
@@ -1095,7 +1145,7 @@ class PropertyPage extends React.Component {
                                                     </div>
                                                 </div>
                                                 {/* Book now button */}
-                                                <button className="btn btn-info btn-block font-weight-bold mt-3" onClick={()=>this.handleBooking(property[0].price)}>
+                                                <button className="btn btn-info btn-block font-weight-bold mt-3" onClick={() => this.handleBooking(property[0].price)}>
                                                     Book now
                                                 </button>
                                                 {/* Contact owner  */}
@@ -1129,7 +1179,8 @@ const mapStateToProps = (state) => {
     return {
         // data: statefined.reducerCommon.primaryData
         data: state.reducerPropertyDetails.primaryData,
-        recom: state.reducerPropertyDetails.recomDetails
+        recom: state.reducerPropertyDetails.recomDetails,
+        datesFromR : state.reducerPropertyDetails.availableDates
     }
 
 }
@@ -1145,7 +1196,8 @@ const mapDispatchToProps = dispatch => {
         changeStartDate: payload => dispatch(changeStartDate(payload)),
         changeEndDate: payload => dispatch(changeEndDate(payload)),
         changePrice: payload => dispatch(changePrice(payload)),
-        guestDays : payload => dispatch(guestDays(payload))
+        guestDays: payload => dispatch(guestDays(payload)),
+        availableDates : payload => dispatch(availableDates(payload))
     }
 }
 

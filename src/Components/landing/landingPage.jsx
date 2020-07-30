@@ -10,7 +10,7 @@ class LandingPage extends React.Component{
         super(props)
         this.state={
             page:'',
-            inp:"",
+            inp:"bangalore",
             startDate: new Date(),
             endDate:''
         }
@@ -74,7 +74,7 @@ class LandingPage extends React.Component{
                                                     selectsStart
                                                     startDate={this.state.startDate}
                                                     endDate={this.state.endDate}
-                                                    
+                                                    minDate={new Date()}
                                                     // monthsShown={2}
                                                 />
                                             </div>
@@ -87,7 +87,7 @@ class LandingPage extends React.Component{
                                                     selectsEnd
                                                     startDate={this.state.startDate}
                                                     endDate={this.state.endDate}
-                                                    mindDate={this.state.startDate}
+                                                    minDate={new Date()}
                                                     // monthsShown={2}  
                                                 />
                                             </div>
