@@ -18,6 +18,8 @@ import Calendar from 'react-calendar'
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import Googlemap from "./GoogleMap"
+import './PropertyPage.css';
+import Faq from '../common/FAQ/faq';
 
 class PropertyPage extends React.Component {
     constructor(props) {
@@ -499,11 +501,11 @@ class PropertyPage extends React.Component {
                                     dotListclassName="custom-dot-list-style"
                                     itemclassName="carousel-item-padding-100-px"
                                 >
-                                    <img src={property[0].image_a} />
-                                    <img src={property[0].image_b} />
-                                    <img src={property[0].image_c} />
-                                    <img src={property[0].image_d} />
-                                    <img src={property[0].image_a} />
+                                    <img src={property[0].image_a} width={400} height={400} className='pr-2 w-100'/>
+                                    <img src={property[0].image_b} width={400} height={400} className='pr-2 w-100'/>
+                                    <img src={property[0].image_c} width={400} height={400} className='pr-2 w-100'/>
+                                    <img src={property[0].image_d} width={400} height={400} className='pr-2 w-100'/>
+                                    <img src={property[0].image_a} width={400} height={400} className='pr-2 w-100'/>
                                 </Carousel>
                             </div>
                         </div>
@@ -777,10 +779,10 @@ class PropertyPage extends React.Component {
                                     <div>
                                         <p style={{ fontWeight: 600 }}>CANCELLATIONS</p>
                                         <p>Change of plans? No problem. You could receive a partial or full refund, depending on when you cancel.</p>
-                                        <Table>
+                                        <Table className='border-0'>
                                             <tbody>
                                                 <tr>
-                                                    <td ><small style={{ top: -20, position: 'relative' }}>Booking confirmed</small></td>
+                                                    <td ><p style={{ top: -20, position: 'relative' }}>Booking confirmed</p></td>
                                                     <td>
                                                         {/* bullete point */}
                                                         <ul>
@@ -795,7 +797,7 @@ class PropertyPage extends React.Component {
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td><small style={{ top: -20, position: 'relative' }}><strong>24 </strong>hours after <br />booking</small></td>
+                                                    <td><p style={{ top: -20, position: 'relative' }}><strong>24 </strong>hours after <br />booking</p></td>
                                                     {/* bullete point */}
                                                     <td>
                                                         <ul>
@@ -810,7 +812,7 @@ class PropertyPage extends React.Component {
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td><small><strong>4</strong> weeks before</small></td>
+                                                    <td><p><strong>4</strong> weeks before</p></td>
                                                     {/* bullete point */}
                                                     <td>
                                                         <ul>
@@ -825,7 +827,7 @@ class PropertyPage extends React.Component {
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td><small>Check-in date</small></td>
+                                                    <td><p>Check-in date</p></td>
                                                     {/* bullete point */}
                                                     <td>
                                                         <ul>
@@ -897,7 +899,7 @@ class PropertyPage extends React.Component {
                                                                     <div class="md-form mb-5">
                                                                         <i class="fas fa-envelope prefix grey-text"></i>
                                                                         <label data-error="wrong" data-success="right" className="justify-content" for="defaultForm-email">Review About</label>
-                                                                        <input type="email" id="defaultForm-email" class="form-control validate" required onChange={(e) => this.setState({ title: e.target.value })} />
+                                                                        <input type="text" id="defaultForm-email" class="form-control validate" required onChange={(e) => this.setState({ title: e.target.value })} />
 
                                                                     </div>
                                                                     <div class="input-group mb-3">
@@ -1021,7 +1023,11 @@ class PropertyPage extends React.Component {
                                                             <p className='lead py-0 mb-0' style={{ fontWeight: 400 }}>"{item.title}!!"</p>
                                                             <div >
                                                                 <span className="px-2">
-                                                                    {item.rating === 5 ? <img src='/images/rating_5.png' width={100} alt='oops!' /> : item.rating}
+                                                                    {
+                                                                        item.rating === 5 ? <img src='/images/rating_5.png' width={100} alt={item.rating} /> 
+                                                                        : item.rating ===4 ? <img src='/images/rating_4.png' width={100} alt={item.rating} />
+                                                                        :<img src='/images/rating_4.png' width={100} alt={item.rating} />
+                                                                    }
                                                                 </span>
                                                                 <span className="px-2 text-muted" style={{ fontSize: 15 }}>
                                                                     Reviewed {item.rev_date}
@@ -1038,7 +1044,9 @@ class PropertyPage extends React.Component {
                                         )
                                     }
                                     <li id="FAQs" className="list-group-item ml-0 pl-0">
-                                        <p>FAQ</p>
+                                        <h4 className='text-center'>FAQ</h4>
+                                        {/* *********************** FAQ component *********************** */}
+                                        <Faq />
                                     </li>
                                     {/* Recommendation */}
                                     <li class="list-group-item ml-0 pl-0">
@@ -1048,7 +1056,7 @@ class PropertyPage extends React.Component {
                                                 recData && recData.map(item => (
                                                     <div className='col-4 p-0 m-0'>
                                                         <div className="card rounded-0 border-0 m-2">
-                                                            <img className="img-fluid" src={item.image_a} alt="Loading" />
+                                                            <img className="img-fluid" src={item.image_a} height="100" alt="Loading" />
                                                             <div className="card-title my-0">
                                                                 <small>
                                                                     From <span style={{ color: '#ff7300', fontSize: 25 }}>${item.price}</span>/per night
@@ -1058,7 +1066,7 @@ class PropertyPage extends React.Component {
                                                             <small className="text-turncate my-0" onClick={() => { this.handleRecom(item.property_id) }}>{item.name}</small>
                                                             {/* </Link> */}
                                                             <p className='text-capitalize small my-0'>{item.city}</p>
-                                                            <p className='small mt-0'>{item.bed} bedrooms / sleeps {item.no_people}</p>
+                                                            <p className='small my-0'>{item.bed} bedrooms / sleeps {item.no_people}</p>
                                                             <button className='btn btn-block rounded-0 text-white' style={{ background: '#ec9145' }} onClick={() => { this.handleRecom(item.property_id) }}> View Details</button>
                                                         </div>
                                                     </div>
