@@ -10,6 +10,7 @@ class onSuccessPage extends React.Component{
     }
 
     render(){
+        // const history = useHistory()
         return (
             <div className="container-fluid w-25 justify-content" style={{height:"500px", width:"500px", backgroundColor:"cyan"}}>
                 Payment : {this.props.price} 
@@ -17,7 +18,16 @@ class onSuccessPage extends React.Component{
                 Succcessfull
                 <br/>
                 Enjoy your Vocation and keep booking
+                {/* {
+                setTimeout(function(){
+                this.props.history.push("/")
+            }, 3000)
+            } */}
             </div>
+
+            
+            
+            
         )
     }
 }
