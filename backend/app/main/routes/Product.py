@@ -72,6 +72,8 @@ def addrev():
 
     token =request.headers.get("Auth")
 
+    print(token, request.json)
+
     response = addReview(request.json, token)
 
     return response

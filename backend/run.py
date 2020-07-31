@@ -48,9 +48,9 @@ def app_charge():
     if status is False:
         return json.dumps({"error": True, "message": "Token has expired!"})
 
-    order_amount = str(price)
+    order_amount = str(price) + "00"
     order_payment_capture = 1
-    order_currency = "INR"
+    order_currency = "USD"
     order_payment_id = uuid.uuid1()
 
     user_id = db.session.execute('''SELECT id FROM user where email = "%s"'''%(data["email"]))

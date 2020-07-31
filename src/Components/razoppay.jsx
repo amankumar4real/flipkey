@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useHistory } from "react-router"
 // import {flip} from '../../public'
 import { api_link } from '../redux/link'
+import Login from "../Components/Auth/Login"
 
 function loadScript(src) {
 	return new Promise((resolve) => {
