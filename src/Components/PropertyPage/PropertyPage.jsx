@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { getPropertyData } from '../../redux/Common/action'
-import { afterPropData, getRecommendations, recomData, changeEndDate, changeStartDate, changePrice, guestDays, availableDates } from '../../redux/PropertyDetails/action'
+import { afterPropData, getRecommendations, recomData, changeEndDate, changeStartDate, changePrice, guestDays, availableDates, reviewSubmission } from '../../redux/PropertyDetails/action'
 // import Carousel, { slidesToShowPlugin } from '@brainhubeu/react-carousel';
-import { Dropdown, Button, ButtonGroup, Form, FormCheck, Table } from 'react-bootstrap';
+import { Dropdown, Button, ButtonGroup, Form, FormCheck, Table, Popover } from 'react-bootstrap';
 import DropdownToggle from 'react-bootstrap/esm/DropdownToggle';
 import DropdownMenu from 'react-bootstrap/esm/DropdownMenu';
 // import '@brainhubeu/react-carousel/lib/style.css';
@@ -32,7 +32,8 @@ class PropertyPage extends React.Component {
             endDate: new Date(),
             toggle: false,
             id: null,
-            days: 1
+            days: 1,
+            enableBookButton: true
         }
 
     }
@@ -70,64 +71,36 @@ class PropertyPage extends React.Component {
     //     localStorage.setItem('endDate',+new JSON.stringify(nextState.endDate));
     // }
 
-    handleStartDate = date => {
-        // if(this.state.endDate){
-        if (date > this.state.endDate) {
-            this.setState({
-                endDate: date
-            })
-            this.setState({
-                days: 1
-            })
-
+    //function for submitting review
+    submitReview = () => {
+        const payload = {
+            property_id: Number(this.props.match.params.id),
+            title: this.state.title,
+            rating: Number(this.state.rating),
+            review: this.state.description,
+            token: this.props.token
         }
-        else {
-            this.setState({
-                startDate: date,
-            });
-            let s = this.calculateDays(date)
-            let e = this.calculateDays(this.state.endDate)
-            s = s.map(val => Number(val))
-            e = e.map(val => Number(val))
-            console.log(s, e)
+        console.log(payload, this.props.token)
+        this.props.reviewSubmission(payload)
+    }
 
-
-            if (s[2] - e[2] == 0) {
-                if (e[1] - s[1] == 0) {
-                    if (e[0] - s[0] == 0) {
-                        this.setState({
-                            days: 1
-                        })
-                    }
-                    else {
-                        this.setState({
-                            days: e[0] - s[0] + 1
-                        })
-                    }
-                }
-                else {
-                    if (e[1] - s[1] == 1) {
-                        this.setState({
-                            days: 31 - s[0] + 1 + e[0]
-                        })
-                    }
-                    else {
-                        this.setState({
-                            days: 31 - s[0] + e[1] - s[1] + e[0]
-                        })
-                    }
-                }
+    checkBookingAvailable = (s, e) => {
+        const checkDates = this.props.datesFromR.data
+        console.log(s, e, checkDates)
+        for (var i = 0; i < checkDates.length; i++) {
+            var s1 = checkDates[i][0].split("-").map(val => Number(val))
+            var e1 = checkDates[i][1].split("-").map(val => Number(val))
+            if (!((new Date(`${s[1]}/${s[0]}/${s[2]}`) <= new Date(`${s1[1]}/${s1[2]}/${s1[0]}`) && new Date(`${e[1]}/${e[0]}/${e[2]}`) <= new Date(`${s1[1]}/${s1[2]}/${s1[0]}`)) || ((new Date(`${s[1]}/${s[0]}/${s[2]}`) >= new Date(`${e1[1]}/${e1[2]}/${e1[0]}`)) && (new Date(`${e[1]}/${e[0]}/${e[2]}`) >= new Date(`${e1[1]}/${e1[2]}/${e1[0]}`))))) {
+                console.log(1)
+                return false
             }
+            console.log(s, e, s1, e1)
+            // console.log(new Date(`${s[1]}/${s[0]}/${s[2]}`),new Date(`${s1[1]}/${s1[2]}/${s1[0]}`), new Date(`${e[1]}/${e[0]}/${e[2]}`) , new Date(`${e1[1]}/${e1[2]}/${e1[0]}`))
         }
-        this.setState({
-            startDate: date,
-        });
-        // }
-
-
-
-        console.log(this.state.days)
-    };
+        console.log(0)
+        return true
+        // console.log(s,e,s1,e1)
+    }
     calculateDays = date => {
         date = date.toString()
         date = date.split(" ")
@@ -173,6 +146,81 @@ class PropertyPage extends React.Component {
         let year = date.shift()
         return [day, mon, year]
     }
+    handleStartDate = date => {
+        if (date > this.state.endDate) {
+            this.setState({
+                endDate: date
+            })
+            this.setState({
+                days: 1
+            })
+            let s = this.calculateDays(date)
+            let e = this.calculateDays(date)
+            s = s.map(val => Number(val))
+            e = e.map(val => Number(val))
+            if (this.checkBookingAvailable(s, e)) {
+                this.setState({
+                    enableBookButton: true
+                })
+            } else {
+                this.setState({
+                    enableBookButton: false
+                })
+            }
+
+        }
+        else {
+            this.setState({
+                startDate: date,
+            });
+            let s = this.calculateDays(date)
+            let e = this.calculateDays(this.state.endDate)
+            s = s.map(val => Number(val))
+            e = e.map(val => Number(val))
+
+            if (this.checkBookingAvailable(s, e)) {
+                this.setState({
+                    enableBookButton: true
+                })
+            } else {
+                this.setState({
+                    enableBookButton: false
+                })
+            }
+
+
+            if (s[2] - e[2] == 0) {
+                if (e[1] - s[1] == 0) {
+                    if (e[0] - s[0] == 0) {
+                        this.setState({
+                            days: 1
+                        })
+                    }
+                    else {
+                        this.setState({
+                            days: e[0] - s[0] + 1
+                        })
+                    }
+                }
+                else {
+                    if (e[1] - s[1] == 1) {
+                        this.setState({
+                            days: 31 - s[0] + 1 + e[0]
+                        })
+                    }
+                    else {
+                        this.setState({
+                            days: 31 - s[0] + e[1] - s[1] + e[0]
+                        })
+                    }
+                }
+            }
+        }
+        this.setState({
+            startDate: date,
+        });
+        console.log(this.state.days)
+    };
     handleEndDate = date => {
         // if(this.state.startDate){
         console.log(date)
@@ -183,6 +231,19 @@ class PropertyPage extends React.Component {
             this.setState({
                 days: 1
             })
+            let s = this.calculateDays(date)
+            let e = this.calculateDays(date)
+            s = s.map(val => Number(val))
+            e = e.map(val => Number(val))
+            if (this.checkBookingAvailable(s, e)) {
+                this.setState({
+                    enableBookButton: true
+                })
+            } else {
+                this.setState({
+                    enableBookButton: false
+                })
+            }
         }
         else {
             this.setState({
@@ -192,7 +253,18 @@ class PropertyPage extends React.Component {
             let e = this.calculateDays(date)
             s = s.map(val => Number(val))
             e = e.map(val => Number(val))
-            console.log(s, e)
+
+            if (this.checkBookingAvailable(s, e)) {
+                this.setState({
+                    enableBookButton: true
+                })
+            } else {
+                this.setState({
+                    enableBookButton: false
+                })
+            }
+
+            // console.log(s, e)
             if (e[2] - s[2] == 0) {
                 if (e[1] - s[1] == 0) {
                     if (e[0] - s[0] == 0) {
@@ -223,9 +295,6 @@ class PropertyPage extends React.Component {
         this.setState({
             endDate: date,
         });
-        // }
-
-
         console.log(this.state.days)
     };
 
@@ -315,11 +384,11 @@ class PropertyPage extends React.Component {
                 console.log(`${checkOut[1]}/${checkOut[2]}/${checkOut[0]}`)
                 while (checkIn[1] <= checkOut[1]) {
                     while (checkIn[2] < checkOut[2]) {
-                        argPassDatePick.push(new Date(`${checkIn[1]}/${checkIn[2]+1}/${checkIn[0]}`))
+                        argPassDatePick.push(new Date(`${checkIn[1]}/${checkIn[2] + 1}/${checkIn[0]}`))
                         checkIn[2]++
                     }
                     while (checkOut[2] < checkOut[2]) {
-                        argPassDatePick.push(new Date(`${checkIn[1]}/${checkIn[2]+1}/${checkIn[0]}`))
+                        argPassDatePick.push(new Date(`${checkIn[1]}/${checkIn[2] + 1}/${checkIn[0]}`))
                         checkOut[2]++
                     }
                     checkIn[1]++
@@ -776,7 +845,7 @@ class PropertyPage extends React.Component {
                                     {/* map inegration */}
                                     <li id="Map" className="list-group-item ml-0 pl-0">
                                         <h4 className="mb-2">Map Integration</h4>
-                                        <Googlemap/>
+                                        <Googlemap />
                                     </li>
                                     {/* calendar availability */}
                                     <li id="Availability" className="list-group-item ml-0 pl-0">
@@ -795,6 +864,7 @@ class PropertyPage extends React.Component {
                                     <li className="list-group-item ml-0 pl-0">
 
                                         <h4 style={{ fontWeight: 400 }}>Reviews</h4>
+
                                         {
                                             avg >= 4 ? <p><strong style={{ fontSize: 15 }}><i>Very Good</i></strong> – based on {review.length} reviews</p> :
                                                 avg >= 3 ? <p><strong>Good </strong> – based on {review.length} reviews</p> :
@@ -802,8 +872,80 @@ class PropertyPage extends React.Component {
                                                         <p><strong>Worst </strong> – based on {review.length} reviews</p>
                                         }
                                         {/* redirect to add review component */}
-                                        <button className='btn rounded-0 btn-block text-center border w-50 mr-5' style={{ color: '#066bc8', background: '#f4f4f4' }} >Write a review</button> {/* write a review button */}
+                                        {/* write a review button */}
+                                        {
+                                            this.props.token ?
+                                                <div>
+                                                    <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header text-center">
+                                                                    <h4 class="modal-title w-100 font-weight-bold">Review Form</h4>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body mx-3">
+                                                                    <div class="md-form mb-5">
+                                                                        <i class="fas fa-envelope prefix grey-text"></i>
+                                                                        <label data-error="wrong" data-success="right" className="justify-content" for="defaultForm-email">Review About</label>
+                                                                        <input type="email" id="defaultForm-email" class="form-control validate" onChange={(e) => this.setState({ title: e.target.value })} />
+
+                                                                    </div>
+                                                                    <div class="input-group mb-3">
+                                                                        <div class="input-group-prepend">
+                                                                            <label class="input-group-text" for="inputGroupSelect01">Rate us</label>
+                                                                        </div>
+                                                                        <select class="custom-select" id="inputGroupSelect01" onChange={(e) => this.setState({ rating: e.target.value })}>
+                                                                            <option selected>Choose...</option>
+                                                                            <option value="4">5</option>
+                                                                            <option value="5">4</option>
+                                                                            <option value="3">3</option>
+                                                                            <option value="2">2</option>
+                                                                            <option value="1">1</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <label for="revi" className="justify-content">Please Describe your expeirnce with us</label>
+                                                                    <textarea id="revi" className="form-control validate justify-content w-100" style={{ height: "200px" }} onChange={(e) => this.setState({ description: e.target.value })} >
+
+                                                                    </textarea>
+
+                                                                </div>
+                                                                <div class="modal-footer d-flex justify-content-center">
+                                                                    <button class="btn btn-default" onClick={this.submitReview} class="close" data-dismiss="modal" aria-label="Close">Submit</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="text-center">
+                                                        <a href="" class="btn rounded-0 btn-block text-center border w-50 mr-5" data-toggle="modal" style={{ color: '#066bc8', background: '#f4f4f4' }} data-target="#modalLoginForm">Write a Review</a>
+                                                    </div></div> :
+                                                <div>
+                                                                <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-body mx-3">
+                                                                    <div class="md-form mb-5">
+                                                                        Please Login to write a review
+                                                                    </div>
+                                                                </div>
+                                                        
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="text-center">
+                                                        <a href="" class="btn rounded-0 btn-block text-center border w-50 mr-5" data-toggle="modal" style={{ color: '#066bc8', background: '#f4f4f4' }} data-target="#modalLoginForm">Write a Review</a>
+                                                    </div>
+                                                </div>
+
+
+                                        }
                                     </li>
+
                                     <li id="Reviews" className="list-group-item ml-0 pl-0">
                                         {/* Excellent rating */}
                                         <div className='d-flex justify-content-start my-0'>
@@ -1129,8 +1271,8 @@ class PropertyPage extends React.Component {
                                                     )}
                                                 {/* Total  */}
                                                 <div className="row justify-content-between px-3">
-                                                    <div className="lead">Total</div>
-                                                    <div className="lead" >${(property[0].price * this.state.days * this.state.people) + (Math.round((this.state.days * property[0].price * this.state.people) * 0.1)) + 60 + 60}</div>
+                                                    <div className="lead">Total<small className="text-muted"> (including taxes)</small></div>
+                                                    <div className="lead" >${(property[0].price * this.state.days * this.state.people) + (Math.round((this.state.days * property[0].price * this.state.people) * 0.1)) + 60 + 60 +60}</div>
                                                 </div>
                                                 {/* 2.toggle dropdown */}
                                                 {toggle ? (
@@ -1144,7 +1286,7 @@ class PropertyPage extends React.Component {
                                                             </div>
                                                             <div className="">
                                                                 <div className="small">$60</div>
-                                                                <div className="small text-right">${(property[0].price * this.state.days * this.state.people) + (Math.round((this.state.days * property[0].price * this.state.people) * 0.1)) + 60 + 60 + 60}</div>
+                                                                <div className="small text-right">${(property[0].price * this.state.days * this.state.people) + (Math.round((this.state.days * property[0].price * this.state.people) * 0.1)) + 60 + 60}</div>
                                                             </div>
                                                         </div>
                                                         <hr />
@@ -1165,9 +1307,14 @@ class PropertyPage extends React.Component {
                                                     </div>
                                                 </div>
                                                 {/* Book now button */}
-                                                <button className="btn btn-info btn-block font-weight-bold mt-3" onClick={() => this.handleBooking(property[0].price)}>
-                                                    Book now
-                                                </button>
+                                                {this.state.enableBookButton ?
+                                                    <button className="btn btn-info btn-block font-weight-bold mt-3" onClick={() => this.handleBooking(property[0].price)}>
+                                                        Book now
+                                                </button> :
+                                                    <button disabled className="btn btn-info btn-block font-weight-bold mt-3" onClick={() => this.handleBooking(property[0].price)}>
+                                                        Dates not available
+                                            </button>
+                                                }
                                                 {/* Contact owner  */}
                                                 <button className="btn btn-outline-secondary btn-block font-weight-bold">
                                                     Contact owner
@@ -1200,7 +1347,8 @@ const mapStateToProps = (state) => {
         // data: statefined.reducerCommon.primaryData
         data: state.reducerPropertyDetails.primaryData,
         recom: state.reducerPropertyDetails.recomDetails,
-        datesFromR: state.reducerPropertyDetails.availableDates
+        datesFromR: state.reducerPropertyDetails.availableDates,
+        token: state.reducerAuth.token
     }
 
 }
@@ -1217,7 +1365,10 @@ const mapDispatchToProps = dispatch => {
         changeEndDate: payload => dispatch(changeEndDate(payload)),
         changePrice: payload => dispatch(changePrice(payload)),
         guestDays: payload => dispatch(guestDays(payload)),
-        availableDates: payload => dispatch(availableDates(payload))
+        availableDates: payload => dispatch(availableDates(payload)),
+        // reviewSubmission: payload => dispatch(reviewSubmission(payload)),
+        reviewSubmission: payload => reviewSubmission(payload)
+
     }
 }
 

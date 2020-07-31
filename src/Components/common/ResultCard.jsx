@@ -599,7 +599,7 @@ class ResultCard extends React.Component {
                     <div className="p-0 border ">
                         <div className="row">
                             <div className="d-flex justify-content-between border w-100 mx-3 p-2" style={{background:"#f5f8f9"}}>
-                                <div> {result.length} apartment rentals</div>
+                                <div> { result && result.length} apartment rentals</div>
                                 <div className="">
                                     Sort by:
                                     <select name='sortby' value={this.state.sortby} onChange={this.handleSort}>

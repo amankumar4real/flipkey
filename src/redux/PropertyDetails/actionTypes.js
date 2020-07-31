@@ -21,3 +21,8 @@ export const TOTAL_PRICE = "TOTAL_PRICE"
 export const AVAIL_DATES_START = "AVAIL_DATES_START"
 export const AVAIL_DATES_FAIL = "AVAIL_DATES_FAIL"
 export const AVAIL_DATES_SUCC = "AVAIL_DATES_SUCC"
+
+export const REVIEW_START = "REVIEW_START"
+export const REVIEW_SUCC = "REVIEW_SUCC"
+export const REVIEW_FAIL = "REVIEW_FAIL"
+

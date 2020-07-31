@@ -9,7 +9,10 @@ import {
     TOTAL_PRICE,
     AVAIL_DATES_SUCC,
     AVAIL_DATES_START,
-    AVAIL_DATES_FAIL
+    AVAIL_DATES_FAIL,
+    REVIEW_START,
+    REVIEW_SUCC,
+    REVIEW_FAIL
 } from './actionTypes'
 import { CHANGE_TYPE } from '../Auth/actionTypes'
 
@@ -19,10 +22,10 @@ const initialstate = {
     primaryData: {},
     recomDetails: {},
     bookingDetails: {},
-    startDate : null,
-    endDate :  null,
-    guest : 1,
-    days : 1,
+    startDate: null,
+    endDate: null,
+    guest: 1,
+    days: 1,
     total_price: 0,
     prop_id: "",
     availableDates: {},
@@ -103,7 +106,7 @@ const reducerPropertyDetails = (state = initialstate, { type, payload }) => {
             console.log(payload)
             return {
                 ...state,
-                availableDates : payload
+                availableDates: payload
 
             }
         case AVAIL_DATES_FAIL:
@@ -117,6 +120,21 @@ const reducerPropertyDetails = (state = initialstate, { type, payload }) => {
             return {
                 ...state,
                 total_price: payload
+            }
+        case REVIEW_START:
+            console.log(payload)
+            return {
+                ...state
+            }
+        case REVIEW_SUCC:
+            console.log(payload)
+            return {
+                ...state
+            }
+        case REVIEW_FAIL:
+            console.log(payload)
+            return {
+                ...state
             }
         default:
             return {
