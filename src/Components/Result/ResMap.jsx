@@ -65,7 +65,7 @@ function ResMap({map_data}){
                                 lng: Number(selectedProperty.lng_pro)
                             }}
                             >
-                            <div>
+                            <div className="container-fluid">
                                 <div className="row">
                                     <div className="col-12">
                                     {/* <div class="col-md-5"> */}

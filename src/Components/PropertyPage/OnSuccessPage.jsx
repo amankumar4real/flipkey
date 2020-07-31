@@ -10,7 +10,7 @@ class onSuccessPage extends React.Component{
     }
 
     render(){
-        retutn (
+        return (
             <div className="container-fluid w-25 justify-content" style={{height:"500px", width:"500px", backgroundColor:"cyan"}}>
                 Payment : {this.props.price} 
                 <br/>

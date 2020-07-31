@@ -11,6 +11,7 @@ import AccountInfo from '../Components/Auth/accountInfo';
 import PropertyList from '../Components/PropertyPage/propertyList';
 import ShortList from '../Components/Result/shortList';
 import BookingPage from "../Components/BookingPage/BookingPage";
+import OnSuccessPage from "../Components/PropertyPage/OnSuccessPage"
 
 const Routers = () => {
     return(
@@ -29,6 +30,7 @@ const Routers = () => {
                 <Route exact path="/results" component = {ResultPage} />
                 <Route exact path="/results/:id" component = {PropertyPage} />
                 <Route path="/results/booking/:id" component = {BookingPage} />
+                <Route path="/paymentdone" component = {OnSuccessPage} />
         </div>
     )
 }

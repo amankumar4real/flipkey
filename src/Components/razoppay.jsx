@@ -67,8 +67,8 @@ function RazopPay({total, start, end, ids, token}){
 			description: 'Thank you for booking with us!',
 			image: 'flip.jpg',
 			handler: function (response) {
-				alert("Payment Completed!")
-				// history.push("/")
+				// alert("Payment Completed!")
+				history.push("/paymentdone")
 			},
 			prefill: {
 				name,
