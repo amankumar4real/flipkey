@@ -58,13 +58,13 @@ const reducerPropertyDetails = (state = initialstate, { type, payload }) => {
                 recomDetails: payload
             }
         case PROP_BOOKING_START:
-            console.log(payload)
+            // console.log(payload)
             return {
                 ...state
             }
 
         case PROP_BOOKING_SUCC:
-            console.log(payload)
+            // console.log(payload)
             return {
                 ...state,
                 bookingDetails: payload
@@ -74,19 +74,19 @@ const reducerPropertyDetails = (state = initialstate, { type, payload }) => {
                 ...state
             }
         case CHANGE_START_DATE:
-            console.log(payload)
+            // console.log(payload)
             return {
                 ...state,
                 startDate: payload
             }
         case CHANGE_END_DATE:
-            console.log(payload)
+            // console.log(payload)
             return {
                 ...state,
                 endDate: payload
             }
         case CHANGE_PRICE:
-            console.log(payload)
+            // console.log(payload)
             return {
                 ...state,
                 price: payload
@@ -103,20 +103,20 @@ const reducerPropertyDetails = (state = initialstate, { type, payload }) => {
 
             }
         case AVAIL_DATES_SUCC:
-            console.log(payload)
+            // console.log(payload)
             return {
                 ...state,
                 availableDates: payload
 
             }
         case AVAIL_DATES_FAIL:
-            console.log(payload)
+            // console.log(payload)
             return {
                 ...state
 
             }
         case TOTAL_PRICE:
-            console.log(payload)
+            // console.log(payload)
             return {
                 ...state,
                 total_price: payload
