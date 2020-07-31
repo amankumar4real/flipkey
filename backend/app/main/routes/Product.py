@@ -43,7 +43,9 @@ def postFinalData():
         "amenities": request.args.getlist("amenities"),
         "suitability": request.args.getlist("suitability"),
         "sortby": request.args.get("sortby", default="relevence", type=str),
-        "place": request.args.get("place", default="delhi", type=str)
+        "place": request.args.get("place", default="delhi", type=str),
+        "lat": request.args.get("lat", type=str),
+        "lng": request.args.get("lng", type=str)
     }
     
     response = finalFilteredData(data)

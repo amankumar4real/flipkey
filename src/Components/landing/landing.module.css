@@ -2,3 +2,12 @@
    margin: 0;
    font-size: large;
 }
+
+.box{
+   margin-top: 50px;
+   position: absolute;
+   cursor: pointer;
+   overflow: auto;
+   box-sizing: border-box;
+   z-index: 1001;
+ }

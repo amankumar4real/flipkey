@@ -13,6 +13,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import { Next } from 'react-bootstrap/esm/PageItem';
 import * as Icons from 'react-bootstrap-icons';
+import PlacesAutocomplete, {
+    geocodeByAddress,
+    getLatLng
+  } from "react-places-autocomplete";
+import styles from './resultCard.module.css';
 // import './resultCard.css'
 
 let params = new URLSearchParams(document.location.search.substring(1))
@@ -73,7 +78,9 @@ class ResultCard extends React.Component {
             searchVal: "",
             startDate: new Date(),
             endDate: new Date(),
-            shortListToggle:false
+            shortListToggle:false,
+            coordinates: {lat: null, lng: null},
+            address:""
             // place: this.props.
         }
     }
@@ -202,7 +209,8 @@ class ResultCard extends React.Component {
         newUrl.searchParams.set("price", this.state.price)
         newUrl.searchParams.set("beds", this.state.beds)
         newUrl.searchParams.set("sortby", this.state.sortby)
-        newUrl.searchParams.set("place", this.state.searchVal)
+        newUrl.searchParams.set("lat", this.state.coordinates.lat)
+        newUrl.searchParams.set("lng", this.state.coordinates.lng)
 
         for(var i = 0; i < this.state.amenities.length; i++){
             newUrl.searchParams.append("amenities", this.state.amenities[i])
@@ -294,8 +302,23 @@ class ResultCard extends React.Component {
     handleShortList=e=>{
         this.setState({shortListToggle:!this.state.shortListToggle})
     }
+
+    handleSelect = async value => {
+        const results = await geocodeByAddress(value);
+        const latLng = await getLatLng(results[0]);
+        this.setState({
+            address: value,
+            coordinates: latLng
+        })
+      }
     
+    changePlaces = address => {
+        this.setState({ address });
+    }
+
+
     render() {
+
         const {dummydata,searchVal}= this.state;
         const rentalType=['apartment', 'hotel_apartment', 
             'house', 'villa', 'bungalow', 'castle', 'farmhouse', 'studio', 
@@ -309,7 +332,10 @@ class ResultCard extends React.Component {
         let shortListBg= this.state.shortListToggle?'#f7acbc':'red'
         console.log("bg",shortListBg)
         console.log(`primary Data:\n`)
-        console.log(Object.values(result))
+        // console.log(Object.values(result))
+
+        
+
         return (
             <div >
                 {/* ******************************Search Box with date picker****************************** */}
@@ -317,7 +343,36 @@ class ResultCard extends React.Component {
                     {/* searchBar, from date */}
                     <div className='col-6'>
                         <div className='row'>
-                           <input type='text'  value={searchVal} onChange={this.handleSearch} className='col-8 border-left-0 border-top-0 border-bottom-0 rounded-0 p-2'/>
+
+                        <PlacesAutocomplete
+                            value={this.state.address}
+                            onChange={this.changePlaces}
+                            onSelect={this.handleSelect}
+                            
+                        >
+                            {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                                <>
+                        
+                           <input   {...getInputProps({ placeholder: "Type address" })} className='col-8 border-left-0 border-top-0 border-bottom-0 rounded-0 p-2'/>
+                           
+                           <div className={styles.box}>
+                                            {loading ? <div>...loading</div> : null}
+
+                                            {suggestions.map(suggestion => {
+                                                const style = {
+                                                backgroundColor: suggestion.active ? "#41b6e6" : "#fff"
+                                                };
+
+                                                return (
+                                                <div className="col-7" {...getSuggestionItemProps(suggestion, { style })}>
+                                                    {suggestion.description}
+                                                </div>
+                                                );
+                                            })}
+                                            </div>
+                                    </>
+                                    )}
+                                </PlacesAutocomplete>
                            {/* <FilterResults 
                             value={searchVal}
                             data={dummydata}

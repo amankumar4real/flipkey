@@ -31,8 +31,8 @@ def finalFilteredData(details):
                                   ci.lng as lng_ci FROM product as p JOIN amenities as a ON p.id = a.property_id
                                   JOIN suitability as s on p.id = s.property_id JOIN location as lo ON lo.property_id = p.id
                                   JOIN city as ci on ci.id = lo.city_id WHERE p.no_people >= %s AND
-                                  p.price >= %s AND p.bed >= %s AND p.bath > %s AND ci.city = "%s"'''%(details["people"],
-                                  details["price"], details["beds"], details["bath"], details["place"]))
+                                  p.price >= %s AND p.bed >= %s AND p.bath > %s AND ci.lat = "%s" AND ci.lng = "%s"'''%(details["people"],
+                                  details["price"], details["beds"], details["bath"], details["lat"], details["lng"]))
     else:
         so = ""
 
@@ -45,9 +45,9 @@ def finalFilteredData(details):
                                   ci.lng as lng_ci FROM product as p JOIN amenities as a ON p.id = a.property_id
                                   JOIN suitability as s on p.id = s.property_id JOIN location as lo ON lo.property_id = p.id
                                   JOIN city as ci on ci.id = lo.city_id WHERE p.no_people >= %s AND
-                                  p.price >= %s AND p.bed >= %s AND p.bath > %s AND ci.city = "%s" 
+                                  p.price >= %s AND p.bed >= %s AND p.bath > %s AND ci.lat = "%s" AND ci.lng = "%s" 
                                   ORDER BY p.price %s'''%(details["people"],
-                                  details["price"], details["beds"], details["bath"], details["place"], so))
+                                  details["price"], details["beds"], details["bath"], details["lat"], details["lng"], so))
 
     
     init_data = [dict(row) for row in data]

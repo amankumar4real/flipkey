@@ -13,6 +13,8 @@ import PlacesAutocomplete, {
     geocodeByAddress,
     getLatLng
   } from "react-places-autocomplete";
+// import styles from './'
+
 
 class LandingPage extends React.Component{
     constructor(props){
@@ -22,7 +24,7 @@ class LandingPage extends React.Component{
             inp:"bangalore",
             startDate: new Date(),
             endDate:'',
-            coordinates: {lat: null, lng: null},
+            coordinates: {lat: "12.9715987", lng: "77.5945627"},
             address:""
         }
     }
@@ -42,7 +44,7 @@ class LandingPage extends React.Component{
 
     handleClick = () => {
         this.props.changeText(this.state.inp)
-        this.props.history.push(`/results?people=1&price=50&beds=1&place=${this.state.inp}`)
+        this.props.history.push(`/results?people=1&price=50&beds=1&lat=${this.state.coordinates.lat}&lng=${this.state.coordinates.lng}&sortby=relevence`)
     }
 
     handleChange = (event) => {
@@ -99,7 +101,7 @@ class LandingPage extends React.Component{
                                             // placeholder="Where do you want to go?" 
                                             className="border col-6" 
                                         />
-                                        <div>
+                                        <div className={styles.box}>
                                             {loading ? <div>...loading</div> : null}
 
                                             {suggestions.map(suggestion => {
@@ -108,7 +110,7 @@ class LandingPage extends React.Component{
                                                 };
 
                                                 return (
-                                                <div {...getSuggestionItemProps(suggestion, { style })}>
+                                                <div  {...getSuggestionItemProps(suggestion, { style })}>
                                                     {suggestion.description}
                                                 </div>
                                                 );
