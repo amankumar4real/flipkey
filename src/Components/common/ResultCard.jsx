@@ -309,7 +309,7 @@ class ResultCard extends React.Component {
         let shortListBg= this.state.shortListToggle?'#f7acbc':'red'
         console.log("bg",shortListBg)
         console.log(`primary Data:\n`)
-        console.log(Object.values(result))
+        // console.log(Object.values(result))
         return (
             <div >
                 {/* ******************************Search Box with date picker****************************** */}
