@@ -13,6 +13,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import { Next } from 'react-bootstrap/esm/PageItem';
 import * as Icons from 'react-bootstrap-icons';
+// import './resultCard.css'
 
 let params = new URLSearchParams(document.location.search.substring(1))
 
@@ -308,7 +309,7 @@ class ResultCard extends React.Component {
         let shortListBg= this.state.shortListToggle?'#f7acbc':'red'
         console.log("bg",shortListBg)
         console.log(`primary Data:\n`)
-        console.log(`${result}`)
+        console.log(Object.values(result))
         return (
             <div >
                 {/* ******************************Search Box with date picker****************************** */}
@@ -357,7 +358,7 @@ class ResultCard extends React.Component {
                                 // monthsShown={2}  
                             />
                         </div>
-                            <div className='col-4 btn-block border-left mx-0'>
+                            <div className='col-4 btn-block border-left mx-0 addPeople'>
                                     <Dropdown variant='white'className='rounded-0'>
                                         <DropdownToggle variant='white'className='rounded-0 w-100 m-0'>
                                             <Button variant='white' className='p-0 m-0 w-100'>
@@ -615,24 +616,24 @@ class ResultCard extends React.Component {
                                 <div className='' style={{overflowY:'scroll', height:710}}>
                                 {
                                     result ? result.map((item, ind) => (
-                                        <div key={item.property_id} class="card mb-3 m-2 border-0 rounded-0" onClick = {this.handleShortList}>
+                                        <div key={item.property_id} class="card p-3 border  border-bottom-0 rounded-0" onClick = {this.handleShortList}>
                                             <div class="row">
                                                 {/* carousel */}
-                                                <div class="col-md-5">
+                                                <div class="col-md-5 col-sm-5">
                                                     <div id={`s${ind}`} class="carousel slide" data-interval="false">
                                                         <div class="carousel-inner">
                                                             <div class="carousel-item active">
-                                                                <img class="d-block w-100 " src={item.image_a} width='300' height='250' alt="First slide" />
+                                                                <img class="d-block w-100 " src={item.image_a} width={100} height={200} alt="First slide" />
                                                             </div>
                                                             <div key = {ind}>
                                                                 <div class="carousel-item">
-                                                                    <img class="d-block w-100" src={item.image_b} width='300' height='250' alt="Third slide" />
+                                                                    <img class="d-block w-100" src={item.image_b} width={100} height={200} alt="Third slide" />
                                                                 </div>
                                                                 <div class="carousel-item">
-                                                                    <img class="d-block w-100" src={item.image_c} width='300' height='250' alt="Forth slide" />
+                                                                    <img class="d-block w-100" src={item.image_c} width={100} height={200} alt="Forth slide" />
                                                                 </div>
                                                                 <div class="carousel-item">
-                                                                    <img class="d-block w-100" src={item.image_d} alt="Fifth slide" width='300' height='250' />
+                                                                    <img class="d-block w-100" src={item.image_d} alt="Fifth slide" width={100} height={200} />
                                                                 </div>
                                                             </div>
                                                                 <div >
@@ -650,7 +651,7 @@ class ResultCard extends React.Component {
                                                         </a>
                                                     </div>
                                                 </div>        
-                                                <div class="col-md-7">
+                                                <div class="col-md-7 col-sm-7">
                                                         <div class="row">
                                                             <div class="col-8">
                                                                 {/* dynamic routing */}
@@ -660,7 +661,7 @@ class ResultCard extends React.Component {
                                                                     </h5>
                                                             </Link>
                                                                 <p class=" m-0">{item.type}</p>
-                                                                <p class=" mt-0">{item.bed} bedrooms/ 2 bathrooms/ sleep {item.no_people}</p>
+                                                                <p class=" mt-0">{item.bath} bedrooms/ {item.bed} bathrooms/ sleep {item.no_people}</p>
                                                             </div>
 
                                                             <div className="col-4 text-right ">
@@ -669,7 +670,7 @@ class ResultCard extends React.Component {
                                                                 <p className="my-0 text-muted" style={{fontSize:15}} >${`${item.price*7}`}-{`${item.price*8}`}/ week</p>
                                                             </div>
                                                             {/* about property */}
-                                                            <p className='text-muted my-0 ml-3 w-75' style={{fontSize:16}}><strong>“Best stay yet!!”</strong> Me and my girlfriends (5) stayed here for our NYC stay! Suzanne and Edgar are AMAZING hosts! The apartment is clean,</p>
+                                                            <p className=' my-0 ml-3 w-50 text-truncate text-muted' style={{fontSize:13}}><strong>“Best stay yet!!”</strong> Me and my girlfriends (5) stayed here for our NYC stay! Suzanne and Edgar are AMAZING hosts! The apartment is clean,</p>
                                                             <p className='mx-2'>
                                                                 <Icons.ClockHistory size={15} className='mx-2' />
                                                                 Responds fast! avg. 1 hour 50 minutes

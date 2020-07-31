@@ -1,0 +1,15 @@
+.hover{
+    font-size: 12px;
+}
+.hover > p:hover{
+    color:#334cbd;
+}
+.icon_hover *{
+    color: #8b8a8d;
+    margin-right:15px;
+}
+
+small{
+    font-size: 10px;
+    padding: 0;
+}

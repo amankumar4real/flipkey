@@ -22,7 +22,7 @@ export default class ResultPage extends React.Component {
                     {/* Map */}
                     <div className="col-md-6 d-none d-xl-block">
                         <div className='my-2'>
-                            <img className="img img-fluid"  src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/SS2.max-1000x1000.png" alt=""/>
+                            <img className="img "  src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/SS2.max-1000x1000.png" alt=""/>
                         </div>
                     </div>
                 </div>

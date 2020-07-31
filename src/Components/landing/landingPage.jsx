@@ -6,7 +6,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import {Carousel} from 'react-responsive-carousel';
-import styles from '../landing/landing.module.css'
+import styles from '../landing/landing.module.css';
+import Footer from '../common/footer/footer';
+import PropertyListStatic from '../PropertyPage/PropertyListStatic'
 class LandingPage extends React.Component{
     constructor(props){
         super(props)
@@ -157,9 +159,12 @@ class LandingPage extends React.Component{
                     </div>
 
                 </div>
+                {/* list your prop static page */}
+                <PropertyListStatic />
+                {/* ***********************Footer *********************** */}
+                <Footer />
             </div>
         )
-        
     }
 }
 const mapStateToProps=state=>{
