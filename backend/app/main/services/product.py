@@ -41,7 +41,8 @@ def finalFilteredData(details):
         else:
             so = "DESC"
 
-        data = db.session.execute('''SELECT * FROM product as p JOIN amenities as a ON p.id = a.property_id
+        data = db.session.execute('''SELECT p.*, a.*, s.*, lo.lat as lat_pro, lo.lng as lng_pro, ci.city, ci.lat as lat_ci,
+                                  ci.lng as lng_ci FROM product as p JOIN amenities as a ON p.id = a.property_id
                                   JOIN suitability as s on p.id = s.property_id JOIN location as lo ON lo.property_id = p.id
                                   JOIN city as ci on ci.id = lo.city_id WHERE p.no_people >= %s AND
                                   p.price >= %s AND p.bed >= %s AND p.bath > %s AND ci.city = "%s" 

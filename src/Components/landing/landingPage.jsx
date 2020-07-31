@@ -9,6 +9,11 @@ import {Carousel} from 'react-responsive-carousel';
 import styles from '../landing/landing.module.css';
 import Footer from '../common/footer/footer';
 import PropertyListStatic from '../PropertyPage/PropertyListStatic'
+import PlacesAutocomplete, {
+    geocodeByAddress,
+    getLatLng
+  } from "react-places-autocomplete";
+
 class LandingPage extends React.Component{
     constructor(props){
         super(props)
@@ -16,7 +21,9 @@ class LandingPage extends React.Component{
             page:'',
             inp:"bangalore",
             startDate: new Date(),
-            endDate:''
+            endDate:'',
+            coordinates: {lat: null, lng: null},
+            address:""
         }
     }
     componentDidUpdate(){
@@ -44,13 +51,28 @@ class LandingPage extends React.Component{
         })
     }
 
+    handleSelect = async value => {
+            const results = await geocodeByAddress(value);
+            const latLng = await getLatLng(results[0]);
+            this.setState({
+                address: value,
+                coordinates: latLng
+            })
+          }
+
+    changePlaces = address => {
+        this.setState({ address });
+        }
+
+
     render(){
         const {rentalData}=this.props
-        console.log(rentalData)
+        
+        
         return(
-            <div style={{background:'#ececec'}}>
+        <div style={{background:'#ececec'}}>
                 {/* 1.Front Search */}
-                <div key="search">
+            <div key="search">
                 <div className="container-fluid" style={{
                     backgroundImage: "url('https://images.hdqwalls.com/download/trees-fall-reflection-autumn-4k-hb-2880x1800.jpg')", backgroundRepeat: "no-repeat",
                     backgroundSize: "cover", height: "400px"
@@ -62,11 +84,40 @@ class LandingPage extends React.Component{
                                     </div>
                             <div className="col-12 p-1" style={{background:"#b7c1cb", borderRadius:5}}>
                                 <div className="row m-1" >
+                                        
+                                <PlacesAutocomplete
+                                    value={this.state.address}
+                                    onChange={this.changePlaces}
+                                    onSelect={this.handleSelect}
+                                    
+                                >
+                                    {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                                        <>
+                                        
                                         <input 
-                                            onChange={this.handleChange} 
-                                            placeholder="Where do you want to go?" 
+                                            {...getInputProps({ placeholder: "Type address" })}
+                                            // placeholder="Where do you want to go?" 
                                             className="border col-6" 
                                         />
+                                        <div>
+                                            {loading ? <div>...loading</div> : null}
+
+                                            {suggestions.map(suggestion => {
+                                                const style = {
+                                                backgroundColor: suggestion.active ? "#41b6e6" : "#fff"
+                                                };
+
+                                                return (
+                                                <div {...getSuggestionItemProps(suggestion, { style })}>
+                                                    {suggestion.description}
+                                                </div>
+                                                );
+                                            })}
+                                            </div>
+                                    </>
+                                    )}
+                                </PlacesAutocomplete>
+
                                     <div className='col-6'>
                                         <div className='row'> 
                                             <div className='col-4 p-0 m-0'>
@@ -103,7 +154,6 @@ class LandingPage extends React.Component{
                         </div>
                     </div>
                 </div>
-
             </div>
 
                 {/* 2.Vocation Component */}

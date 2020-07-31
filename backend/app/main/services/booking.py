@@ -9,7 +9,7 @@ def AddBookingService(details, token):
 
     # token, property_id, from_date, to_date, price
     try:
-        property_id = details["property_id"]
+        property_id = int(details["property_id"])
         from_date = details["from_date"]
         to_date = details["to_date"]
         price = details["price"]
