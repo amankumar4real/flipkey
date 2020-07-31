@@ -199,7 +199,7 @@ export const reviewSubmission =  (payload) =>{
     }
  let token = payload.token
 
-fetch(api_link + `/product/addReview`,
+ fetch(api_link + `/product/addReview`,
     {
         method: 'POST',   
         headers: {

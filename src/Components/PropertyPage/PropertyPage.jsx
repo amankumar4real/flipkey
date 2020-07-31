@@ -80,8 +80,15 @@ class PropertyPage extends React.Component {
             review: this.state.description,
             token: this.props.token
         }
+        if(payload.title && payload.rating && payload.review){
+            this.props.reviewSubmission(payload)
+        }
+        else{
+            this.props.reviewSubmission(payload)
+            alert('Please fill all the feils')
+        }
         console.log(payload, this.props.token)
-        this.props.reviewSubmission(payload)
+        
     }
 
     checkBookingAvailable = (s, e) => {
@@ -890,14 +897,14 @@ class PropertyPage extends React.Component {
                                                                     <div class="md-form mb-5">
                                                                         <i class="fas fa-envelope prefix grey-text"></i>
                                                                         <label data-error="wrong" data-success="right" className="justify-content" for="defaultForm-email">Review About</label>
-                                                                        <input type="email" id="defaultForm-email" class="form-control validate" onChange={(e) => this.setState({ title: e.target.value })} />
+                                                                        <input type="email" id="defaultForm-email" class="form-control validate" required onChange={(e) => this.setState({ title: e.target.value })} />
 
                                                                     </div>
                                                                     <div class="input-group mb-3">
                                                                         <div class="input-group-prepend">
                                                                             <label class="input-group-text" for="inputGroupSelect01">Rate us</label>
                                                                         </div>
-                                                                        <select class="custom-select" id="inputGroupSelect01" onChange={(e) => this.setState({ rating: e.target.value })}>
+                                                                        <select class="custom-select" id="inputGroupSelect01" required onChange={(e) => this.setState({ rating: e.target.value })}>
                                                                             <option selected>Choose...</option>
                                                                             <option value="4">5</option>
                                                                             <option value="5">4</option>
@@ -907,7 +914,7 @@ class PropertyPage extends React.Component {
                                                                         </select>
                                                                     </div>
                                                                     <label for="revi" className="justify-content">Please Describe your expeirnce with us</label>
-                                                                    <textarea id="revi" className="form-control validate justify-content w-100" style={{ height: "200px" }} onChange={(e) => this.setState({ description: e.target.value })} >
+                                                                    <textarea id="revi" required className="form-control validate justify-content w-100" style={{ height: "200px" }} onChange={(e) => this.setState({ description: e.target.value })} >
 
                                                                     </textarea>
 
@@ -1008,7 +1015,7 @@ class PropertyPage extends React.Component {
                                                 <li className="list-group-item ml-0 pl-0">
                                                     <div className='d-flex justify-content-start '>
                                                         <div className='mr-2'>
-                                                            <img src='/images/dummy_img.png' alt='img' width={60} className='rounded-circle border' />
+                                                            <img src={item.image} alt='img' width={60} className='rounded-circle border' />
                                                         </div>
                                                         <div className='d-flex flex-column '>
                                                             <p className='lead py-0 mb-0' style={{ fontWeight: 400 }}>"{item.title}!!"</p>
