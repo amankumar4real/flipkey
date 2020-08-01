@@ -16,6 +16,7 @@ import {Link} from 'react-router-dom';
 import PropertyListStatic from '../PropertyPage/PropertyListStatic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../fontAwesome/fontAwesome';
+
 class LandingPage extends React.Component{
     constructor(props){
         super(props)

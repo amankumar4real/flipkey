@@ -348,8 +348,9 @@ class PropertyPage extends React.Component {
     handleRecom = (newId) => {
 
         // this.setState({id:newId})
-        this.props.history.push(`/results/${newId}`)
-        window.location.reload(false)
+        // this.props.history.push(`/results/${newId}`)
+        // window.location.reload(false)
+        window.open(`/results/${newId}`) 
     }
 
     render() {
