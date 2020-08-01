@@ -3,12 +3,12 @@ import {change_text} from "./actionTypes"
 
 const initialState = {
     rentalData:[
-        {name:'Gatlinburg', img:'https://s4.fkimg.com/res/1380077913/assets/fk/images/home/Gatlinburg.jpg', rentalCount:4852},
-        {name:'Destin', img:'https://s4.fkimg.com/res/1380077913/assets/fk/images/home/Destin.jpg',rentalCount:852},
-        {name:'OuterBanks', img:'https://s4.fkimg.com/res/1380077913/assets/fk/images/home/OuterBanks.jpg',rentalCount:1052},
-        {name:'MyrtleBeach', img:'https://s4.fkimg.com/res/1380077913/assets/fk/images/home/MyrtleBeach.jpg',rentalCount:4200},
-        {name:'PanamaCityBeach', img:'https://s4.fkimg.com/res/1380077913/assets/fk/images/home/PanamaCityBeach.jpg',rentalCount:1990},
-        {name:'BigBearRegion', img:'https://s4.fkimg.com/res/1380077913/assets/fk/images/home/BigBearRegion.jpg',rentalCount:1580}
+        {name:'bangalore', img:'https://s4.fkimg.com/res/1380077913/assets/fk/images/home/Gatlinburg.jpg', rentalCount:5, lat:12.9715987, lng:77.5945627},
+        {name:'patna', img:'https://s4.fkimg.com/res/1380077913/assets/fk/images/home/Destin.jpg',rentalCount:852,lat:25.5940947, lng:85.1375645},
+        {name:'kolkata', img:'https://s4.fkimg.com/res/1380077913/assets/fk/images/home/OuterBanks.jpg',rentalCount:1052,lat:22.572646, lng:88.36389500000001},
+        {name:'delhi', img:'https://s4.fkimg.com/res/1380077913/assets/fk/images/home/MyrtleBeach.jpg',rentalCount:4200,lat:28.7040592, lng:77.10249019999999},
+        {name:'hyderabad', img:'https://s4.fkimg.com/res/1380077913/assets/fk/images/home/PanamaCityBeach.jpg',rentalCount:1990,lat:17.385044, lng:78.486671},
+        {name:'pune', img:'https://s4.fkimg.com/res/1380077913/assets/fk/images/home/BigBearRegion.jpg',rentalCount:1580,lat:18.5204303, lng:73.8567437}
     ],
     landingText: ''
 }

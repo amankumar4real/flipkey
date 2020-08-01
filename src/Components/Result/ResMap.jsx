@@ -34,7 +34,7 @@ function ResMap({map_data}){
 
             return(
                 property_map.length != 0 ?
-                <>
+                <div>
                     <GoogleMap defaultZoom={10}
                      defaultCenter={{lat: Number(property_map[0].lat_ci), lng: Number(property_map[0].lng_ci)}} 
                      >
@@ -128,7 +128,7 @@ function ResMap({map_data}){
                             </InfoWindow>
                         )}
                     </GoogleMap>
-                </>
+                </div>
                 :
                 <div>Loading.......</div>
             )
@@ -137,7 +137,7 @@ function ResMap({map_data}){
         const WrappedMap = withScriptjs(withGoogleMap(Map))
 
         return(
-            <div style={{ width: "50vw", height: "100vh" }}>
+            <div style={{ width: "50vw", height: "88vh", paddingTop:'5px' }}>
                 <WrappedMap 
                 googleMapURL= {`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyCcS0j7hDpSs-F4xDi2q6AkTD_sWqECR9M`} 
                 loadingElement={<div style={{ height: `100%` }} />}

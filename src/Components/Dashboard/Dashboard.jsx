@@ -12,6 +12,8 @@ class Dashboard extends React.Component{
             <div>
                 Hello Dashboard
             </div>
+            // s
         )
     }
 }
+
