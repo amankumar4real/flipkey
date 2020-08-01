@@ -26,3 +26,8 @@ export const REVIEW_START = "REVIEW_START"
 export const REVIEW_SUCC = "REVIEW_SUCC"
 export const REVIEW_FAIL = "REVIEW_FAIL"
 
+export const MESSAGE_START = "MESSAGE_START"
+export const MESSAGE_SUCC = "MESSAGE_SUCC"
+export const MESSAGE_FAIL = "MESSAGE_FAIL"
+
+export const BOOKING_DETAILS = "B0OKING_DETAILS"

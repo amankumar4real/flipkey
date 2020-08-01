@@ -7,7 +7,7 @@ def messageHome():
 
     return "hi there man!"
 
-@message.route("/", methods=["POST"])
+@message.route("/sendMessage", methods=["POST"])
 def sendMess():
 
     response = SendMessage(request.json)

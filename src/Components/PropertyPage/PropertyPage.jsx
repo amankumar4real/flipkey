@@ -45,7 +45,10 @@ class PropertyPage extends React.Component {
         this.props.changeEndDate(this.state.endDate)
         this.props.changePrice((p * this.state.days * this.state.people) + (Math.round((this.state.days * p * this.state.people) * 0.1)) + 60 + 60 + 60)
         this.props.guestDays({ guest: this.state.people, days: this.state.days })
-        this.props.history.push(`/results/booking/${this.props.match.params.id}`)
+        
+        this.props.token?
+        this.props.history.push(`/results/booking/${this.props.match.params.id}`):
+        this.props.history.push(`/user/login`) 
     }
 
     // componentWillMount() {
@@ -1056,7 +1059,7 @@ class PropertyPage extends React.Component {
                                                 recData && recData.map(item => (
                                                     <div className='col-4 p-0 m-0'>
                                                         <div className="card rounded-0 border-0 m-2">
-                                                            <img className="img-fluid" src={item.image_a} height="100" alt="Loading" />
+                                                            <img className="img" src={item.image_a} height={150} alt="Loading" />
                                                             <div className="card-title my-0">
                                                                 <small>
                                                                     From <span style={{ color: '#ff7300', fontSize: 25 }}>${item.price}</span>/per night

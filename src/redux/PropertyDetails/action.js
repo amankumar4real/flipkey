@@ -16,7 +16,10 @@ import {
     REVIEW_START,
     REVIEW_SUCC,
     REVIEW_FAIL,
-    GUEST_DAYS
+    GUEST_DAYS,
+    MESSAGE_START, MESSAGE_SUCC,
+    MESSAGE_FAIL,
+    BOOKING_DETAILS
 } from './actionTypes'
 import axios from 'axios'
 import { api_link } from '../link'
@@ -111,6 +114,26 @@ export const reviewFail = payload => ({
     payload
 })
 
+export const messageStart = payload => ({
+    type: MESSAGE_START,
+    payload
+})
+
+export const messageSucc = payload => ({
+    type: MESSAGE_SUCC,
+    payload
+})
+
+export const messageFail = payload => ({
+    type: MESSAGE_FAIL,
+    payload
+})
+
+export const bookingDetails = payload => ({
+    type: BOOKING_DETAILS,
+    payload
+})
+
 //axios call fro entity page
 export const afterPropData = (payload) => dispatch => {
     console.log(payload)
@@ -164,6 +187,7 @@ export const availableDates = payload => dispatch => {
         .then(res => dispatch(availableDateSuccess(res)))
         .catch(error => dispatch(availableDateFail(error)))
 }
+
 
 //axios call for review submission
 
@@ -227,3 +251,15 @@ export const reviewSubmission =  (payload) =>{
 // 		}).then((t) =>
 // 			t.json()
 // 		)
+
+export const messageData = (payload) => dispatch => {
+    console.log(payload)
+    dispatch(messageStart)
+    var x = api_link + "/message/sendMessage"
+    return (
+        axios.post(x, payload)
+            .then(res => res.data)
+            .then(res => dispatch(messageSucc(res)))
+            .catch(error => dispatch(messageFail(error)))
+    )
+}

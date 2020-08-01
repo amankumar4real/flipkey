@@ -12,7 +12,9 @@ import {
     AVAIL_DATES_FAIL,
     REVIEW_START,
     REVIEW_SUCC,
-    REVIEW_FAIL
+    REVIEW_FAIL,
+    MESSAGE_START, MESSAGE_SUCC, MESSAGE_FAIL,
+    BOOKING_DETAILS
 } from './actionTypes'
 import { CHANGE_TYPE } from '../Auth/actionTypes'
 
@@ -29,7 +31,8 @@ const initialstate = {
     total_price: 0,
     prop_id: "",
     availableDates: {},
-    price: 0
+    price: 0,
+    bookDetails:{}
 }
 
 const reducerPropertyDetails = (state = initialstate, { type, payload }) => {
@@ -135,6 +138,28 @@ const reducerPropertyDetails = (state = initialstate, { type, payload }) => {
             console.log(payload)
             return {
                 ...state
+            }
+
+        case MESSAGE_START:
+            console.log(payload)
+            return {
+                ...state
+            }
+        case MESSAGE_SUCC:
+            console.log(payload)
+            return {
+                ...state
+            }
+        case MESSAGE_FAIL:
+            console.log(payload)
+            return {
+                ...state
+            }
+        case BOOKING_DETAILS:
+            console.log(payload)
+            return {
+                ...state,
+                bookDetails: payload
             }
         default:
             return {

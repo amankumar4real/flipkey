@@ -49,7 +49,8 @@ class Login extends React.Component{
         console.log(this.props.type)
         const type= this.props.type
 
-            return(
+            if(this.props.token == ""){
+                return(
                         <div>
                             <div className="container-fluid  my-5" id='loginForm'>
                                 <div className='row justify-content-center border'> 
@@ -132,6 +133,16 @@ class Login extends React.Component{
                         </div> 
                         
                 )
+            }
+            else{
+                return(
+                    <>
+                        {window.history.back()}
+                    </>   
+                )
+                
+            }
+            
         }
 }
 

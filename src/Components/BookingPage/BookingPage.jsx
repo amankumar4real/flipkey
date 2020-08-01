@@ -1,10 +1,11 @@
 import React from 'react'
 // import React, { useState } from 'react'
-import { afterPropData, propBookingData, totalPrice} from '../../redux/PropertyDetails/action'
+import { afterPropData, propBookingData, totalPrice,bookingDetails} from '../../redux/PropertyDetails/action'
 import Vocation from '../common/Vacation';
 import { connect } from 'react-redux';
 import RazopPay from "../razoppay";
 import * as Icons from 'react-bootstrap-icons'; 
+
 
 
 class BookingPage extends React.Component {
@@ -60,12 +61,13 @@ class BookingPage extends React.Component {
     }
     componentDidUpdate(){
         console.log(this.state)
+        this.props.bookingDetails({firstname:this.state.firstname,lastname:this.state.lastname,email:this.state.email,phone:this.state.phone})
+        
     }
     
     componentDidMount() {
         this.props.afterPropData(this.props.match.params)
         this.props.totalPrice((this.props.property.price * this.props.days * this.props.guest) + (Math.round((this.props.days * this.props.property.price * this.props.guest) * 0.1)) + 60 + 60 + 60)
-
     }
     handleBooking = p => {
         if (!this.props.startDate) {
@@ -281,7 +283,7 @@ class BookingPage extends React.Component {
                                     </h4>
                                     <p>You will be charged <strong>${(property.price * this.props.days * this.props.guest) + (Math.round((this.props.days * property.price * this.props.guest) * 0.1)) + 60 + 60 + 60}</strong></p>
                                     <p className="text-muted" style={{fontSize:15}} >The owner has 24 hours to respond, and we will only charge your card if your booking.</p>
-                                    <RazopPay onClick={() => this.handleBooking(property.price)}/>
+                                    <RazopPay  details ={ this.state}/>
                                     {/* <button onClick={() => this.handleBooking(property.price)}>Continue with Razor pay</button> */}
                                     <p><small className="text-muted">This booking is facilitated by FlipKey Inc (part of the TripAdvisor group) but the booking is solely between you and the owner/manager. By clicking above, you agree to the booking conditions and cancellation policy of the owner/manager, as well as FlipKey Inc’s terms & conditions (which includes a chargeback policy) and privacy policy. Although FlipKey Inc facilitates your booking, your payment may be processed by another group company, e.g. Holiday Lettings Ltd., on behalf of FlipKey, Inc.</small></p>    
                                 </div>
@@ -378,8 +380,8 @@ const mapDispatchToProps = dispatch => {
         afterPropData: payload => dispatch(afterPropData(payload)),
         propBookingData: payload => dispatch(propBookingData(payload)),
         totalPrice: payload => dispatch(totalPrice(payload)),
+        bookingDetails :payload => dispatch(bookingDetails(payload))
 
     }
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(BookingPage)

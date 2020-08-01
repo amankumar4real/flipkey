@@ -29,8 +29,8 @@ const Routers = () => {
                 <Route path="/owner/login" component = {Login}/>
                 <Route exact path="/results" component = {ResultPage} />
                 <Route exact path="/results/:id" component = {PropertyPage} />
-                <Route path="/results/booking/:id" component = {BookingPage} />
-                <Route path="/paymentdone" component = {OnSuccessPage} />
+                <Route exact path="/results/booking/:id" component = {BookingPage} />
+                <Route path="/results/booking/paymentdone/:id" component = {OnSuccessPage} />
         </div>
     )
 }
