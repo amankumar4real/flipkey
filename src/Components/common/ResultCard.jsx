@@ -337,9 +337,6 @@ class ResultCard extends React.Component {
         console.log("bg",shortListBg)
         console.log(`primary Data:\n`)
         // console.log(Object.values(result))
-
-        
-
         return (
             <div >
                 {/* ******************************Search Box with date picker****************************** */}
