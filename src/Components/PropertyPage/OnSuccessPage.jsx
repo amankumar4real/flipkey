@@ -33,11 +33,11 @@ class onSuccessPage extends React.Component {
                             <div class="form-group">
                                 <input type="text" class="form-control " id="exampleInputEmail1" aria-describedby="emailHelp" value={this.props.details.phone} disabled style={{textAlign:"center"}} />
                             </div>
-                            <button onClick={this.handleClick} className="btn btn-outline-primary  w-100">Message me details</button>
-                        </form>
-                        {/* <span> */}
                             
-                        {/* </span> */}
+                        </form>
+                        <span>
+                            <button onClick={this.handleClick} className="btn btn-outline-primary  w-100">Message me details</button>
+                        </span>
                     </li>
                 </ul>
                 <button className="btn btn-outline-primary  w-100" onClick={this.home}>Explore more properties</button>

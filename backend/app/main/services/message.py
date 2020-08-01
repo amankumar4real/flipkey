@@ -4,6 +4,7 @@ from twilio.rest import Client
 
 
 def SendMessage(details):
+    print(details)
     try:
         send_to = details["to"]
         text = details["message"]
