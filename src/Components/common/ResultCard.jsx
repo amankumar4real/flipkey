@@ -179,7 +179,9 @@ class ResultCard extends React.Component {
             beds: Number(JSON.parse(localStorage.getItem('beds'))),
             price: Number(JSON.parse(localStorage.getItem('price'))),
             sortby: JSON.parse(localStorage.getItem('sortby')),
-            searchVal: JSON.parse(localStorage.getItem('searchVal'))
+            searchVal: JSON.parse(localStorage.getItem('searchVal')),
+            coordinates: JSON.parse(localStorage.getItem('coordinates')),
+            address: JSON.parse(localStorage.getItem('address'))
         })
 
         
@@ -198,7 +200,9 @@ class ResultCard extends React.Component {
         localStorage.setItem('beds', JSON.stringify(nextState.beds));
         localStorage.setItem('price', JSON.stringify(nextState.price));
         localStorage.setItem('sortby', JSON.stringify(nextState.sortby));
-        localStorage.setItem('searchVal', JSON.stringify(nextState.searchVal))
+        localStorage.setItem('searchVal', JSON.stringify(nextState.searchVal));
+        localStorage.setItem('coordinates', JSON.stringify(nextState.coordinates));
+        localStorage.setItem('address', JSON.stringify(nextState.address))
     }
 
 

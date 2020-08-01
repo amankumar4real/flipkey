@@ -23,7 +23,7 @@ class LandingPage extends React.Component{
             page:'',
             inp:"bangalore",
             startDate: new Date(),
-            endDate:'',
+            endDate: new Date(),
             coordinates: {lat: "12.9715987", lng: "77.5945627"},
             address:""
         }
@@ -44,7 +44,7 @@ class LandingPage extends React.Component{
 
     handleClick = () => {
         this.props.changeText(this.state.inp)
-        this.props.history.push(`/results?people=1&price=50&beds=1&lat=${this.state.coordinates.lat}&lng=${this.state.coordinates.lng}&sortby=relevence`)
+        this.props.history.push(`/results?people=1&price=10&beds=1&lat=${this.state.coordinates.lat}&lng=${this.state.coordinates.lng}&sortby=relevence`)
     }
 
     handleChange = (event) => {
