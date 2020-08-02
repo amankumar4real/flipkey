@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Vocation from '../common/Vacation';
-import {changeText} from "../../redux/LandingPage/action";
+import {changeText, setCoordinates} from "../../redux/LandingPage/action";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -46,6 +46,7 @@ class LandingPage extends React.Component{
     
     handleClick = () => {
         this.props.changeText(this.state.inp)
+        this.props.setCoordinates({co:this.state.coordinates, ad:this.state.address})
         this.props.history.push(`/results?people=1&price=10&beds=1&lat=${this.state.coordinates.lat}&lng=${this.state.coordinates.lng}&sortby=relevence`)
     }
 
@@ -257,7 +258,8 @@ const mapStateToProps=state=>{
 
 const mapDispatchToProps = dispatch => {
     return {
-        changeText: payload => dispatch(changeText(payload))
+        changeText: payload => dispatch(changeText(payload)),
+        setCoordinates: payload => dispatch(setCoordinates(payload))
     }
 }
 

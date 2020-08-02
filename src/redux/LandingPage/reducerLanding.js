@@ -1,5 +1,5 @@
 import { RENTAL_DATA } from './actionTypes'
-import {change_text} from "./actionTypes"
+import {change_text, set_coordinates} from "./actionTypes"
 
 const initialState = {
     rentalData:[
@@ -10,7 +10,9 @@ const initialState = {
         {name:'hyderabad', img:'https://s4.fkimg.com/res/1380077913/assets/fk/images/home/PanamaCityBeach.jpg',rentalCount:4,lat:17.385044, lng:78.486671},
         {name:'pune', img:'https://s4.fkimg.com/res/1380077913/assets/fk/images/home/BigBearRegion.jpg',rentalCount:3,lat:18.5204303, lng:73.8567437}
     ],
-    landingText: ''
+    landingText: '',
+    coordinate_landing: '',
+    address_landing:''
 }
 
 const reducreLanding = (state = initialState, {type, payload}) => {
@@ -19,10 +21,18 @@ const reducreLanding = (state = initialState, {type, payload}) => {
             return {
                 ...state,
             }
+
         case change_text :
             return{
                 ...state,
                 landingText: payload
+            }
+
+        case set_coordinates :
+            return{
+                ...state,
+                coordinate_landing: payload.co,
+                address_landing: payload.ad
             }
         default :
           	return state;

@@ -79,8 +79,8 @@ class ResultCard extends React.Component {
             startDate: new Date(),
             endDate: new Date(),
             shortListToggle:false,
-            coordinates: {lat: null, lng: null},
-            address:""
+            coordinate: this.props.coordinate_landing,
+            address: this.props.address_landing
             // place: this.props.
         }
     }
@@ -94,17 +94,18 @@ class ResultCard extends React.Component {
    
 
     componentDidUpdate = () => {
-        console.log('selected rental type')
-        console.log(this.state.type)
-        console.log('selected amenity type')
-        console.log(this.state.amenities)
-        console.log('selected suitability type')
-        console.log(this.state.suitability)
-        console.log(`sortby: ${this.state.sortby}`)
-        console.log(`startDate: ${this.state.startDate}
-        endData: ${this.state.endDate}`)
-        console.log('shortList bg')
-        console.log(this.state.shortListToggle)
+        // console.log('selected rental type')
+        // console.log(this.state.type)
+        // console.log('selected amenity type')
+        // console.log(this.state.amenities)
+        // console.log('selected suitability type')
+        // console.log(this.state.suitability)
+        // console.log(`sortby: ${this.state.sortby}`)
+        // console.log(`startDate: ${this.state.startDate}
+        // endData: ${this.state.endDate}`)
+        // console.log('shortList bg')
+        // console.log(this.state.shortListToggle)
+        // console.log()
     }
     componentWillMount(){
         axios.get('https://jsonplaceholder.typicode.com/users')
@@ -180,7 +181,7 @@ class ResultCard extends React.Component {
             price: Number(JSON.parse(localStorage.getItem('price'))),
             sortby: JSON.parse(localStorage.getItem('sortby')),
             searchVal: JSON.parse(localStorage.getItem('searchVal')),
-            coordinates: JSON.parse(localStorage.getItem('coordinates')),
+            coordinate: JSON.parse(localStorage.getItem('coordinate')),
             address: JSON.parse(localStorage.getItem('address'))
         })
 
@@ -201,7 +202,7 @@ class ResultCard extends React.Component {
         localStorage.setItem('price', JSON.stringify(nextState.price));
         localStorage.setItem('sortby', JSON.stringify(nextState.sortby));
         localStorage.setItem('searchVal', JSON.stringify(nextState.searchVal));
-        localStorage.setItem('coordinates', JSON.stringify(nextState.coordinates));
+        localStorage.setItem('coordinate', JSON.stringify(nextState.coordinate));
         localStorage.setItem('address', JSON.stringify(nextState.address))
     }
 
@@ -213,8 +214,8 @@ class ResultCard extends React.Component {
         newUrl.searchParams.set("price", this.state.price)
         newUrl.searchParams.set("beds", this.state.beds)
         newUrl.searchParams.set("sortby", this.state.sortby)
-        newUrl.searchParams.set("lat", this.state.coordinates.lat)
-        newUrl.searchParams.set("lng", this.state.coordinates.lng)
+        newUrl.searchParams.set("lat", this.state.coordinate.lat)
+        newUrl.searchParams.set("lng", this.state.coordinate.lng)
 
         for(var i = 0; i < this.state.amenities.length; i++){
             newUrl.searchParams.append("amenities", this.state.amenities[i])
@@ -312,7 +313,7 @@ class ResultCard extends React.Component {
         const latLng = await getLatLng(results[0]);
         this.setState({
             address: value,
-            coordinates: latLng
+            coordinate: latLng
         })
       }
     
@@ -765,7 +766,8 @@ class ResultCard extends React.Component {
 const mapStateToProps = (state) => {
     return {
         data: state.reducerCommon.primaryData,
-        landingText: state.reducreLanding.landingText
+        landingText: state.reducreLanding.landingText,
+        coordinate_landing: state.reducreLanding.coordinate_landing
     }
 }
 
