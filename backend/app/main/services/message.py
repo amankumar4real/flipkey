@@ -18,8 +18,8 @@ def SendMessage(details):
     if type(send_to) is not str or type(text) is not str:
         return json.dumps({"error": True, "message": "Wrong data format!"})
 
-    account_sid = 'AC02d8a258797cef4f73fc77c70da8d4fd'
-    auth_token = '019d707afd0ce5f7f7766811b6952bd1'
+    account_sid = 'xyz'
+    auth_token = 'xyz'
 
     client = Client(account_sid, auth_token)
 
